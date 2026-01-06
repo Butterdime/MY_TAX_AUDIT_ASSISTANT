@@ -1,212 +1,222 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { BankStatementData, BankProvider, ChatMessage, BusinessProfile } from "../types";
+import { BankStatementData, BankProvider, ChatMessage, BusinessProfile, SupportedLanguage, AssistantPersona } from "../types";
 
-const EXTRACTION_SYSTEM_INSTRUCTION = (selectedBank: BankProvider, profile: BusinessProfile) => `
-You are a specialized Forensic Audit AI expert in parsing Malaysian bank statements.
+const EXTRACTION_SYSTEM_INSTRUCTION = (selectedBank: BankProvider, lang: SupportedLanguage) => `
+You are MYAUDIT, a specialized Forensic Audit AI expert. 
+Output Language: ${lang === 'ms' ? 'Bahasa Malaysia' : lang === 'zh' ? 'Chinese' : 'English'}.
 Target Bank Context: ${selectedBank}.
 
-Business Profile Context:
-- Legal Name: ${profile.legal_name}
-- Business Type: ${profile.business_type}
-- Registration No: ${profile.registration_number}
-- TIN: ${profile.tax_identification_number}
-- Financial Year End: ${profile.financial_year_end}
+Your goal is to perform a "Zero-Input" extraction. You must extract structured financial data for tax planning from Malaysian bank statements.
 
-Your goal is to extract structured financial data and perform intelligent audit categorization for tax planning.
-
-Contextual Guidance based on Business Type:
-1. For 'sole_proprietorship' and 'partnership': 
-   - Business income is taxed at the individual/partner level. 
-   - Label money taken by the owner as "director_drawing" but note it's an owner drawing in the notes.
-2. For 'sdn_bhd', 'bhd', and 'llp': 
-   - Treat as separate legal entities.
-   - categorize director payments with strict precision. Use the 'director_drawing' tag for loan repayments to directors or dividends/drawings.
-
-Year of Assessment (YA) Logic:
-- Group transactions by the calendar year they occur in (Standard Malaysian YA).
-- If the statement spans the Financial Year End (${profile.financial_year_end}), ensure the transactions are attributed to the correct calendar-year YA for income tax filing.
-
-Reconciliation:
-- Ensure Opening Balance + Sum(Deposits) - Sum(Withdrawals) = Closing Balance.
-
-Output Requirements:
-- Return valid JSON matching the schema.
-- Echo the Business Profile in 'business_profile_snapshot'.
+CRITICAL INSTRUCTIONS:
+1. **Business Profile Extraction**: You MUST identify the Legal Entity Name, Registration Number (SSM), and Tax ID (TIN) directly from the bank statement headers or the "Account Name" section. 
+2. **Business Type Inference**: Determine if the entity is a 'sdn_bhd', 'sole_proprietorship', etc., based on the name (e.g., contains "Sdn Bhd", "Enterprise", "Trading").
+3. **FYE Inference**: Infer the Financial Year End (FYE). If not obvious, use '31-12' as the Malaysian default.
+4. **Transactions**: Extract every transaction with a date, description, and amount.
+5. **Audit Tagging**: Categorize each transaction into audit types (Salary, Revenue, Tax Payment, etc.).
+6. All generated labels and notes must be in ${lang}.
+7. Return ONLY valid JSON that matches the schema provided. Do not include any conversational text or markdown blocks outside the JSON.
 `;
 
-const CHAT_SYSTEM_INSTRUCTION = `
-You are part of the AuditExtract application, an AI assistant specialized in Malaysian banking, audit, and tax workflows.
-AuditExtract exposes two expert personas:
+export const extractStatementData = async (base64Images: string[], bank: BankProvider, lang: SupportedLanguage): Promise<BankStatementData> => {
+  if (!process.env.API_KEY) {
+    throw new Error("Gemini API key is missing. Please contact support or check environment configuration.");
+  }
 
-1. Mr RP – Tax Planning & Malaysian Income Tax
-   Role: Senior Malaysian tax planner.
-   Scope: Malaysian income tax concepts, Year of Assessment (YA), allowable/disallowable expenses, withholding tax, SST, and LHDN processes. Interpreting ledger data based on the entity's Business Type (Sole Prop, Sdn Bhd, etc.).
-
-2. The Aoutha – Audit & Forensic Review
-   Role: Senior audit manager focused on cash and bank, forensic consistency, and documentation.
-   Scope: Reviewing extracted bank-ledger data for completeness, reconciliation issues, and unusual patterns.
-
-Routing & Persona Selection:
-- If mainly about tax, YA, LHDN, deductions, rates, or planning -> Respond as Mr RP.
-- If mainly about audit, reconciliation, controls, completeness, or forensic checks -> Respond as The Aoutha.
-`;
-
-export const extractStatementData = async (base64Images: string[], bank: BankProvider, profile: BusinessProfile): Promise<BankStatementData> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-  
-  const imageParts = base64Images.map(data => ({
-    inlineData: {
-      mimeType: 'image/jpeg',
-      data: data,
-    },
-  }));
+  const imageParts = base64Images.map(data => ({ inlineData: { mimeType: 'image/jpeg', data } }));
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-3-pro-preview',
-    contents: [
-      {
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-pro-preview',
+      contents: [{ 
         parts: [
-          ...imageParts,
-          { text: `Extract all transaction data, audit tags, and metadata from these ${bank} bank statement pages into a ledger-ready JSON object for the entity ${profile.legal_name}. Perform a reconciliation check.` }
-        ]
-      }
-    ],
-    config: {
-      systemInstruction: EXTRACTION_SYSTEM_INSTRUCTION(bank, profile),
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: Type.OBJECT,
-        properties: {
-          business_profile_snapshot: {
-            type: Type.OBJECT,
-            properties: {
-              legal_name: { type: Type.STRING },
-              registration_number: { type: Type.STRING },
-              business_type: { type: Type.STRING },
-              tax_identification_number: { type: Type.STRING },
-              financial_year_end: { type: Type.STRING },
+          ...imageParts, 
+          { text: `Perform a full forensic extraction and auto-detect the business profile details. Return JSON. Language preference: ${lang}.` }
+        ] 
+      }],
+      config: {
+        systemInstruction: EXTRACTION_SYSTEM_INSTRUCTION(bank, lang),
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            business_profile_snapshot: { 
+              type: Type.OBJECT, 
+              properties: { 
+                legal_name: { type: Type.STRING }, 
+                registration_number: { type: Type.STRING }, 
+                business_type: { type: Type.STRING }, 
+                tax_identification_number: { type: Type.STRING }, 
+                financial_year_end: { type: Type.STRING } 
+              }, 
+              required: ["legal_name", "registration_number", "business_type", "tax_identification_number", "financial_year_end"] 
             },
-            required: ["legal_name", "registration_number", "business_type", "tax_identification_number", "financial_year_end"]
-          },
-          account_metadata: {
-            type: Type.OBJECT,
-            properties: {
-              bank_name: { type: Type.STRING },
-              account_name: { type: Type.STRING },
-              account_number: { type: Type.STRING },
-              statement_period: { type: Type.STRING },
-              currency: { type: Type.STRING },
-              opening_balance: { type: Type.NUMBER },
-              closing_balance: { type: Type.NUMBER },
-              earliest_transaction_date: { type: Type.STRING, description: "ISO YYYY-MM-DD" },
-              latest_transaction_date: { type: Type.STRING, description: "ISO YYYY-MM-DD" },
+            account_metadata: { 
+              type: Type.OBJECT, 
+              properties: { 
+                bank_name: { type: Type.STRING }, 
+                account_name: { type: Type.STRING }, 
+                account_number: { type: Type.STRING }, 
+                opening_balance: { type: Type.NUMBER }, 
+                closing_balance: { type: Type.NUMBER }, 
+                earliest_transaction_date: { type: Type.STRING }, 
+                latest_transaction_date: { type: Type.STRING } 
+              }, 
+              required: ["bank_name", "account_name", "account_number", "opening_balance", "closing_balance", "earliest_transaction_date", "latest_transaction_date"] 
             },
-            required: ["bank_name", "account_name", "account_number", "opening_balance", "closing_balance", "earliest_transaction_date", "latest_transaction_date"],
-          },
-          transactions: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                date: { type: Type.STRING },
-                description: { type: Type.STRING },
-                cheque_ref_no: { type: Type.STRING },
-                withdrawal_amount: { type: Type.NUMBER },
-                deposit_amount: { type: Type.NUMBER },
-                tax_amount: { type: Type.NUMBER },
-                balance_after: { type: Type.NUMBER },
-                year_of_assessment: { type: Type.STRING },
-                audit_tags: {
-                  type: Type.OBJECT,
-                  properties: {
-                    type: { type: Type.STRING, enum: ["revenue", "expense", "salary", "epf_socso", "loan_repayment", "director_drawing", "tax_payment", "interbank_transfer", "other"] },
-                    counterparty_type: { type: Type.STRING, enum: ["employee", "director", "vendor", "government", "related_company", "unknown"] },
-                    notes: { type: Type.STRING },
-                  },
-                  required: ["type", "counterparty_type"]
-                }
-              },
-              required: ["date", "description", "balance_after", "audit_tags", "year_of_assessment"],
+            transactions: { 
+              type: Type.ARRAY, 
+              items: { 
+                type: Type.OBJECT, 
+                properties: { 
+                  date: { type: Type.STRING }, 
+                  description: { type: Type.STRING }, 
+                  withdrawal_amount: { type: Type.NUMBER }, 
+                  deposit_amount: { type: Type.NUMBER }, 
+                  balance_after: { type: Type.NUMBER }, 
+                  year_of_assessment: { type: Type.STRING }, 
+                  financial_year_label: { type: Type.STRING }, 
+                  financial_month_label: { type: Type.STRING }, 
+                  audit_tags: { 
+                    type: Type.OBJECT, 
+                    properties: { 
+                      type: { type: Type.STRING }, 
+                      counterparty_type: { type: Type.STRING }, 
+                      notes: { type: Type.STRING } 
+                    }, 
+                    required: ["type", "counterparty_type"] 
+                  } 
+                }, 
+                required: ["date", "description", "balance_after", "audit_tags", "year_of_assessment", "financial_year_label", "financial_month_label"] 
+              } 
+            },
+            financial_year_summaries: { 
+              type: Type.ARRAY, 
+              items: { 
+                type: Type.OBJECT, 
+                properties: { 
+                  financial_year_label: { type: Type.STRING }, 
+                  financial_year_end_date: { type: Type.STRING },
+                  months: { 
+                    type: Type.ARRAY, 
+                    items: { 
+                      type: Type.OBJECT, 
+                      properties: { 
+                        month_label: { type: Type.STRING }, 
+                        start_date: { type: Type.STRING },
+                        end_date: { type: Type.STRING },
+                        total_deposits: { type: Type.NUMBER }, 
+                        total_withdrawals: { type: Type.NUMBER }, 
+                        by_audit_type: { 
+                          type: Type.OBJECT, 
+                          properties: { 
+                            salary: { type: Type.NUMBER }, 
+                            epf_socso: { type: Type.NUMBER }, 
+                            director_drawing: { type: Type.NUMBER }, 
+                            tax_payment: { type: Type.NUMBER }, 
+                            loan_repayment: { type: Type.NUMBER }, 
+                            revenue: { type: Type.NUMBER }, 
+                            expense: { type: Type.NUMBER }, 
+                            other: { type: Type.NUMBER } 
+                          } 
+                        } 
+                      } 
+                    } 
+                  } 
+                } 
+              } 
+            },
+            reconciliation_info: { 
+              type: Type.OBJECT, 
+              properties: { 
+                is_reconciled: { type: Type.BOOLEAN }, 
+                calculated_movement: { type: Type.NUMBER }, 
+                expected_movement: { type: Type.NUMBER },
+                issues: { type: Type.ARRAY, items: { type: Type.STRING } }
+              }, 
+              required: ["is_reconciled", "calculated_movement", "expected_movement"] 
             }
-          },
-          reconciliation_info: {
-            type: Type.OBJECT,
-            properties: {
-              is_reconciled: { type: Type.BOOLEAN },
-              calculated_movement: { type: Type.NUMBER },
-              expected_movement: { type: Type.NUMBER },
-              issues: { type: Type.ARRAY, items: { type: Type.STRING } },
-            },
-            required: ["is_reconciled", "calculated_movement", "expected_movement"]
           }
         }
-      }
-    },
-  });
+      },
+    });
 
-  const resultText = response.text;
-  if (!resultText) throw new Error("AI returned empty response");
-  
-  try {
-    return JSON.parse(resultText) as BankStatementData;
-  } catch (e) {
-    console.error("JSON Parse Error:", resultText);
-    throw new Error("Failed to parse financial data from AI response.");
+    const text = response.text;
+    if (!text) {
+      throw new Error("The AI provided an empty response. This can happen if the images are unreadable or the model is overloaded.");
+    }
+    
+    try {
+      return JSON.parse(text) as BankStatementData;
+    } catch (parseErr) {
+      console.error("JSON Parsing Error. Raw output:", text);
+      throw new Error("The AI generated data that couldn't be parsed. Please try a clearer scan of the document.");
+    }
+  } catch (err: any) {
+    console.error("AI Extraction failure:", err);
+    throw new Error(err.message || "Failed to communicate with AI for data extraction.");
   }
+};
+
+export const inferPersona = async (userInput: string): Promise<AssistantPersona> => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const response = await ai.models.generateContent({
+    model: 'gemini-3-flash-preview',
+    contents: `Based on this user message, determine if they are asking about:
+1. Tax planning & Malaysian income tax (choose 'tax')
+2. Audit, reconciliation & forensic checks (choose 'audit')
+If unclear, choose 'none'.
+Message: "${userInput}"
+Respond only with the word 'tax', 'audit', or 'none'.`,
+  });
+  const result = response.text?.trim().toLowerCase();
+  if (result === 'tax') return 'tax';
+  if (result === 'audit') return 'audit';
+  return 'none';
 };
 
 export const askAuditAssistant = async (
   query: string, 
   history: ChatMessage[], 
-  data?: BankStatementData,
-  profile?: BusinessProfile
+  data?: BankStatementData, 
+  profile?: BusinessProfile, 
+  lang: SupportedLanguage = 'en',
+  persona: AssistantPersona = 'none'
 ): Promise<ChatMessage> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-  
-  const needsSearch = /latest|news|market|current rate|verify|bank code|swift|malaysia|tax rate|SST|LHDN/i.test(query);
-  const model = needsSearch ? 'gemini-3-flash-preview' : 'gemini-3-pro-preview';
-  
-  const context = data ? `
-    Business: ${data.business_profile_snapshot.legal_name} (${data.business_profile_snapshot.business_type}).
-    FYE: ${data.business_profile_snapshot.financial_year_end}.
-    Statement Data Loaded. 
-    Account: ${data.account_metadata.account_name} (${data.account_metadata.bank_name}).
-    Reconciliation: ${data.reconciliation_info.is_reconciled ? 'Verified' : 'Failed'}.
-    Transactions Summary: ${data.transactions.length} rows.
-  ` : (profile ? `Initial Context: Business ${profile.legal_name} (${profile.business_type}). No statement yet.` : "No context loaded.");
-  
+  const context = data ? `Entity: ${data.business_profile_snapshot.legal_name}. Account: ${data.account_metadata.account_number}.` : `No data extracted yet.`;
+
+  let personaInstruction = "";
+  if (persona === 'tax') {
+    personaInstruction = "You are Mr RP. Your specialty is Tax planning & Malaysian income tax. Focus on LHDN compliance, tax savings, and allowable deductions.";
+  } else if (persona === 'audit') {
+    personaInstruction = "You are The Aoutha. Your specialty is Audit, reconciliation & forensic checks. Focus on financial consistency, suspicious patterns, and account reconciliation.";
+  } else {
+    personaInstruction = "You are the MYAUDIT assistant.";
+  }
+
   const response = await ai.models.generateContent({
-    model: model,
+    model: 'gemini-3-pro-preview',
     contents: [
-      { role: 'user', parts: [{ text: `System Context: ${context}` }] },
-      ...history.map(msg => ({
-        role: msg.role,
-        parts: [{ text: msg.text }]
-      })),
+      { role: 'user', parts: [{ text: `System Context: ${context}. User Language: ${lang}.` }] },
+      ...history.map(msg => ({ role: msg.role, parts: [{ text: msg.text }] })),
       { role: 'user', parts: [{ text: query }] }
     ],
     config: {
-      systemInstruction: CHAT_SYSTEM_INSTRUCTION,
-      tools: needsSearch ? [{ googleSearch: {} }] : undefined,
+      systemInstruction: `${personaInstruction} Respond strictly in ${lang === 'ms' ? 'Bahasa Malaysia' : lang === 'zh' ? 'Mandarin Chinese' : 'English'}. Provide professional Malaysian forensic audit or tax guidance based on your persona.`,
     },
   });
 
-  return {
-    role: 'model',
-    text: response.text || "I couldn't generate a response.",
-    isSearch: needsSearch,
-    sources: response.candidates?.[0]?.groundingMetadata?.groundingChunks as any
-  };
+  return { role: 'model', text: response.text || "Error." };
 };
 
 export const quickResponse = async (query: string): Promise<string> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const response = await ai.models.generateContent({
-    // Use the correct model name for flash lite as per guidelines
     model: 'gemini-flash-lite-latest',
     contents: query,
-    // Fix: Removed maxOutputTokens to follow guidelines and prevent truncation unless explicitly needed
   });
   return response.text || "";
 };

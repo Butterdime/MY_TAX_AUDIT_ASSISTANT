@@ -1,5 +1,5 @@
 {
-  "name": "AuditExtract: The Audit-Tax assistant for MY entities",
-  "description": "AuditExtract is a bank-statement extraction and audit-prep tool that converts multi-year Malaysian bank statements into structured JSON and Excel ledgers with audit tags, reconciliation checks, and year-of-assessment grouping to speed up financial audits and tax submissions.",
+  "name": "MYAUDIT- The Audit-Tax assistant for MY entities",
+  "description": "MYAUDIT is a bank-statement extraction and audit-prep tool that converts multi-year Malaysian bank statements into structured JSON and Excel ledgers with audit tags, reconciliation checks, and year-of-assessment grouping to speed up financial audits and tax submissions.",
   "requestFramePermissions": []
 }

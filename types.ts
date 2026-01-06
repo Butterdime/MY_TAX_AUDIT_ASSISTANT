@@ -3,6 +3,19 @@ export type BankProvider = 'CIMB' | 'Maybank' | 'RHB' | 'Public Bank' | 'Hong Le
 
 export type BusinessType = 'sole_proprietorship' | 'partnership' | 'llp' | 'sdn_bhd' | 'bhd' | 'other';
 
+export type SupportedLanguage = "en" | "ms" | "zh";
+
+export type AssistantPersona = 'none' | 'tax' | 'audit';
+
+export interface UserProfile {
+  user_id: string;            // internal UID
+  google_sub: string;         // Google subject / unique ID
+  email: string;
+  display_name?: string;
+  avatar_url?: string;
+  preferred_language: SupportedLanguage;
+}
+
 export interface BusinessProfile {
   legal_name: string;
   registration_number: string;
@@ -30,7 +43,6 @@ export interface AuditTags {
   notes?: string;
 }
 
-// Add missing Transaction interface
 export interface Transaction {
   date: string;
   description: string;
@@ -40,7 +52,33 @@ export interface Transaction {
   tax_amount?: number;
   balance_after: number;
   year_of_assessment: string;
+  financial_year_label: string; // e.g. "FYE 31-12-2024"
+  financial_month_label: string; // e.g. "Jan 2024"
   audit_tags: AuditTags;
+}
+
+export interface MonthlySummary {
+  month_label: string; // e.g. "Jan 2024"
+  start_date: string;
+  end_date: string;
+  total_deposits: number;
+  total_withdrawals: number;
+  by_audit_type: {
+    salary: number;
+    epf_socso: number;
+    director_drawing: number;
+    tax_payment: number;
+    loan_repayment: number;
+    revenue: number;
+    expense: number;
+    other: number;
+  };
+}
+
+export interface FinancialYearSummary {
+  financial_year_label: string;
+  financial_year_end_date: string;
+  months: MonthlySummary[];
 }
 
 export interface AccountMetadata {
@@ -66,6 +104,7 @@ export interface BankStatementData {
   business_profile_snapshot: BusinessProfile;
   account_metadata: AccountMetadata;
   transactions: Transaction[];
+  financial_year_summaries: FinancialYearSummary[];
   reconciliation_info: ReconciliationInfo;
 }
 
@@ -79,10 +118,13 @@ export interface ChatMessage {
 export interface ProcessingState {
   status: 'idle' | 'processing' | 'completed' | 'error';
   message: string;
+  progress: number; // Track extraction progress percentage
   data?: BankStatementData;
   pdfMetadata?: PdfMetadata;
   error?: string;
   selectedBank: BankProvider;
   chatHistory: ChatMessage[];
   businessProfile: BusinessProfile;
+  userProfile?: UserProfile;
+  assistantPersona: AssistantPersona;
 }

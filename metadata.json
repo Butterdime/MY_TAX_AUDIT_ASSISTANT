@@ -1,0 +1,5 @@
+{
+  "name": "AuditExtract: Malaysian Bank Statement AI",
+  "description": "An intelligent extraction tool for auditors and tax planners to convert Malaysian bank statements (e.g., CIMB) into structured, ledger-ready JSON and CSV data.",
+  "requestFramePermissions": []
+}

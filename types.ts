@@ -1,6 +1,21 @@
 
 export type BankProvider = 'CIMB' | 'Maybank' | 'RHB' | 'Public Bank' | 'Hong Leong' | 'Auto-detect';
 
+export type BusinessType = 'sole_proprietorship' | 'partnership' | 'llp' | 'sdn_bhd' | 'bhd' | 'other';
+
+export interface BusinessProfile {
+  legal_name: string;
+  registration_number: string;
+  business_type: BusinessType;
+  tax_identification_number: string;
+  financial_year_end: string;
+}
+
+export interface StatementDateRange {
+  earliest_transaction_date: string; // ISO date
+  latest_transaction_date: string;   // ISO date
+}
+
 export interface PdfMetadata {
   pageCount: number;
   author: string;
@@ -15,6 +30,19 @@ export interface AuditTags {
   notes?: string;
 }
 
+// Add missing Transaction interface
+export interface Transaction {
+  date: string;
+  description: string;
+  cheque_ref_no?: string;
+  withdrawal_amount: number;
+  deposit_amount: number;
+  tax_amount?: number;
+  balance_after: number;
+  year_of_assessment: string;
+  audit_tags: AuditTags;
+}
+
 export interface AccountMetadata {
   bank_name: string;
   account_name: string;
@@ -23,18 +51,8 @@ export interface AccountMetadata {
   currency: string;
   opening_balance: number;
   closing_balance: number;
-}
-
-export interface Transaction {
-  date: string;
-  description: string;
-  cheque_ref_no: string;
-  withdrawal_amount: number;
-  deposit_amount: number;
-  tax_amount: number;
-  balance_after: number;
-  audit_tags: AuditTags;
-  year_of_assessment: string;
+  earliest_transaction_date: string;
+  latest_transaction_date: string;
 }
 
 export interface ReconciliationInfo {
@@ -45,6 +63,7 @@ export interface ReconciliationInfo {
 }
 
 export interface BankStatementData {
+  business_profile_snapshot: BusinessProfile;
   account_metadata: AccountMetadata;
   transactions: Transaction[];
   reconciliation_info: ReconciliationInfo;
@@ -65,4 +84,5 @@ export interface ProcessingState {
   error?: string;
   selectedBank: BankProvider;
   chatHistory: ChatMessage[];
+  businessProfile: BusinessProfile;
 }

@@ -1,80 +1,58 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { BankStatementData, BankProvider, ChatMessage } from "../types";
+import { BankStatementData, BankProvider, ChatMessage, BusinessProfile } from "../types";
 
-/**
- * Generates bank-specific hints to guide the AI model's vision and parsing.
- */
-const getBankSpecificHints = (bank: BankProvider): string => {
-  switch (bank) {
-    case 'CIMB':
-      return `
-        - CIMB specific: Look for headers like "Date / Tarikh", "Description / Diskripsi", "Withdrawal / Pengeluaran (RM)", "Deposits / Deposit (RM)", "Tax / Cukai (RM)", "Balance / Baki (RM)".
-        - Note: CIMB often includes a "Tax" column for service taxes on specific transactions.
-        - The table title is usually "Current Account Transaction Details / Butir-butir Transaksi Akaun Semasa".
-      `;
-    case 'Maybank':
-      return `
-        - Maybank specific: Look for columns like "Transaction Date", "Value Date", "Description", "Reference Number", "Debit", "Credit", "Balance".
-        - Note: "Debit" corresponds to withdrawals, and "Credit" corresponds to deposits.
-        - Sometimes description lines are split across multiple small rows; merge them into one.
-      `;
-    case 'RHB':
-      return `
-        - RHB specific: Look for "Trans Date", "Description", "Ref No.", "Withdrawal", "Deposit", "Running Balance".
-        - Ensure multi-line descriptions for fund transfers (IBG/DuitNow) are concatenated.
-      `;
-    case 'Public Bank':
-      return `
-        - Public Bank specific: Headers are often "Date", "Transaction Description", "Reference", "Withdrawals", "Deposits", "Balance".
-      `;
-    case 'Hong Leong':
-      return `
-        - Hong Leong specific: Headers like "Date", "Transaction Description", "Ref No", "Debit/Withdrawal", "Credit/Deposit", "Balance".
-      `;
-    default:
-      return `
-        - Auto-detect: Identify the table structure based on common Malaysian banking terms like "Tarikh", "Diskripsi", "Debit", "Credit", "Baki", "RM".
-      `;
-  }
-};
-
-const SYSTEM_INSTRUCTION = (selectedBank: BankProvider) => `
+const EXTRACTION_SYSTEM_INSTRUCTION = (selectedBank: BankProvider, profile: BusinessProfile) => `
 You are a specialized Forensic Audit AI expert in parsing Malaysian bank statements.
 Target Bank Context: ${selectedBank}.
 
+Business Profile Context:
+- Legal Name: ${profile.legal_name}
+- Business Type: ${profile.business_type}
+- Registration No: ${profile.registration_number}
+- TIN: ${profile.tax_identification_number}
+- Financial Year End: ${profile.financial_year_end}
+
 Your goal is to extract structured financial data and perform intelligent audit categorization for tax planning.
 
-General Extraction Rules:
-1. Account Metadata:
-   - Extract bank name, account name, and account number.
-   - Extract the statement period/date range.
-   - Extract opening and closing balances as numeric values.
+Contextual Guidance based on Business Type:
+1. For 'sole_proprietorship' and 'partnership': 
+   - Business income is taxed at the individual/partner level. 
+   - Label money taken by the owner as "director_drawing" but note it's an owner drawing in the notes.
+2. For 'sdn_bhd', 'bhd', and 'llp': 
+   - Treat as separate legal entities.
+   - categorize director payments with strict precision. Use the 'director_drawing' tag for loan repayments to directors or dividends/drawings.
 
-2. Transactions & Audit Intelligence:
-   - Dates: Convert to YYYY-MM-DD.
-   - Year of Assessment: Group by the calendar year of the transaction (e.g., 2024-01-15 is YA 2024).
-   - Audit Tags: Infer transaction type. 
-     * "salary" if description contains "SALARY", "WAGES", "GAJI".
-     * "epf_socso" if description contains "KWSP", "EPF", "SOCSO", "PERKESO".
-     * "director_drawing" if description contains a director's name or "DIR DRAWING".
-     * "tax_payment" if description contains "LHDN", "INCOME TAX", "STAMP DUTY".
-     * "loan_repayment" if description contains "LOAN", "MORTGAGE", "HIRE PURCHASE".
-   - Counterparty Type: Infer if it is a "government" body (LHDN, KWSP), "employee", "director", or "vendor".
+Year of Assessment (YA) Logic:
+- Group transactions by the calendar year they occur in (Standard Malaysian YA).
+- If the statement spans the Financial Year End (${profile.financial_year_end}), ensure the transactions are attributed to the correct calendar-year YA for income tax filing.
 
-3. Reconciliation Logic:
-   - Sum all deposits (Credits).
-   - Sum all withdrawals (Debits).
-   - Verify: Opening Balance + Total Deposits - Total Withdrawals = Closing Balance.
-   - Report any discrepancy in the 'reconciliation_info' object.
+Reconciliation:
+- Ensure Opening Balance + Sum(Deposits) - Sum(Withdrawals) = Closing Balance.
 
-4. Output Requirements:
-   - Return valid JSON matching the provided schema.
-   - Ensure 'balance_after' is present for every row.
-   - Handle multi-page statements (limit analysis to the provided images).
+Output Requirements:
+- Return valid JSON matching the schema.
+- Echo the Business Profile in 'business_profile_snapshot'.
 `;
 
-export const extractStatementData = async (base64Images: string[], bank: BankProvider): Promise<BankStatementData> => {
+const CHAT_SYSTEM_INSTRUCTION = `
+You are part of the AuditExtract application, an AI assistant specialized in Malaysian banking, audit, and tax workflows.
+AuditExtract exposes two expert personas:
+
+1. Mr RP – Tax Planning & Malaysian Income Tax
+   Role: Senior Malaysian tax planner.
+   Scope: Malaysian income tax concepts, Year of Assessment (YA), allowable/disallowable expenses, withholding tax, SST, and LHDN processes. Interpreting ledger data based on the entity's Business Type (Sole Prop, Sdn Bhd, etc.).
+
+2. The Aoutha – Audit & Forensic Review
+   Role: Senior audit manager focused on cash and bank, forensic consistency, and documentation.
+   Scope: Reviewing extracted bank-ledger data for completeness, reconciliation issues, and unusual patterns.
+
+Routing & Persona Selection:
+- If mainly about tax, YA, LHDN, deductions, rates, or planning -> Respond as Mr RP.
+- If mainly about audit, reconciliation, controls, completeness, or forensic checks -> Respond as The Aoutha.
+`;
+
+export const extractStatementData = async (base64Images: string[], bank: BankProvider, profile: BusinessProfile): Promise<BankStatementData> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const imageParts = base64Images.map(data => ({
@@ -90,16 +68,27 @@ export const extractStatementData = async (base64Images: string[], bank: BankPro
       {
         parts: [
           ...imageParts,
-          { text: `Extract all transaction data, audit tags, and metadata from these ${bank} bank statement pages into a ledger-ready JSON object. Perform a reconciliation check on the balances.` }
+          { text: `Extract all transaction data, audit tags, and metadata from these ${bank} bank statement pages into a ledger-ready JSON object for the entity ${profile.legal_name}. Perform a reconciliation check.` }
         ]
       }
     ],
     config: {
-      systemInstruction: SYSTEM_INSTRUCTION(bank),
+      systemInstruction: EXTRACTION_SYSTEM_INSTRUCTION(bank, profile),
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
         properties: {
+          business_profile_snapshot: {
+            type: Type.OBJECT,
+            properties: {
+              legal_name: { type: Type.STRING },
+              registration_number: { type: Type.STRING },
+              business_type: { type: Type.STRING },
+              tax_identification_number: { type: Type.STRING },
+              financial_year_end: { type: Type.STRING },
+            },
+            required: ["legal_name", "registration_number", "business_type", "tax_identification_number", "financial_year_end"]
+          },
           account_metadata: {
             type: Type.OBJECT,
             properties: {
@@ -110,8 +99,10 @@ export const extractStatementData = async (base64Images: string[], bank: BankPro
               currency: { type: Type.STRING },
               opening_balance: { type: Type.NUMBER },
               closing_balance: { type: Type.NUMBER },
+              earliest_transaction_date: { type: Type.STRING, description: "ISO YYYY-MM-DD" },
+              latest_transaction_date: { type: Type.STRING, description: "ISO YYYY-MM-DD" },
             },
-            required: ["bank_name", "account_name", "account_number", "opening_balance", "closing_balance"],
+            required: ["bank_name", "account_name", "account_number", "opening_balance", "closing_balance", "earliest_transaction_date", "latest_transaction_date"],
           },
           transactions: {
             type: Type.ARRAY,
@@ -165,25 +156,25 @@ export const extractStatementData = async (base64Images: string[], bank: BankPro
   }
 };
 
-/**
- * Chat bot for answering audit questions about the extracted data.
- */
 export const askAuditAssistant = async (
   query: string, 
   history: ChatMessage[], 
-  data?: BankStatementData
+  data?: BankStatementData,
+  profile?: BusinessProfile
 ): Promise<ChatMessage> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
-  const needsSearch = /latest|news|market|current rate|verify|bank code|swift|malaysia|tax rate/i.test(query);
+  const needsSearch = /latest|news|market|current rate|verify|bank code|swift|malaysia|tax rate|SST|LHDN/i.test(query);
   const model = needsSearch ? 'gemini-3-flash-preview' : 'gemini-3-pro-preview';
   
   const context = data ? `
+    Business: ${data.business_profile_snapshot.legal_name} (${data.business_profile_snapshot.business_type}).
+    FYE: ${data.business_profile_snapshot.financial_year_end}.
     Statement Data Loaded. 
-    Metadata: ${JSON.stringify(data.account_metadata)}. 
+    Account: ${data.account_metadata.account_name} (${data.account_metadata.bank_name}).
     Reconciliation: ${data.reconciliation_info.is_reconciled ? 'Verified' : 'Failed'}.
     Transactions Summary: ${data.transactions.length} rows.
-  ` : "No statement data loaded yet.";
+  ` : (profile ? `Initial Context: Business ${profile.legal_name} (${profile.business_type}). No statement yet.` : "No context loaded.");
   
   const response = await ai.models.generateContent({
     model: model,
@@ -196,7 +187,7 @@ export const askAuditAssistant = async (
       { role: 'user', parts: [{ text: query }] }
     ],
     config: {
-      systemInstruction: "You are the Audit Assistant. You have access to extracted bank statement data with forensic audit tags. Help the user with tax calculations, transaction categorization, and reconciliation issues. Be very precise with numbers.",
+      systemInstruction: CHAT_SYSTEM_INSTRUCTION,
       tools: needsSearch ? [{ googleSearch: {} }] : undefined,
     },
   });
@@ -209,17 +200,13 @@ export const askAuditAssistant = async (
   };
 };
 
-/**
- * Fast AI response using gemini-2.5-flash-lite for simple tasks.
- */
 export const quickResponse = async (query: string): Promise<string> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash-lite-latest',
+    // Use the correct model name for flash lite as per guidelines
+    model: 'gemini-flash-lite-latest',
     contents: query,
-    config: {
-      maxOutputTokens: 200,
-    }
+    // Fix: Removed maxOutputTokens to follow guidelines and prevent truncation unless explicitly needed
   });
   return response.text || "";
 };

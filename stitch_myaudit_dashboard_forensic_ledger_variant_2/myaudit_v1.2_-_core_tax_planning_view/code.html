@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT v1.2 - Core Tax Planning View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3ff906",
+                        "background-light": "#ffffff",
+                        "background-dark": "#14230f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-card {
+            transition: all 0.2s ease;
+            border: 1px solid #f0f0f0;
+        }
+        .bento-card:hover {
+            border-color: #3ff906;
+            box-shadow: 0 4px 12px rgba(63, 249, 6, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#101c0d] dark:text-white min-h-screen">
+<div class="flex flex-col min-h-screen">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#eaf4e6] dark:border-[#2a3a25] px-10 py-3 bg-white dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-tight">MYAUDIT <span class="text-xs font-normal opacity-60">v1.2</span></h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-9">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Tax Returns</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Documents</a>
+<a class="text-sm font-bold border-b-2 border-primary pb-1" href="#">Tax Planning</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-[#eaf4e6] dark:bg-[#2a3a25] text-[#101c0d] dark:text-white">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-[#eaf4e6] dark:bg-[#2a3a25] text-[#101c0d] dark:text-white">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-gray-200" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBopHR7bQ8NjQe_xjujFkXkoxG8ZyziUha3fKGeCVXtEANnJf5hRZWMJXGqocDX9JPPQm9rgvB0Qt3FYIyu9nwGKg7wOIzU4ARpqdqDAow6MU6PS8g-KsPUTdWlI98CjmUH3aFHyib9yTtRKmF0D_dxbTUh1hYj_Fcoo5zKmInvhUAVLAqXc7j5yxpkswhofR69OKRHUDvX9Y8JgxAn7fTIEkKFfF1eNN0dlnHHoJyfMy2DHDqcYF9nIWqCwcaewU81MoAcY-K9rXau");'></div>
+</div>
+</header>
+<!-- Main Content Layout -->
+<div class="flex flex-1 max-w-[1440px] mx-auto w-full">
+<!-- Center Content -->
+<main class="flex-1 border-r border-[#eaf4e6] dark:border-[#2a3a25] p-8">
+<!-- Sub-tabs -->
+<div class="mb-8">
+<div class="flex border-b border-[#d4e9ce] dark:border-[#2a3a25] gap-8">
+<a class="flex items-center justify-center border-b-[3px] border-transparent text-[#5b9e47] pb-4 pt-2 text-sm font-medium" href="#">Overview</a>
+<a class="flex items-center justify-center border-b-[3px] border-transparent text-[#5b9e47] pb-4 pt-2 text-sm font-medium" href="#">Financials</a>
+<a class="flex items-center justify-center border-b-[3px] border-transparent text-[#5b9e47] pb-4 pt-2 text-sm font-medium" href="#">Audit Logs</a>
+<a class="flex items-center justify-center border-b-[3px] border-primary text-[#101c0d] dark:text-white pb-4 pt-2 text-sm font-bold" href="#">Optimization Summary</a>
+</div>
+</div>
+<!-- Heading -->
+<div class="mb-10">
+<h1 class="text-4xl font-light tracking-tight text-[#101c0d] dark:text-white mb-2">Mr. R.P.P’s Optimization Summary</h1>
+<p class="text-[#5b9e47] text-base font-light">Based on your current profile, these incentives are recommended for tax efficiency.</p>
+</div>
+<!-- Bento Grid -->
+<div class="grid grid-cols-12 gap-4 mb-12">
+<!-- Major Card -->
+<div class="col-span-8 bento-card rounded-xl p-6 bg-white dark:bg-[#1a2e14]">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-primary/10 text-[#5b9e47] text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">High Impact</span>
+<span class="text-primary text-sm font-bold">Eligibility: 92%</span>
+</div>
+<h3 class="text-xl font-medium mb-2">Double Deductions for Promotion of Exports</h3>
+<p class="text-[#5b9e47] text-sm font-light leading-relaxed mb-6">
+                            Eligible expenses incurred for the purpose of seeking opportunities for export of manufactured products and services can be claimed for double deduction.
+                        </p>
+<div class="flex items-center gap-2 p-3 bg-gray-50 dark:bg-black/20 rounded-lg">
+<span class="material-symbols-outlined text-sm text-gray-400">info</span>
+<p class="text-[11px] text-gray-500 dark:text-gray-400 uppercase font-medium">Advisory-only: Consult with a tax professional before filing.</p>
+</div>
+</div>
+<!-- Secondary Card -->
+<div class="col-span-4 bento-card rounded-xl p-6 bg-white dark:bg-[#1a2e14]">
+<div class="flex justify-between items-start mb-4">
+<span class="text-primary text-sm font-bold">Eligibility: 85%</span>
+</div>
+<h3 class="text-xl font-medium mb-2">Automation Capital Allowance</h3>
+<p class="text-[#5b9e47] text-sm font-light leading-relaxed mb-6">
+                            Accelerated capital allowance for high-tech automation equipment.
+                        </p>
+<div class="mt-auto flex items-center gap-2 p-3 bg-gray-50 dark:bg-black/20 rounded-lg">
+<span class="material-symbols-outlined text-sm text-gray-400">info</span>
+<p class="text-[11px] text-gray-500 dark:text-gray-400 uppercase font-medium">Advisory-only</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="col-span-4 bento-card rounded-xl p-6 bg-white dark:bg-[#1a2e14]">
+<div class="flex justify-between items-start mb-4">
+<span class="text-primary text-sm font-bold">Eligibility: 78%</span>
+</div>
+<h3 class="text-xl font-medium mb-2">Reinvestment Allowance</h3>
+<p class="text-[#5b9e47] text-sm font-light leading-relaxed mb-6">
+                            Available for manufacturing companies that reinvest for expansion.
+                        </p>
+<div class="mt-auto flex items-center gap-2 p-3 bg-gray-50 dark:bg-black/20 rounded-lg">
+<span class="material-symbols-outlined text-sm text-gray-400">info</span>
+<p class="text-[11px] text-gray-500 dark:text-gray-400 uppercase font-medium">Advisory-only</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="col-span-4 bento-card rounded-xl p-6 bg-white dark:bg-[#1a2e14]">
+<div class="flex justify-between items-start mb-4">
+<span class="text-primary text-sm font-bold">Eligibility: 64%</span>
+</div>
+<h3 class="text-xl font-medium mb-2">Green Investment Tax</h3>
+<p class="text-[#5b9e47] text-sm font-light leading-relaxed mb-6">
+                            Incentive for verified green technology assets and projects.
+                        </p>
+<div class="mt-auto flex items-center gap-2 p-3 bg-gray-50 dark:bg-black/20 rounded-lg">
+<span class="material-symbols-outlined text-sm text-gray-400">info</span>
+<p class="text-[11px] text-gray-500 dark:text-gray-400 uppercase font-medium">Advisory-only</p>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="col-span-4 bento-card rounded-xl p-6 bg-white dark:bg-[#1a2e14]">
+<div class="flex justify-between items-start mb-4">
+<span class="text-primary text-sm font-bold">Eligibility: 45%</span>
+</div>
+<h3 class="text-xl font-medium mb-2">R&amp;D Double Deduction</h3>
+<p class="text-[#5b9e47] text-sm font-light leading-relaxed mb-6">
+                            Tax breaks for non-capital R&amp;D expenditure.
+                        </p>
+<div class="mt-auto flex items-center gap-2 p-3 bg-gray-50 dark:bg-black/20 rounded-lg">
+<span class="material-symbols-outlined text-sm text-gray-400">info</span>
+<p class="text-[11px] text-gray-500 dark:text-gray-400 uppercase font-medium">Advisory-only</p>
+</div>
+</div>
+</div>
+<!-- Action Button Container -->
+<div class="flex justify-center mt-12">
+<button class="bg-primary text-[#101c0d] px-10 py-4 rounded-lg font-bold text-sm tracking-wide shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3">
+<span class="material-symbols-outlined">download</span>
+                        Download accounting &amp; tax summary
+                    </button>
+</div>
+</main>
+<!-- Sidebar: The Aoutha -->
+<aside class="w-80 p-8 bg-white dark:bg-[#14230f]/50 flex flex-col gap-8">
+<div>
+<h2 class="text-xl font-bold mb-1">The Aoutha</h2>
+<p class="text-[#5b9e47] text-xs font-medium uppercase tracking-widest">Strategic Timeline</p>
+</div>
+<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-4 p-5 bg-[#eaf4e6] dark:bg-[#2a3a25] rounded-xl border border-primary/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<h3 class="text-sm font-semibold">Advisory Compliance Clock</h3>
+</div>
+<!-- Compliance Clock Visualization -->
+<div class="relative py-8 flex justify-center">
+<div class="w-32 h-32 rounded-full border-[8px] border-white/50 dark:border-black/20 flex items-center justify-center relative">
+<div class="absolute inset-0 rounded-full border-[8px] border-primary border-t-transparent border-r-transparent -rotate-45"></div>
+<div class="text-center">
+<p class="text-2xl font-black">14</p>
+<p class="text-[10px] uppercase font-bold opacity-60 leading-tight">Days<br/>Left</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 mt-2">
+<div class="flex justify-between items-center text-xs">
+<span class="font-medium">Form C Filing</span>
+<span class="bg-white/50 dark:bg-black/20 px-2 py-0.5 rounded text-[10px]">Due Oct 31</span>
+</div>
+<div class="w-full bg-white/30 dark:bg-black/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[80%] rounded-full"></div>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center text-xs">
+<span class="font-medium">CP204 Revision</span>
+<span class="bg-white/50 dark:bg-black/20 px-2 py-0.5 rounded text-[10px]">6th Month</span>
+</div>
+<div class="w-full bg-white/30 dark:bg-black/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary/40 h-full w-[45%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 border-t border-gray-100 dark:border-white/10 pt-6">
+<h4 class="text-xs font-bold uppercase text-gray-400">Upcoming Milestones</h4>
+<div class="flex gap-4">
+<div class="w-1 bg-[#5b9e47] rounded-full"></div>
+<div>
+<p class="text-xs font-bold">Tax Estimate Review</p>
+<p class="text-[11px] text-gray-500">In 3 days</p>
+</div>
+</div>
+<div class="flex gap-4 opacity-50">
+<div class="w-1 bg-gray-200 rounded-full"></div>
+<div>
+<p class="text-xs font-bold">Instalment Payment</p>
+<p class="text-[11px] text-gray-500">Completed</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto">
+<div class="rounded-lg bg-gray-50 dark:bg-[#1a2e14] p-4 text-center border border-dashed border-gray-200 dark:border-gray-800">
+<p class="text-[11px] font-medium text-gray-400 mb-2">Need professional assistance?</p>
+<button class="text-xs font-bold text-primary hover:underline">Contact Advisor</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</body></html>

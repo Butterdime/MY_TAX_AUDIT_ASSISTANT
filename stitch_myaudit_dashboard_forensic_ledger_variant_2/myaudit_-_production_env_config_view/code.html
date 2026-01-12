@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT - Production Env Config View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d69f2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101722",
+                        "cobalt": "#0d69f2",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .dot-grid {
+            background-image: radial-gradient(#e2e8f0 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+        .dark .dot-grid {
+            background-image: radial-gradient(#1e293b 0.5px, transparent 0.5px);
+        }
+        .thin-border {
+            border-width: 0.5px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b thin-border border-slate-200 dark:border-slate-800 px-6 lg:px-10 py-3">
+<div class="max-w-[1440px] mx-auto flex items-center justify-between">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl">shield_person</span>
+</div>
+<h2 class="text-xl font-black tracking-tighter uppercase italic">MYAUDIT</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-semibold border-b-2 border-primary" href="#">Configurations</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Pipelines</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Logs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Search configs..." type="text"/>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">rocket_launch</span>
+                    Deploy Now
+                </button>
+<div class="size-9 rounded-full bg-slate-200 dark:bg-slate-700 thin-border border-slate-300 dark:border-slate-600 bg-cover bg-center" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCPejrHUfL3ezpcg2J2v31zLs0qz18Jkl0D-R0ACgOElK0eyIIB4DKQMjW7SvO_UI8G_1y39mwxzC2itD3HhvHkGCFIpbSeZdIhJS88oHMvBBXibBGxjbwdjnLAixrt18j5R0TCPBpbj3ove9I8AaHz7OyITQmwnoGWJCMxXyXS6fvFpaXQA05NC1ytLbGvbItCjN4yX4zUNm1bYmrzOWkl7_6XKva8fI4Lv6S9601j9KCKlzvXMPuNAH5FZoi125Yuqoujoyn3FA2R')"></div>
+</div>
+</div>
+</header>
+<div class="flex min-h-[calc(100vh-64px)] w-full">
+<!-- Main Content Area -->
+<main class="flex-1 dot-grid bg-white dark:bg-background-dark p-6 lg:p-12 overflow-y-auto">
+<div class="max-w-5xl mx-auto space-y-8">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-sm">
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">Configurations</a>
+<span class="text-slate-400 material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100 font-medium">Production Env Config</span>
+</nav>
+<!-- Page Heading -->
+<div class="flex flex-wrap items-end justify-between gap-6 border-b thin-border border-slate-200 dark:border-slate-800 pb-8">
+<div class="space-y-2">
+<div class="flex items-center gap-3">
+<h1 class="text-4xl font-black tracking-tight text-slate-900 dark:text-white">Production Environment Config</h1>
+<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border border-green-200 dark:border-green-800">Live</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 flex items-center gap-2">
+<span class="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-sm">.env.production</span>
+                            — Managed Environment Variables for Global Infrastructure
+                        </p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-semibold flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+                            Copy .env
+                        </button>
+<button class="px-4 py-2 bg-white dark:bg-slate-900 border thin-border border-slate-300 dark:border-slate-700 hover:border-primary text-slate-900 dark:text-white rounded-lg text-sm font-semibold flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-lg">edit</span>
+                            Edit Variables
+                        </button>
+</div>
+</div>
+<!-- Environment Variables Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between px-2">
+<h3 class="text-lg font-bold flex items-center gap-2 italic">
+<span class="material-symbols-outlined text-primary">data_object</span>
+                            Variable Manifest
+                        </h3>
+<div class="flex items-center gap-4 text-xs font-medium text-slate-400">
+<span class="flex items-center gap-1"><div class="size-2 rounded-full bg-green-500"></div> Active</span>
+<span class="flex items-center gap-1"><div class="size-2 rounded-full bg-amber-500"></div> Pending</span>
+</div>
+</div>
+<div class="bg-slate-50 dark:bg-slate-900/50 border thin-border border-slate-200 dark:border-slate-800 rounded-xl divide-y thin-border divide-slate-200 dark:divide-slate-800 overflow-hidden">
+<!-- Item 1 -->
+<div class="flex items-center justify-between p-4 hover:bg-white dark:hover:bg-slate-900 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-10 flex items-center justify-center bg-white dark:bg-slate-800 rounded-lg thin-border border-slate-200 dark:border-slate-700 group-hover:border-primary transition-all">
+<span class="material-symbols-outlined text-slate-500">public</span>
+</div>
+<div>
+<p class="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 uppercase tracking-tight">FIREBASE_REGION</p>
+<p class="font-mono text-xs text-primary bg-primary/5 dark:bg-primary/10 px-1 py-0.5 rounded mt-1">asia-southeast1</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary">lock</span>
+<div class="size-3 rounded-full bg-green-500 shadow-sm shadow-green-500/50"></div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between p-4 hover:bg-white dark:hover:bg-slate-900 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-10 flex items-center justify-center bg-white dark:bg-slate-800 rounded-lg thin-border border-slate-200 dark:border-slate-700 group-hover:border-primary transition-all">
+<span class="material-symbols-outlined text-slate-500">target</span>
+</div>
+<div>
+<p class="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 uppercase tracking-tight">SITE_TARGET</p>
+<p class="font-mono text-xs text-primary bg-primary/5 dark:bg-primary/10 px-1 py-0.5 rounded mt-1">myaudit-tax-2026</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary">lock</span>
+<div class="size-3 rounded-full bg-green-500 shadow-sm shadow-green-500/50"></div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center justify-between p-4 hover:bg-white dark:hover:bg-slate-900 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-10 flex items-center justify-center bg-white dark:bg-slate-800 rounded-lg thin-border border-slate-200 dark:border-slate-700 group-hover:border-primary transition-all">
+<span class="material-symbols-outlined text-slate-500">verified_user</span>
+</div>
+<div>
+<p class="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 uppercase tracking-tight">DATA_RESIDENCY_SHIELD</p>
+<p class="font-mono text-xs text-primary bg-primary/5 dark:bg-primary/10 px-1 py-0.5 rounded mt-1">active</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary">lock</span>
+<div class="size-3 rounded-full bg-green-500 shadow-sm shadow-green-500/50"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Deployment Pipeline Map -->
+<section class="space-y-6 pt-6">
+<h3 class="text-lg font-bold flex items-center gap-2 italic px-2">
+<span class="material-symbols-outlined text-primary">account_tree</span>
+                        Deployment Pipeline
+                    </h3>
+<div class="relative flex items-center justify-between max-w-3xl mx-auto py-8">
+<!-- Horizontal Line -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[1px] bg-slate-200 dark:bg-slate-800 -z-10"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 h-[1px] bg-primary w-full -z-10"></div>
+<!-- Node 1: Local -->
+<div class="flex flex-col items-center gap-3">
+<div class="size-14 bg-white dark:bg-slate-900 rounded-full thin-border border-primary flex items-center justify-center text-primary shadow-xl shadow-primary/10">
+<span class="material-symbols-outlined text-2xl">laptop_mac</span>
+</div>
+<div class="text-center">
+<p class="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white">Local Build</p>
+<p class="text-[10px] text-slate-500">v4.2.0-stable</p>
+</div>
+</div>
+<!-- Node 2: Staging -->
+<div class="flex flex-col items-center gap-3">
+<div class="size-14 bg-white dark:bg-slate-900 rounded-full thin-border border-primary flex items-center justify-center text-primary shadow-xl shadow-primary/10">
+<span class="material-symbols-outlined text-2xl">science</span>
+</div>
+<div class="text-center">
+<p class="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white">Staging</p>
+<p class="text-[10px] text-slate-500">Verified &amp; Tested</p>
+</div>
+</div>
+<!-- Node 3: Firebase Hosting -->
+<div class="flex flex-col items-center gap-3">
+<div class="size-14 bg-primary rounded-full flex items-center justify-center text-white shadow-xl shadow-primary/40 ring-4 ring-primary/20">
+<span class="material-symbols-outlined text-2xl">cloud_done</span>
+</div>
+<div class="text-center">
+<p class="text-xs font-bold uppercase tracking-widest text-primary">Firebase Hosting</p>
+<p class="text-[10px] text-slate-500">Production Node</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Sidebar: Mr. R.P.P -->
+<aside class="w-80 border-l thin-border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-6 hidden xl:block">
+<div class="sticky top-24 space-y-8">
+<!-- Persona Header -->
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-xl bg-primary/10 border thin-border border-primary/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">smart_toy</span>
+</div>
+<div>
+<h4 class="text-sm font-black uppercase tracking-tighter">Mr. R.P.P</h4>
+<p class="text-xs text-slate-500">Technical Advisor</p>
+</div>
+</div>
+<!-- Advisory Box -->
+<div class="bg-primary/5 border thin-border border-primary/20 rounded-xl p-5 space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm">info</span>
+<p class="text-[10px] font-bold uppercase tracking-widest">Final Advisory</p>
+</div>
+<p class="text-sm leading-relaxed text-slate-700 dark:text-slate-300 italic font-medium">
+                        "Deployment manifest is synchronized for <span class="text-primary font-bold">YA 2026</span>. All residency shields are locked."
+                    </p>
+<div class="pt-4 border-t border-primary/10 flex items-center justify-between">
+<span class="text-[10px] text-slate-400 font-mono">ID: SYNC_2026_01</span>
+<div class="flex items-center gap-1">
+<span class="size-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] font-bold text-primary uppercase">Synchronized</span>
+</div>
+</div>
+</div>
+<!-- Technical Stats -->
+<div class="space-y-4">
+<h5 class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Environment Stats</h5>
+<div class="grid grid-cols-2 gap-3">
+<div class="p-3 rounded-lg border thin-border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+<p class="text-[10px] text-slate-500 mb-1 uppercase font-bold">Uptime</p>
+<p class="text-sm font-mono font-bold">99.99%</p>
+</div>
+<div class="p-3 rounded-lg border thin-border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+<p class="text-[10px] text-slate-500 mb-1 uppercase font-bold">Latency</p>
+<p class="text-sm font-mono font-bold">24ms</p>
+</div>
+</div>
+</div>
+<!-- Footer Status -->
+<div class="pt-8 text-center">
+<p class="text-[10px] text-slate-400 font-mono">Last updated: <br/> Oct 24, 2026 - 14:32:01 UTC</p>
+</div>
+</div>
+</aside>
+</div>
+</body></html>

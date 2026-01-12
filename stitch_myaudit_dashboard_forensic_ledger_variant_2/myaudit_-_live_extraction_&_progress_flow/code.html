@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT - Live Extraction &amp; Progress Flow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5e33fa",
+                        "accent-blue": "#2E5BFF",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#0f0f12",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-header {
+            background: rgba(20, 16, 35, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .pulse-accent {
+            box-shadow: 0 0 0 0 rgba(46, 91, 255, 0.7);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 91, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 91, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 91, 255, 0); }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white min-h-screen">
+<!-- Glassmorphic Header with Navigation -->
+<header class="glass-header sticky top-0 z-50 w-full">
+<div class="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">account_balance_wallet</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">MYAUDIT</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-sm text-gray-400">
+<span class="material-symbols-outlined text-sm">cloud_done</span>
+<span>Syncing with Cloud</span>
+</div>
+<div class="flex gap-2">
+<button class="size-10 flex items-center justify-center rounded-lg bg-[#1e1835] hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="size-10 rounded-full border-2 border-primary/40 bg-center bg-cover" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7mhpaXWQjA6oBobqQaR349VNBfH0kWUYeiItbyG9VEL9TEgoFOYRlK3KfZRR_v3877L3YaAl1T8XCS4tGHx9AIARg65BFoArtWMVYTwBPGqqr-T9FxDcW6I4HLgNBbZHogMQXUekq32dK2xrY5-QL0LSNA-jq0Bpf0F5OvTWu_tK9a59ott_teFbr53s84m4jdMa98eHKv7E1dFoxFFIUyGz28DwWFkCerZd_tSxbiX2TLsS0V5SiPJ7oPY-q7DhqCEBJ23FRpT7i");'></div>
+</div>
+</div>
+</div>
+<!-- 4-Stage Stepper -->
+<div class="max-w-[1200px] mx-auto px-6 pb-2">
+<div class="flex border-b border-white/5 gap-8 overflow-x-auto">
+<div class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-gray-500 pb-3 pt-4 min-w-fit">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<p class="text-xs font-bold uppercase tracking-wider">1. Company Setup</p>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-gray-500 pb-3 pt-4 min-w-fit">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<p class="text-xs font-bold uppercase tracking-wider">2. Document Upload</p>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center border-b-[3px] border-accent-blue text-white pb-3 pt-4 min-w-fit relative">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-accent-blue">sync</span>
+<p class="text-xs font-bold uppercase tracking-wider">3. Data Extraction</p>
+</div>
+<div class="absolute -bottom-[2px] left-0 w-full h-[3px] bg-accent-blue pulse-accent"></div>
+</div>
+<div class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-gray-500 pb-3 pt-4 min-w-fit">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">pending</span>
+<p class="text-xs font-bold uppercase tracking-wider">4. Review &amp; Finalize</p>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto px-6 py-10">
+<!-- Title and Introduction -->
+<div class="mb-10">
+<h1 class="text-3xl font-bold text-white mb-2">Live Extraction &amp; Progress Flow</h1>
+<p class="text-gray-400 max-w-2xl">Our Vision Engine is currently processing your financial statements. Data fields are being automatically mapped for your audit review.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Side: Configuration Pane -->
+<div class="lg:col-span-5 space-y-6">
+<div class="bg-[#1e1835] border border-white/5 rounded-xl p-6 relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2 px-2 py-1 bg-yellow-500/10 text-yellow-500 rounded text-[10px] font-bold tracking-widest uppercase">
+<span class="material-symbols-outlined text-xs">lock</span> Locked
+                        </div>
+</div>
+<div class="flex gap-6 items-center">
+<div class="flex-1">
+<h3 class="text-gray-400 text-sm font-medium mb-1">Financial Year End</h3>
+<p class="text-2xl font-bold text-white mb-4">Dec 31, 2025</p>
+<div class="flex items-center gap-2 text-primary font-semibold text-sm">
+<span class="material-symbols-outlined text-sm">verified</span>
+                                Confirmed by Entity
+                            </div>
+</div>
+<div class="size-24 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-primary/60">calendar_month</span>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-white/5">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-accent-blue/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-accent-blue">schedule</span>
+</div>
+<div>
+<p class="text-xs text-gray-400 uppercase tracking-tighter font-bold">LHDN Compliance Window</p>
+<p class="text-sm text-white">7 Months remaining for Sdn Bhd filing</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Compliance Clock Widget -->
+<div class="bg-gradient-to-br from-[#2a214a] to-[#1e1835] border border-white/5 rounded-xl p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest text-gray-400">Compliance Clock</h3>
+<span class="material-symbols-outlined text-gray-500">info</span>
+</div>
+<div class="flex items-center gap-8">
+<div class="relative size-32">
+<!-- Circular Progress Visual -->
+<svg class="size-full" viewbox="0 0 36 36">
+<circle class="stroke-[#3c2f6a]" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="75, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold">7</span>
+<span class="text-[10px] uppercase font-bold text-gray-400">Months</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="mb-4">
+<p class="text-xs text-gray-400">Entity Type</p>
+<p class="text-sm font-semibold">Sdn Bhd Entity</p>
+</div>
+<div>
+<p class="text-xs text-gray-400">Deadline</p>
+<p class="text-sm font-bold text-red-400">July 31, 2026</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Live Processing Dropzone -->
+<div class="lg:col-span-7">
+<div class="bg-[#141023] border-2 border-dashed border-accent-blue/30 rounded-xl p-8 h-full flex flex-col">
+<div class="flex items-center justify-between mb-10">
+<div class="flex items-center gap-3">
+<div class="size-12 bg-white/5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-red-400">description</span>
+</div>
+<div>
+<h3 class="text-lg font-bold">RHB_Statement_Dec.pdf</h3>
+<p class="text-xs text-gray-400 font-mono tracking-tighter">VISION_ENGINE_V4.2_ACTIVE</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-2xl font-bold text-accent-blue">68%</p>
+<p class="text-[10px] uppercase font-bold text-gray-500">Processing</p>
+</div>
+</div>
+<!-- Progress Bar Component -->
+<div class="flex flex-col gap-3 mb-10">
+<div class="flex gap-6 justify-between">
+<p class="text-white text-base font-medium leading-normal">Extraction Progress</p>
+<p class="text-white text-sm font-normal leading-normal">Parsing Page 14 of 21</p>
+</div>
+<div class="rounded-full bg-[#3c2f6a] h-3 overflow-hidden">
+<div class="h-full rounded-full bg-accent-blue" style="width: 68%;"></div>
+</div>
+<p class="text-accent-blue/80 text-sm font-normal leading-normal flex items-center gap-2">
+<span class="material-symbols-outlined text-sm animate-spin">autorenew</span>
+                            Identifying balance sheet line items...
+                        </p>
+</div>
+<!-- Extraction Live View Simulation -->
+<div class="flex-1 bg-black/40 rounded-lg border border-white/5 p-4 font-mono text-[11px] overflow-hidden text-green-500/70">
+<div class="space-y-1">
+<p>&gt; [08:42:11] Init visionengine.py...</p>
+<p>&gt; [08:42:12] Scanning RHB_Statement_Dec.pdf (21 pages)</p>
+<p>&gt; [08:42:15] OCR Layer detected: OK</p>
+<p>&gt; [08:42:16] Mapping Transactions: 452 items found</p>
+<p>&gt; [08:43:01] Processing Page 12: Credit entries detected</p>
+<p class="text-white">&gt; [08:43:05] Found matching record: DEPOSIT_TRANS_ID_9921</p>
+<p class="text-accent-blue">&gt; [08:43:06] visionengine.py: extracting ledger metadata...</p>
+<p class="animate-pulse">_</p>
+</div>
+</div>
+<div class="mt-8 flex justify-end gap-3">
+<button class="px-6 py-2.5 rounded-lg bg-[#2a214a] text-white text-sm font-bold border border-white/5 hover:bg-[#3c2f6a] transition-colors">
+                            Pause Engine
+                        </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-primary/20 flex items-center gap-2">
+<span>View Live Log</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Helper -->
+<div class="fixed bottom-8 right-8">
+<button class="size-14 rounded-full bg-primary flex items-center justify-center shadow-2xl shadow-primary/40 text-white hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">support_agent</span>
+</button>
+</div>
+</body></html>

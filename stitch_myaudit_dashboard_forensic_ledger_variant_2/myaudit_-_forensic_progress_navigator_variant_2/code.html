@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT - Forensic Progress Navigator Variant 2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0b23e0",
+                        "background-light": "#f5f6f8",
+                        "background-dark": "#101222",
+                        "neon-amber": "#FFBF00",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .dot-grid {
+            background-image: radial-gradient(#e5e7eb 0.5px, transparent 0.5px);
+            background-size: 12px 12px;
+        }
+        .dark .dot-grid {
+            background-image: radial-gradient(#2d314d 0.5px, transparent 0.5px);
+        }
+        .ultra-thin-line {
+            height: 0.5px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2">
+<div class="p-1.5 bg-primary rounded text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">shield_person</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight text-slate-900 dark:text-white uppercase">MYAUDIT</h1>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium text-primary border-b-2 border-primary py-4 -mb-4" href="#">Audits</a>
+<a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">Reports</a>
+<a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">Archive</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded text-sm w-64 focus:ring-1 focus:ring-primary" placeholder="Search Audit ID..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-neon-amber rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border border-slate-200 dark:border-slate-800">
+<img class="w-full h-full object-cover" data-alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJVFO675SqLFfBVbUuDrmN6-ykj3xje9jtdyoJjxverRl_GJXui10-2q4gjQjYy1Da2PDaDQ5nzNlci-GRi1mNxEvbk0RDhNt-TG1itopOjiosVuXfQuWKJLgpA7p8OnMuYZuaHSleqyVPGM-ZCjUEhszgzC7K2ZScJQhm7RDHJyz_HEdeOBpqJcJdIl5j8z0vb6LciibwChaPeaGWbpk55FypvbCZZrEH5B9Vpr7DHZlQrJqchItaCybXXn9-XK4OpKMqedbZKwLk"/>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto p-6 space-y-6">
+<!-- Breadcrumbs & Title Section -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-xs font-medium text-slate-500 uppercase tracking-wider">
+<a class="hover:text-primary" href="#">Projects</a>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<a class="hover:text-primary" href="#">Forensic Audits</a>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-300">FRN-99201</span>
+</div>
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div class="space-y-1">
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Forensic Progress Navigator</h2>
+<p class="text-sm font-light text-slate-500 dark:text-slate-400">Audit ID: <span class="font-medium text-slate-700 dark:text-slate-200">#FRN-99201</span> | Lead Auditor: Jane Doe | Last updated: 2 mins ago</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-sm font-medium rounded hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">download</span> Export PDF
+                    </button>
+<button class="px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:bg-opacity-90 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">share</span> Share Report
+                    </button>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+<!-- Bento Card: Progress Timeline (Main Navigator) -->
+<div class="lg:col-span-4 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden dot-grid">
+<div class="p-6">
+<div class="flex flex-col md:flex-row items-center justify-between gap-8 relative">
+<!-- Step 1: Completed -->
+<div class="flex flex-col items-center gap-3 relative z-10 flex-1">
+<div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl font-bold">check</span>
+</div>
+<div class="text-center">
+<p class="text-sm font-medium text-slate-900 dark:text-slate-200">Discovery</p>
+<p class="text-[10px] font-light text-slate-500 uppercase tracking-tighter">Completed</p>
+</div>
+</div>
+<!-- Connector 1 -->
+<div class="hidden md:block flex-1 ultra-thin-line bg-primary/30"></div>
+<!-- Step 2: Completed -->
+<div class="flex flex-col items-center gap-3 relative z-10 flex-1">
+<div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl font-bold">check</span>
+</div>
+<div class="text-center">
+<p class="text-sm font-medium text-slate-900 dark:text-slate-200">Analysis</p>
+<p class="text-[10px] font-light text-slate-500 uppercase tracking-tighter">Completed</p>
+</div>
+</div>
+<!-- Connector 2 -->
+<div class="hidden md:block flex-1 ultra-thin-line bg-primary/30"></div>
+<!-- Step 3: Active with Alert -->
+<div class="flex flex-col items-center gap-3 relative z-10 flex-1">
+<div class="relative">
+<div class="w-12 h-12 rounded-full border-2 border-primary bg-primary/10 flex items-center justify-center text-primary shadow-[0_0_15px_rgba(11,35,224,0.2)]">
+<span class="material-symbols-outlined text-2xl font-bold">edit_note</span>
+</div>
+<div class="absolute -top-1 -right-1 flex h-4 w-4">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-amber opacity-75"></span>
+<span class="relative inline-flex rounded-full h-4 w-4 bg-neon-amber"></span>
+</div>
+</div>
+<div class="text-center">
+<p class="text-sm font-medium text-primary">Refinement</p>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-neon-amber text-slate-900 uppercase">Action Required</span>
+</div>
+</div>
+<!-- Connector 3 -->
+<div class="hidden md:block flex-1 ultra-thin-line bg-slate-200 dark:bg-slate-700"></div>
+<!-- Step 4: Pending -->
+<div class="flex flex-col items-center gap-3 relative z-10 flex-1">
+<div class="w-10 h-10 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined text-xl">verified</span>
+</div>
+<div class="text-center">
+<p class="text-sm font-light text-slate-500 dark:text-slate-400">Verification</p>
+<p class="text-[10px] font-light text-slate-400 uppercase tracking-tighter">Pending</p>
+</div>
+</div>
+<!-- Connector 4 -->
+<div class="hidden md:block flex-1 ultra-thin-line bg-slate-200 dark:bg-slate-700"></div>
+<!-- Step 5: Pending -->
+<div class="flex flex-col items-center gap-3 relative z-10 flex-1">
+<div class="w-10 h-10 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined text-xl">description</span>
+</div>
+<div class="text-center">
+<p class="text-sm font-light text-slate-500 dark:text-slate-400">Final Report</p>
+<p class="text-[10px] font-light text-slate-400 uppercase tracking-tighter">Pending</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Card: Alert Highlight -->
+<div class="lg:col-span-1 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Alert Overview</p>
+<span class="material-symbols-outlined text-neon-amber">warning</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="text-2xl font-bold text-slate-900 dark:text-white">12</div>
+<div class="text-xs text-neon-amber font-semibold bg-neon-amber/10 px-1.5 py-0.5 rounded">Total DIE-flags</div>
+</div>
+<div class="p-3 bg-red-50 dark:bg-red-900/20 border-l-2 border-red-500 rounded-r">
+<p class="text-xs font-bold text-red-700 dark:text-red-400">CRITICAL ERROR</p>
+<p class="text-[11px] text-red-600 dark:text-red-500/80 leading-relaxed mt-1">Inconsistent ledger mapping detected in Refinement phase.</p>
+</div>
+<button class="w-full py-2 bg-slate-900 dark:bg-slate-800 text-white text-xs font-bold rounded hover:bg-slate-800 dark:hover:bg-slate-700 transition-colors uppercase tracking-tight">
+                        Resolve Flags
+                    </button>
+</div>
+</div>
+<!-- Bento Card: Statistics -->
+<div class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 shadow-sm grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Current Progress</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white">60%</p>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 60%"></div>
+</div>
+<p class="text-[10px] text-green-600 font-medium">+15% from last week</p>
+</div>
+<div class="space-y-1 border-l border-slate-100 dark:border-slate-800 pl-4">
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Risk Level</p>
+<p class="text-2xl font-bold text-red-600 dark:text-red-500 uppercase">High</p>
+<p class="text-[10px] text-slate-500 font-light italic">Refinement phase anomalies</p>
+</div>
+</div>
+<!-- Bento Card: Recent Activity -->
+<div class="lg:col-span-1 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+<p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Latest Event</p>
+<div class="flex gap-3">
+<div class="mt-1">
+<span class="material-symbols-outlined text-primary text-lg">history</span>
+</div>
+<div>
+<p class="text-xs font-medium text-slate-900 dark:text-slate-200">Audit Phase Shifted</p>
+<p class="text-[10px] font-light text-slate-500 dark:text-slate-400 mt-0.5">Analysis marked as completed by system</p>
+<p class="text-[9px] font-bold text-slate-400 mt-2">14:22 PM</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Content Placeholder (Simulating main dashboard content below the navigator) -->
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-10 flex flex-col items-center justify-center text-center space-y-4 min-h-[400px]">
+<div class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-full">
+<span class="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-600">troubleshoot</span>
+</div>
+<div class="max-w-md">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Awaiting Refinement Inputs</h3>
+<p class="text-sm font-light text-slate-500 dark:text-slate-400 mt-2">The current audit stage is halted due to DIE-flag alerts. Please review the highlighted anomalies in the refinement panel to proceed to Verification.</p>
+</div>
+<button class="px-6 py-2.5 bg-primary text-white text-sm font-bold rounded-lg shadow-lg shadow-primary/20 hover:-translate-y-0.5 transition-transform">
+                Initiate Review Session
+            </button>
+</div>
+</main>
+<!-- Footer Meta -->
+<footer class="max-w-7xl mx-auto px-6 py-8 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<p class="text-[10px] font-medium text-slate-400 uppercase tracking-tighter">© 2024 MYAUDIT INFRASTRUCTURE</p>
+<div class="h-1 w-1 rounded-full bg-slate-300"></div>
+<p class="text-[10px] font-medium text-slate-400 uppercase tracking-tighter">FOR OFFICIAL USE ONLY</p>
+</div>
+<div class="flex gap-6">
+<a class="text-[10px] font-bold text-slate-500 hover:text-primary uppercase" href="#">Security Protocol</a>
+<a class="text-[10px] font-bold text-slate-500 hover:text-primary uppercase" href="#">System Status</a>
+</div>
+</footer>
+</body></html>

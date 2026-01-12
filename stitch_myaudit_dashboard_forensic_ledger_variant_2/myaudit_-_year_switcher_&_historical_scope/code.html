@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT - Year Switcher &amp; Historical Scope</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2e5bff",
+                        "background-light": "#f5f6f8",
+                        "background-dark": "#0f1323",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .backdrop-blur-custom {
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0c101d] dark:text-[#f8f9fc] min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-solid border-[#e6e9f4] dark:border-[#1e243a] bg-white/80 dark:bg-[#0f1323]/80 backdrop-blur-xl px-6 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined !text-xl">shield_person</span>
+</div>
+<h2 class="text-[#0c101d] dark:text-white text-lg font-bold leading-tight tracking-tight">MYAUDIT</h2>
+</div>
+<!-- Year Switcher (Integrated into Nav) -->
+<div class="flex h-10 w-48 items-center justify-center rounded-lg bg-[#e6e9f4] dark:bg-[#1e243a] p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2e5bff] has-[:checked]:shadow-sm has-[:checked]:text-primary dark:has-[:checked]:text-white text-[#4559a1] dark:text-[#a1a7c1] text-xs font-bold uppercase tracking-wider">
+<span>YA 2025</span>
+<input class="hidden" name="year_switch" type="radio" value="2025"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2e5bff] has-[:checked]:shadow-sm has-[:checked]:text-primary dark:has-[:checked]:text-white text-[#4559a1] dark:text-[#a1a7c1] text-xs font-bold uppercase tracking-wider">
+<span>YA 2026</span>
+<input checked="" class="hidden" name="year_switch" type="radio" value="2026"/>
+</label>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#0c101d] dark:text-white text-sm font-medium hover:text-primary" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary py-1" href="#">Compliance</a>
+<a class="text-[#0c101d] dark:text-white text-sm font-medium hover:text-primary" href="#">Audit Tools</a>
+</nav>
+<div class="h-6 w-px bg-[#e6e9f4] dark:bg-[#1e243a]"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-[#0c101d] dark:text-white">TechCorp Holdings</p>
+<p class="text-[10px] text-[#4559a1] uppercase">Premium Entity</p>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border-2 border-primary" data-alt="User profile avatar of the auditor" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8u5bCCI4zHlAJ9UaJ-nF02W_LmV1mUnHs-qwRCwRrV1g7lexDaFFxDGby_lyHjX85lzLUpRVM0P4mawjtWvgNN-WiJqxfVbmEKym-afa-Uig1z574SUmhkhKWv0JQXkaSTWAAMlzvkQH5HfEz1iKsI_TGNYZWoW8Qh5xwZ5Qwsjoo5WrsbxYisheE_HzKxrdqemhOVDo_DsnGQoI6i7z9_dTX-e15EEtGxW_lwc15dzIfR4MxF8mD3Fko-jPzgBrVOIf4FyYL6gcT");'></div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Sidebar Navigation -->
+<aside class="w-64 border-r border-[#e6e9f4] dark:border-[#1e243a] bg-white dark:bg-[#0f1323] flex flex-col p-4 gap-2">
+<div class="flex items-center gap-3 px-3 py-4 mb-2 bg-[#f8f9fc] dark:bg-[#151a30] rounded-xl border border-[#e6e9f4] dark:border-[#1e243a]">
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">business</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-[#0c101d] dark:text-white truncate">TechCorp MY</h3>
+<p class="text-xs text-[#4559a1]">1294055-W</p>
+</div>
+</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#4559a1] hover:bg-[#f8f9fc] dark:hover:bg-[#1e243a]" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span class="text-sm font-bold">LHDN E-Invoicing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#4559a1] hover:bg-[#f8f9fc] dark:hover:bg-[#1e243a]" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-sm font-medium">Historical Data</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#4559a1] hover:bg-[#f8f9fc] dark:hover:bg-[#1e243a]" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="text-sm font-medium">Audit Reports</span>
+</a>
+<div class="mt-auto pt-4 border-t border-[#e6e9f4] dark:border-[#1e243a]">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#4559a1] hover:bg-[#f8f9fc] dark:hover:bg-[#1e243a]" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content (Bento Layout) -->
+<main class="flex-1 overflow-y-auto p-8 bg-[#f8f9fc] dark:bg-[#0c101d]">
+<div class="max-w-5xl mx-auto flex flex-col gap-6">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
+<span class="material-symbols-outlined !text-sm">verified</span>
+<span>Compliance Monitoring</span>
+</div>
+<h1 class="text-[#0c101d] dark:text-white text-4xl font-black leading-tight tracking-tight">Historical Record Scope</h1>
+<p class="text-[#4559a1] dark:text-[#a1a7c1] text-base font-normal">Cross-reference data availability for fiscal years 2019 - 2026</p>
+</div>
+<div class="flex gap-3">
+<button class="flex h-10 px-4 items-center justify-center rounded-lg bg-white dark:bg-[#1e243a] border border-[#e6e9f4] dark:border-[#303a5a] text-[#0c101d] dark:text-white text-sm font-bold shadow-sm">
+<span class="material-symbols-outlined mr-2 !text-lg">download</span> Export Data
+                        </button>
+<button class="flex h-10 px-4 items-center justify-center rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-primary/25">
+<span class="material-symbols-outlined mr-2 !text-lg">sync</span> Refresh Sync
+                        </button>
+</div>
+</div>
+<!-- Stats Summary -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#151a30] border border-[#e6e9f4] dark:border-[#1e243a] shadow-sm">
+<p class="text-[#4559a1] text-xs font-bold uppercase tracking-wider">Total Records</p>
+<p class="text-[#0c101d] dark:text-white text-2xl font-black">1.24M</p>
+<div class="flex items-center text-emerald-500 text-xs font-bold">
+<span class="material-symbols-outlined !text-sm">arrow_upward</span> 12% vs last YA
+                        </div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#151a30] border border-[#e6e9f4] dark:border-[#1e243a] shadow-sm">
+<p class="text-[#4559a1] text-xs font-bold uppercase tracking-wider">YA 2026 Readiness</p>
+<p class="text-[#0c101d] dark:text-white text-2xl font-black">84.2%</p>
+<div class="w-full bg-[#e6e9f4] dark:bg-[#1e243a] h-1.5 rounded-full mt-1">
+<div class="bg-primary h-full rounded-full" style="width: 84%;"></div>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-primary dark:bg-primary border border-primary/20 shadow-lg shadow-primary/20">
+<p class="text-white/80 text-xs font-bold uppercase tracking-wider">Critical Alerts</p>
+<p class="text-white text-2xl font-black">02</p>
+<p class="text-white/90 text-xs">E-Invoicing thresholds triggered</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#151a30] border border-[#e6e9f4] dark:border-[#1e243a] shadow-sm">
+<p class="text-[#4559a1] text-xs font-bold uppercase tracking-wider">Last Audit Scan</p>
+<p class="text-[#0c101d] dark:text-white text-2xl font-black">2m ago</p>
+<p class="text-[#4559a1] text-xs">System: Auto-monitor active</p>
+</div>
+</div>
+<!-- Main Bento Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- LHDN E-Invoicing Threshold Alert (Contextual for 2026) -->
+<div class="col-span-12 rounded-xl bg-white dark:bg-[#151a30] border-2 border-primary overflow-hidden shadow-xl">
+<div class="bg-primary/5 px-6 py-4 border-b border-primary/10 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary font-bold">notification_important</span>
+<h3 class="text-sm font-black text-primary uppercase tracking-widest">LHDN E-Invoicing Alert (YA 2026 Context)</h3>
+</div>
+<span class="px-2 py-1 bg-primary text-white text-[10px] font-bold rounded">ACTION REQUIRED</span>
+</div>
+<div class="p-6 flex flex-col md:flex-row gap-8 items-center">
+<div class="flex-1">
+<p class="text-[#0c101d] dark:text-white font-bold text-lg mb-2">Phase 1 Threshold Threshold Breach Detected</p>
+<p class="text-[#4559a1] dark:text-[#a1a7c1] text-sm leading-relaxed mb-4">
+                                    Based on YA 2026 projections and historical turnover data, your entity has crossed the **RM100 Million** annual turnover threshold. Full compliance with LHDN E-Invoicing is mandatory starting 1 August 2024.
+                                </p>
+<div class="flex gap-4">
+<div class="bg-[#f8f9fc] dark:bg-[#1e243a] rounded-lg p-3 flex-1 border border-[#e6e9f4] dark:border-[#303a5a]">
+<p class="text-[10px] text-[#4559a1] font-bold uppercase mb-1">Projected Turnover</p>
+<p class="text-lg font-black text-[#0c101d] dark:text-white">RM 142.5M</p>
+</div>
+<div class="bg-[#f8f9fc] dark:bg-[#1e243a] rounded-lg p-3 flex-1 border border-[#e6e9f4] dark:border-[#303a5a]">
+<p class="text-[10px] text-[#4559a1] font-bold uppercase mb-1">Implementation Deadline</p>
+<p class="text-lg font-black text-primary">01 AUG 2024</p>
+</div>
+</div>
+</div>
+<div class="size-32 relative flex items-center justify-center">
+<svg class="size-full" viewbox="0 0 36 36">
+<path class="text-[#e6e9f4] dark:text-[#1e243a]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="100, 100" stroke-width="3"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="85, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-xl font-black text-[#0c101d] dark:text-white leading-none">85%</span>
+<span class="text-[8px] text-[#4559a1] font-bold uppercase">Ready</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Historical Data Scope Timeline -->
+<div class="col-span-12 rounded-xl bg-white dark:bg-[#151a30] border border-[#e6e9f4] dark:border-[#1e243a] p-6 shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="text-lg font-bold text-[#0c101d] dark:text-white">Data Availability Matrix</h3>
+<p class="text-sm text-[#4559a1]">Verification of ledger completeness per YA</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-1 text-[10px] font-bold text-[#4559a1] uppercase"><div class="size-2 rounded-full bg-emerald-500"></div> Complete</span>
+<span class="flex items-center gap-1 text-[10px] font-bold text-[#4559a1] uppercase ml-3"><div class="size-2 rounded-full bg-primary"></div> In Progress</span>
+<span class="flex items-center gap-1 text-[10px] font-bold text-[#4559a1] uppercase ml-3"><div class="size-2 rounded-full bg-[#e6e9f4]"></div> Missing</span>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+<!-- 2019 -->
+<div class="flex flex-col gap-2 p-3 rounded-lg border border-[#e6e9f4] dark:border-[#303a5a] bg-[#f8f9fc] dark:bg-[#1e243a]">
+<span class="text-[10px] font-black text-[#4559a1] opacity-50 uppercase">YA 2019</span>
+<div class="h-1 bg-emerald-500 rounded-full w-full"></div>
+<span class="text-xs font-bold text-emerald-600">Archived</span>
+</div>
+<!-- 2020 -->
+<div class="flex flex-col gap-2 p-3 rounded-lg border border-[#e6e9f4] dark:border-[#303a5a] bg-[#f8f9fc] dark:bg-[#1e243a]">
+<span class="text-[10px] font-black text-[#4559a1] opacity-50 uppercase">YA 2020</span>
+<div class="h-1 bg-emerald-500 rounded-full w-full"></div>
+<span class="text-xs font-bold text-emerald-600">Archived</span>
+</div>
+<!-- 2021 -->
+<div class="flex flex-col gap-2 p-3 rounded-lg border border-[#e6e9f4] dark:border-[#303a5a] bg-[#f8f9fc] dark:bg-[#1e243a]">
+<span class="text-[10px] font-black text-[#4559a1] opacity-50 uppercase">YA 2021</span>
+<div class="h-1 bg-emerald-500 rounded-full w-full"></div>
+<span class="text-xs font-bold text-emerald-600">Archived</span>
+</div>
+<!-- 2022 -->
+<div class="flex flex-col gap-2 p-3 rounded-lg border border-[#e6e9f4] dark:border-[#303a5a] bg-[#f8f9fc] dark:bg-[#1e243a]">
+<span class="text-[10px] font-black text-[#4559a1] opacity-50 uppercase">YA 2022</span>
+<div class="h-1 bg-emerald-500 rounded-full w-full"></div>
+<span class="text-xs font-bold text-emerald-600">Archived</span>
+</div>
+<!-- 2023 -->
+<div class="flex flex-col gap-2 p-3 rounded-lg border border-[#e6e9f4] dark:border-[#303a5a] bg-[#f8f9fc] dark:bg-[#1e243a]">
+<span class="text-[10px] font-black text-[#4559a1] opacity-50 uppercase">YA 2023</span>
+<div class="h-1 bg-emerald-500 rounded-full w-full"></div>
+<span class="text-xs font-bold text-emerald-600">Verified</span>
+</div>
+<!-- 2024 -->
+<div class="flex flex-col gap-2 p-3 rounded-lg border border-[#e6e9f4] dark:border-[#303a5a] bg-[#f8f9fc] dark:bg-[#1e243a]">
+<span class="text-[10px] font-black text-[#4559a1] opacity-50 uppercase">YA 2024</span>
+<div class="h-1 bg-emerald-500 rounded-full w-full"></div>
+<span class="text-xs font-bold text-emerald-600">Current</span>
+</div>
+<!-- 2025 -->
+<div class="flex flex-col gap-2 p-3 rounded-lg border border-primary/20 bg-primary/5">
+<span class="text-[10px] font-black text-primary uppercase">YA 2025</span>
+<div class="h-1 bg-primary rounded-full w-2/3"></div>
+<span class="text-xs font-bold text-primary">Scanning</span>
+</div>
+<!-- 2026 -->
+<div class="flex flex-col gap-2 p-3 rounded-lg border border-primary bg-primary text-white">
+<span class="text-[10px] font-black text-white/70 uppercase">YA 2026</span>
+<div class="h-1 bg-white/30 rounded-full w-1/4"></div>
+<span class="text-xs font-bold">Projecting</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Sidebar (Mr. R.P.P Advisor) -->
+<aside class="w-80 border-l border-[#e6e9f4] dark:border-[#1e243a] bg-white/70 dark:bg-[#0f1323]/70 backdrop-blur-xl flex flex-col">
+<div class="p-6 border-b border-[#e6e9f4] dark:border-[#1e243a]">
+<div class="flex items-center gap-3 mb-4">
+<div class="size-10 rounded-xl bg-[#2e5bff] flex items-center justify-center text-white shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div>
+<h2 class="text-base font-black text-[#0c101d] dark:text-white leading-tight">Mr. R.P.P</h2>
+<p class="text-xs text-[#4559a1] font-medium">Context-Aware AI Advisor</p>
+</div>
+</div>
+<div class="px-3 py-2 bg-primary/10 border border-primary/20 rounded-lg">
+<p class="text-[10px] font-black text-primary uppercase">Current Focus</p>
+<p class="text-xs font-bold text-primary">Finance Act 2024 (YA 2026)</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- Law Basis -->
+<div>
+<h4 class="text-xs font-black text-[#0c101d] dark:text-white uppercase tracking-widest mb-3">Legal Law Basis</h4>
+<div class="relative pl-4 border-l-2 border-primary space-y-3">
+<div class="space-y-1">
+<p class="text-sm font-bold text-[#0c101d] dark:text-white">Capital Gains Tax (CGT)</p>
+<p class="text-xs text-[#4559a1] leading-relaxed">Mandatory disposal reporting for unlisted shares starts effectively for YA 2026 audits.</p>
+</div>
+<div class="space-y-1">
+<p class="text-sm font-bold text-[#0c101d] dark:text-white">Section 82C - ITA 1967</p>
+<p class="text-xs text-[#4559a1] leading-relaxed">E-Invoice requirements are now strictly enforced under the new digital tax framework.</p>
+</div>
+</div>
+</div>
+<!-- Recommended Steps -->
+<div>
+<h4 class="text-xs font-black text-[#0c101d] dark:text-white uppercase tracking-widest mb-3">Recommended Steps</h4>
+<ul class="space-y-3">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary !text-lg">check_circle</span>
+<p class="text-xs text-[#4559a1] leading-relaxed"><span class="font-bold text-[#0c101d] dark:text-white">Verify API Keys:</span> Ensure MyInvois Portal integration is authenticated for 2026 cycles.</p>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary !text-lg">check_circle</span>
+<p class="text-xs text-[#4559a1] leading-relaxed"><span class="font-bold text-[#0c101d] dark:text-white">Threshold Audit:</span> Run a manual re-scan of 2023 turnover to confirm Phase 1 status.</p>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-[#cdd3ea] !text-lg">radio_button_unchecked</span>
+<p class="text-xs text-[#4559a1] leading-relaxed"><span class="font-bold text-[#0c101d] dark:text-white">Employee Training:</span> Schedule workshop for finance team on digital receipting standards.</p>
+</li>
+</ul>
+</div>
+<!-- Warning Box -->
+<div class="p-4 bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 rounded-lg">
+<div class="flex items-center gap-2 mb-2 text-amber-700 dark:text-amber-500">
+<span class="material-symbols-outlined !text-sm">warning</span>
+<span class="text-[10px] font-black uppercase">Compliance Risk</span>
+</div>
+<p class="text-xs text-amber-800 dark:text-amber-400 leading-relaxed font-medium">
+                        Non-compliance with e-invoicing for 2026 can result in fines up to RM20,000 per transaction under current LHDN guidelines.
+                    </p>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="p-6 border-t border-[#e6e9f4] dark:border-[#1e243a]">
+<button class="w-full py-3 bg-white dark:bg-[#1e243a] border border-[#e6e9f4] dark:border-[#303a5a] rounded-lg text-primary text-xs font-bold hover:bg-primary/5 transition-colors">
+                    GENERATE COMPLIANCE ROADMAP
+                </button>
+</div>
+</aside>
+</div>
+</body></html>

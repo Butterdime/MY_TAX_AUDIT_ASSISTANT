@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT Dashboard - Incentive Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2e5bff",
+                        "background-light": "#ffffff",
+                        "background-dark": "#0f1323",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-image: radial-gradient(#e5e7eb 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 0.5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+        .bento-card {
+            border: 0.5px solid #e5e7eb;
+            background-color: #ffffff;
+            transition: all 0.2s ease-in-out;
+        }
+        .bento-card:hover {
+            border-color: #2e5bff;
+            transform: translateY(-2px);
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-[#e5e7eb] flex flex-col bg-white dark:bg-background-dark dark:border-gray-800">
+<div class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm">account_balance_wallet</span>
+</div>
+<div>
+<h1 class="text-[#0c101d] dark:text-white text-base font-bold tracking-tight">MYAUDIT</h1>
+<p class="text-primary text-[10px] font-bold uppercase tracking-widest">Intelligence</p>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-1">
+<div class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">home</span>
+<span class="text-sm font-medium">Home</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl cursor-pointer">
+<span class="material-symbols-outlined text-[20px] fill-[1]">assignment</span>
+<span class="text-sm font-semibold">Questionnaire</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+<span class="text-sm font-medium">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">database</span>
+<span class="text-sm font-medium">Forensic Ledger</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">event_note</span>
+<span class="text-sm font-medium">Planning</span>
+</div>
+</nav>
+<div class="p-6 mt-auto border-t border-[#e5e7eb] dark:border-gray-800">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+<div class="w-full h-full bg-cover bg-center" data-alt="User profile avatar portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBuaP3jLEv5LqcBE1q9t5Dkx1-bcI2T9foypmDTdcY02WlBBfM3gt3yPQOm5srwzwLbGAyKFbsovPSWHWX0fTlGtgUm-HvRK40vh8iWiKTno9wW0y7jwJdWGucvOB6Sik8k7eCMkKadz1G5_pbzK6iplsJvsn2EeVCFA8uGOGXO9nDLLhZEOAFzvZXJvGmcDO7E8zdvr1V5fv7Dm22jiaa8qJOBczKgdWeM-9QYELNDrvgjR3dZW3A4PmgKbhqvfcHJyXHLb_2T7hhf');"></div>
+</div>
+<div>
+<p class="text-sm font-semibold text-[#0c101d] dark:text-white">Marcus Sterling</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Chief Auditor</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Center Section (Questionnaire) -->
+<div class="flex-1 overflow-y-auto p-8">
+<!-- Header -->
+<div class="mb-8">
+<h2 class="text-3xl font-bold text-[#0c101d] dark:text-white tracking-tight">Incentive Profile</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Complete the multi-step assessment to verify eligibility.</p>
+</div>
+<!-- Tabs -->
+<div class="flex border-b border-gray-100 dark:border-gray-800 gap-8 mb-8">
+<a class="border-b-2 border-primary pb-4 text-sm font-bold text-[#0c101d] dark:text-white" href="#">
+                        Incentive Profile
+                    </a>
+<a class="pb-4 text-sm font-medium text-gray-400 dark:text-gray-500" href="#">
+                        Entity Structure
+                    </a>
+<a class="pb-4 text-sm font-medium text-gray-400 dark:text-gray-500" href="#">
+                        Review &amp; Submission
+                    </a>
+</div>
+<!-- Questionnaire Bento Grid -->
+<div class="grid grid-cols-4 gap-4">
+<!-- Section: Business Activities -->
+<div class="col-span-4 bento-card p-6 rounded">
+<h3 class="text-lg font-bold text-[#0c101d] dark:text-white mb-4">Core Business Activities</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Select the primary domain your company operates in for tax credit mapping.</p>
+<div class="flex flex-wrap gap-3">
+<label class="group relative cursor-pointer">
+<input checked="" class="peer sr-only" name="activity" type="radio"/>
+<div class="px-6 py-3 rounded-full border border-gray-200 text-sm font-medium text-gray-600 transition-all peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary dark:border-gray-700 dark:text-gray-300">
+                                    R&amp;D Development
+                                </div>
+</label>
+<label class="group relative cursor-pointer">
+<input class="peer sr-only" name="activity" type="radio"/>
+<div class="px-6 py-3 rounded-full border border-gray-200 text-sm font-medium text-gray-600 transition-all peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary dark:border-gray-700 dark:text-gray-300">
+                                    Manufacturing
+                                </div>
+</label>
+<label class="group relative cursor-pointer">
+<input class="peer sr-only" name="activity" type="radio"/>
+<div class="px-6 py-3 rounded-full border border-gray-200 text-sm font-medium text-gray-600 transition-all peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary dark:border-gray-700 dark:text-gray-300">
+                                    Software SaaS
+                                </div>
+</label>
+<label class="group relative cursor-pointer">
+<input class="peer sr-only" name="activity" type="radio"/>
+<div class="px-6 py-3 rounded-full border border-gray-200 text-sm font-medium text-gray-600 transition-all peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary dark:border-gray-700 dark:text-gray-300">
+                                    Agriculture
+                                </div>
+</label>
+<label class="group relative cursor-pointer">
+<input class="peer sr-only" name="activity" type="radio"/>
+<div class="px-6 py-3 rounded-full border border-gray-200 text-sm font-medium text-gray-600 transition-all peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary dark:border-gray-700 dark:text-gray-300">
+                                    Renewables
+                                </div>
+</label>
+</div>
+</div>
+<!-- Question: Entity Type -->
+<div class="col-span-2 bento-card p-6 rounded">
+<div class="flex items-start justify-between mb-4">
+<h4 class="text-sm font-bold text-[#0c101d] dark:text-white uppercase tracking-wider">Entity Structure</h4>
+<span class="material-symbols-outlined text-gray-400 text-[18px]">info</span>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">Is your entity registered as a C-Corp for the current fiscal year?</p>
+<div class="flex gap-2">
+<button class="flex-1 py-2.5 rounded-full bg-primary text-white text-sm font-semibold">Yes, C-Corp</button>
+<button class="flex-1 py-2.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-sm font-medium">Other</button>
+</div>
+</div>
+<!-- Question: Annual Revenue -->
+<div class="col-span-2 bento-card p-6 rounded">
+<div class="flex items-start justify-between mb-4">
+<h4 class="text-sm font-bold text-[#0c101d] dark:text-white uppercase tracking-wider">Revenue Threshold</h4>
+<span class="material-symbols-outlined text-gray-400 text-[18px]">payments</span>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">Did your gross receipts exceed $5M in the previous tax year?</p>
+<div class="flex gap-2">
+<button class="flex-1 py-2.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-sm font-medium">Exceeded</button>
+<button class="flex-1 py-2.5 rounded-full border border-primary text-primary bg-primary/5 text-sm font-semibold">Below $5M</button>
+</div>
+</div>
+<!-- Detailed Input Section -->
+<div class="col-span-4 bento-card p-6 rounded">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-[#0c101d] dark:text-white">Technical Documentation</h3>
+<button class="text-primary text-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">upload</span> Upload Docs
+                            </button>
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-dashed border-gray-300 dark:border-gray-700 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400">description</span>
+<div>
+<p class="text-sm font-medium dark:text-white">R&amp;D_Expenditure_Report_2023.pdf</p>
+<p class="text-[10px] text-gray-400 uppercase">Ready for audit</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-green-500">check_circle</span>
+</div>
+</div>
+<div class="mt-8 flex justify-end">
+<button class="px-8 py-3 bg-primary text-white font-bold rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+                                Save and Continue
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar (Analytics & Profiles) -->
+<aside class="w-80 p-6 flex flex-col gap-6 bg-white/50 border-l border-[#e5e7eb] dark:border-gray-800 dark:bg-background-dark/50">
+<!-- The Aoutha Panel -->
+<div class="glass-panel p-6 rounded shadow-sm relative overflow-hidden group">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px] animate-pulse">spark</span>
+<h4 class="text-sm font-bold text-[#0c101d] dark:text-white">The Aoutha</h4>
+</div>
+<span class="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded font-bold">AI ANALYST</span>
+</div>
+<p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mb-4">Heuristic risk assessment for the current profile indicates high compliance alignment.</p>
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-[11px] text-gray-400 font-medium">Audit Risk</span>
+<span class="text-[11px] font-bold text-green-500">LOW</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-green-500 h-full w-[15%]"></div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-[11px] text-gray-400 font-medium">Documentation Depth</span>
+<span class="text-[11px] font-bold text-primary">82%</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[82%]"></div>
+</div>
+</div>
+</div>
+<!-- Mr R.P.P Panel -->
+<div class="glass-panel p-6 rounded shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-orange-600">shield_person</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-[#0c101d] dark:text-white">Mr R.P.P</h4>
+<p class="text-[10px] text-gray-400 font-medium">Strategic Advisor</p>
+</div>
+</div>
+<div class="p-3 bg-background-light dark:bg-gray-800 rounded-lg">
+<p class="text-[11px] italic text-gray-500 dark:text-gray-400 leading-snug">"Ensure the R&amp;D projects are clearly demarcated from routine maintenance for maximum credit eligibility."</p>
+</div>
+</div>
+<!-- Readiness Score (Progress Ring) -->
+<div class="mt-auto flex flex-col items-center">
+<div class="relative w-40 h-40 flex items-center justify-center">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<!-- Background Circle -->
+<circle class="text-gray-100 dark:text-gray-800" cx="50" cy="50" fill="transparent" r="42" stroke="currentColor" stroke-width="8"></circle>
+<!-- Progress Circle -->
+<circle class="text-primary progress-ring-circle" cx="50" cy="50" fill="transparent" r="42" stroke="currentColor" stroke-dasharray="263.89" stroke-dashoffset="39.58" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-3xl font-black text-[#0c101d] dark:text-white">85%</span>
+<span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Readiness</span>
+</div>
+</div>
+<p class="text-center text-[10px] text-gray-400 mt-6 px-4">Internal guidance, not formal tax advice.</p>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

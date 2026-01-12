@@ -1,0 +1,146 @@
+[
+    {
+        "id": "t1",
+        "transactionId": "TXN_001",
+        "yearId": "2023",
+        "description": "Annual Dinner",
+        "debit": 2450.00,
+        "credit": 0,
+        "category": "Staff Welfare",
+        "status": "USER_REVIEWED",
+        "supportingDocLinks": [],
+        "dieFlags": [
+            {
+                "flagType": "MISCLASSIFICATION_RISK",
+                "suggestion": "Entertainment",
+                "estimatedImpact": "RM 612.50",
+                "confidence": 0.85,
+                "createdAt": 1698115200000
+            }
+        ],
+        "eInvoiceStatus": "missing",
+        "date": "2023-10-24"
+    },
+    {
+        "id": "t2",
+        "transactionId": "TXN_002",
+        "yearId": "2023",
+        "description": "Software Subscription",
+        "debit": 45.00,
+        "credit": 0,
+        "category": "IT Expenses",
+        "status": "AUDIT_READY",
+        "supportingDocLinks": [
+            "link1"
+        ],
+        "dieFlags": [],
+        "eInvoiceStatus": "valid",
+        "date": "2023-10-23"
+    },
+    {
+        "id": "t3",
+        "transactionId": "TXN_003",
+        "yearId": "2023",
+        "description": "Legal Consultation",
+        "debit": 1200.00,
+        "credit": 0,
+        "category": "Professional Fees",
+        "status": "NEW",
+        "supportingDocLinks": [],
+        "dieFlags": [],
+        "eInvoiceStatus": "missing",
+        "date": "2023-10-22"
+    },
+    {
+        "id": "t4",
+        "transactionId": "TXN_004",
+        "yearId": "2023",
+        "description": "Client Lunch",
+        "debit": 85.00,
+        "credit": 0,
+        "category": "Entertainment",
+        "status": "AUDIT_READY",
+        "supportingDocLinks": [
+            "link2"
+        ],
+        "dieFlags": [],
+        "eInvoiceStatus": "valid",
+        "date": "2023-10-21"
+    },
+    {
+        "id": "t5",
+        "transactionId": "TXN_005",
+        "yearId": "2023",
+        "description": "Office Rent",
+        "debit": 5000.00,
+        "credit": 0,
+        "category": "Rental",
+        "status": "AUDIT_READY",
+        "supportingDocLinks": [
+            "link3"
+        ],
+        "dieFlags": [],
+        "eInvoiceStatus": "missing",
+        "date": "2023-10-20"
+    },
+    {
+        "id": "t6",
+        "transactionId": "TXN_006",
+        "yearId": "2023",
+        "description": "Marketing Ad Spend",
+        "debit": 3200.00,
+        "credit": 0,
+        "category": "Marketing",
+        "status": "NEW",
+        "supportingDocLinks": [],
+        "dieFlags": [
+            {
+                "flagType": "MISCLASSIFICATION_RISK",
+                "suggestion": "Entertainment",
+                "estimatedImpact": "RM 800.00",
+                "confidence": 0.75,
+                "createdAt": 1698028800000
+            }
+        ],
+        "eInvoiceStatus": "missing",
+        "date": "2023-10-19"
+    },
+    {
+        "id": "t7",
+        "transactionId": "TXN_007",
+        "yearId": "2023",
+        "description": "Travel Expenses",
+        "debit": 150.00,
+        "credit": 0,
+        "category": "Travel",
+        "status": "USER_REVIEWED",
+        "supportingDocLinks": [],
+        "dieFlags": [
+            {
+                "flagType": "MISCLASSIFICATION_RISK",
+                "suggestion": "Personal",
+                "estimatedImpact": "RM 37.50",
+                "confidence": 0.92,
+                "createdAt": 1697942400000
+            }
+        ],
+        "eInvoiceStatus": "missing",
+        "date": "2023-10-18"
+    },
+    {
+        "id": "t8",
+        "transactionId": "TXN_008",
+        "yearId": "2023",
+        "description": "Internet Bill",
+        "debit": 199.00,
+        "credit": 0,
+        "category": "Utilities",
+        "status": "AUDIT_READY",
+        "supportingDocLinks": [
+            "link4"
+        ],
+        "dieFlags": [],
+        "eInvoiceStatus": "valid",
+        "date": "2023-10-17"
+    }
+]

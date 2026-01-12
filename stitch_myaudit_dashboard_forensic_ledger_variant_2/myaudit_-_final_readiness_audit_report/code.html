@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT - Final Readiness Audit Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2a20d",
+                        "background-light": "#fcfaf8",
+                        "background-dark": "#221c10",
+                        "cobalt": "#0047AB",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderWidth: {
+                        '0.5': '0.5px',
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .cobalt-glow {
+            text-shadow: 0 0 20px rgba(0, 71, 171, 0.4);
+        }
+        .thin-border {
+            border-width: 0.5px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#1c170d] dark:text-[#fcfaf8] transition-colors duration-200">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b thin-border border-[#e8dfce] dark:border-[#3d3321] px-10 py-3 bg-white dark:bg-[#1a150c]">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#1c170d] dark:text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined text-3xl">verified_user</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">MYAUDIT</h2>
+</div>
+<nav class="flex items-center gap-9">
+<a class="text-[#1c170d] dark:text-[#fcfaf8] text-sm font-medium leading-normal hover:text-primary" href="#">Dashboard</a>
+<a class="text-[#1c170d] dark:text-[#fcfaf8] text-sm font-medium leading-normal hover:text-primary" href="#">Audit Rules</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">Final Readiness</a>
+<a class="text-[#1c170d] dark:text-[#fcfaf8] text-sm font-medium leading-normal hover:text-primary" href="#">History</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full border thin-border border-[#e8dfce] dark:border-[#3d3321]">
+<div class="text-[#9c7f49] flex items-center justify-center pl-4 rounded-l-lg" data-icon="search">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:outline-0 focus:ring-0 text-[#1c170d] dark:text-white h-full placeholder:text-[#9c7f49] px-4 pl-2 text-sm font-normal" placeholder="Search parameters..." value=""/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-[#f4efe7] dark:bg-[#3d3321] text-[#1c170d] dark:text-[#fcfaf8]">
+<span class="material-symbols-outlined text-xl">settings</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-[#f4efe7] dark:bg-[#3d3321] text-[#1c170d] dark:text-[#fcfaf8] relative">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 thin-border border-[#e8dfce]" data-alt="User avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuArHrORlUNWO3o4d92fsws3o_4SXxTGPKjDQ_cOKRzcQGKcXWlnOKh2e-1W94I-Z7o9n-DyDtR1Qhz9_D_g8L3iDAh7rbXciY4dI0SNgJFAa48l7TDEXEEgA69BmIq7eyO43jh66ztHUDsIOImsGEJ2VFVtNz1ICY9cFnkilAxeba3u3svWe5RaEHpEN2okA36pgYLAEHp9KbR36yswvKyih1f_JFJvjV7YMU212J8TUXLoW5S-abGLkKQPHUGI_04Vqw0WxHK_qgY3");'></div>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-10 py-8">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 mb-4">
+<a class="text-[#9c7f49] text-sm font-medium" href="#">Audit</a>
+<span class="material-symbols-outlined text-[#9c7f49] text-sm">chevron_right</span>
+<a class="text-[#9c7f49] text-sm font-medium" href="#">Readiness</a>
+<span class="material-symbols-outlined text-[#9c7f49] text-sm">chevron_right</span>
+<span class="text-[#1c170d] dark:text-white text-sm font-medium">Final Verification Tab 3</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-3 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-[#1c170d] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Final Readiness Audit Report</h1>
+<p class="text-[#9c7f49] text-base font-light font-display">Year-specific rule verification: <span class="font-medium">2024 Compliance Standards</span></p>
+</div>
+<button class="flex items-center justify-center rounded-lg h-11 px-6 bg-white dark:bg-[#1a150c] text-[#1c170d] dark:text-white thin-border border-[#e8dfce] dark:border-[#3d3321] text-sm font-medium gap-2">
+<span class="material-symbols-outlined">download</span>
+<span>Export Audit PDF</span>
+</button>
+</div>
+<!-- Tabs -->
+<div class="mb-8">
+<div class="flex border-b thin-border border-[#e8dfce] dark:border-[#3d3321] gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#9c7f49] pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">Overview</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#9c7f49] pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">Data Validation</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-primary text-[#1c170d] dark:text-white pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">Final Readiness</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#9c7f49] pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">Report Export</p>
+</a>
+</div>
+</div>
+<div class="flex gap-8">
+<!-- Left Main Area: Report Card -->
+<div class="flex-1 flex flex-col gap-6">
+<div class="bg-white dark:bg-[#1a150c] rounded-xl thin-border border-[#e8dfce] dark:border-[#3d3321] p-10 flex flex-col items-center">
+<!-- Score Section -->
+<div class="flex flex-col items-center text-center mb-10">
+<div class="relative">
+<h2 class="text-cobalt dark:text-blue-400 text-8xl font-black leading-tight cobalt-glow mb-2">94%</h2>
+<div class="absolute -inset-4 bg-cobalt/5 blur-2xl rounded-full -z-10"></div>
+</div>
+<p class="text-[#1c170d] dark:text-white text-xl font-medium mb-1">High Readiness Score</p>
+<p class="text-[#9c7f49] text-sm font-light">Last full scan: 4 minutes ago</p>
+</div>
+<!-- Rule Adherence Checklist -->
+<div class="w-full max-w-2xl border-t thin-border border-[#f4efe7] dark:border-[#3d3321] pt-8">
+<h3 class="text-lg font-bold mb-6">Rule Adherence Checklist</h3>
+<div class="space-y-4">
+<!-- Item 1 -->
+<div class="flex items-center justify-between p-4 bg-[#fcfaf8] dark:bg-[#221c10] rounded-lg thin-border border-[#e8dfce] dark:border-[#3d3321]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-green-600">check_circle</span>
+<span class="text-base font-medium">7-Year Scope Verification</span>
+</div>
+<span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold rounded-full uppercase tracking-wider">Pass</span>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between p-4 bg-[#fcfaf8] dark:bg-[#221c10] rounded-lg thin-border border-[#e8dfce] dark:border-[#3d3321]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-green-600">check_circle</span>
+<span class="text-base font-medium">e-Invoicing Thresholds</span>
+</div>
+<span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold rounded-full uppercase tracking-wider">Pass</span>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center justify-between p-4 bg-[#fcfaf8] dark:bg-[#221c10] rounded-lg thin-border border-red-200 dark:border-red-900/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500">warning</span>
+<span class="text-base font-medium">Automation CA Evidence</span>
+</div>
+<span class="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-xs font-bold rounded-full uppercase tracking-wider">2 Missing</span>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="mt-10">
+<button class="flex min-w-[240px] items-center justify-center gap-3 rounded-lg h-14 px-8 bg-primary hover:bg-primary/90 text-white text-base font-bold transition-all shadow-lg shadow-primary/20">
+<span>Resolve Conflicts</span>
+<span class="material-symbols-outlined">bolt</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: The Aoutha -->
+<aside class="w-[320px] flex flex-col gap-6">
+<div class="bg-white dark:bg-[#1a150c] rounded-xl thin-border border-[#e8dfce] dark:border-[#3d3321] p-6 flex flex-col h-full">
+<div class="flex items-center gap-2 mb-6">
+<div class="size-2 rounded-full bg-primary animate-pulse"></div>
+<h4 class="text-sm font-bold uppercase tracking-widest text-[#9c7f49]">The Aoutha</h4>
+</div>
+<div class="flex flex-col items-center py-8 border-b thin-border border-[#f4efe7] dark:border-[#3d3321] mb-6">
+<div class="relative size-32 mb-6">
+<!-- Circular Scan Animation Simulation -->
+<div class="absolute inset-0 border-4 border-dashed border-primary/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
+<div class="absolute inset-2 border-2 border-primary/40 rounded-full animate-[spin_6s_linear_infinite_reverse]"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-5xl">biotech</span>
+</div>
+</div>
+<p class="text-sm font-medium mb-1">Final Scan in progress...</p>
+<p class="text-xs font-light text-[#9c7f49]">Scanning for discrepancies</p>
+</div>
+<div class="space-y-6">
+<div>
+<p class="text-xs font-bold text-[#9c7f49] uppercase mb-3">AI Insights</p>
+<div class="text-sm font-light leading-relaxed space-y-4">
+<p>Detected <span class="font-medium text-[#1c170d] dark:text-white">missing evidence</span> for 2 nodes in the Automation CA cluster.</p>
+<p>Potential tax leak risk: <span class="font-medium text-red-500">Low</span>, but audit compliance requires documented proof.</p>
+</div>
+</div>
+<div class="p-4 bg-[#f4efe7] dark:bg-[#3d3321] rounded-lg">
+<p class="text-xs font-bold mb-2">Live Logs</p>
+<div class="text-[10px] font-mono space-y-1 opacity-70">
+<p>&gt; Validating node 722...</p>
+<p>&gt; Cross-referencing e-Invoices...</p>
+<p>&gt; CA Evidence gap found at id:9921</p>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-6">
+<button class="w-full flex items-center justify-center gap-2 rounded-lg h-10 border thin-border border-[#e8dfce] dark:border-[#3d3321] text-xs font-bold hover:bg-[#fcfaf8] dark:hover:bg-[#221c10] transition-colors">
+<span>Open Detailed AI Log</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Simple Status Bar -->
+<footer class="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1a150c] border-t thin-border border-[#e8dfce] dark:border-[#3d3321] px-10 py-2 flex justify-between items-center z-50">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span class="text-[11px] font-medium text-[#9c7f49] uppercase">System Online</span>
+</div>
+<div class="h-3 w-0.5 bg-[#e8dfce] dark:bg-[#3d3321]"></div>
+<span class="text-[11px] font-medium text-[#9c7f49] uppercase tracking-wider">Engine: v2.4.0-Readiness</span>
+</div>
+<div class="text-[11px] font-medium text-[#9c7f49]">
+            MYAUDIT COMPLIANCE CLOUD © 2024
+        </div>
+</footer>
+</body></html>

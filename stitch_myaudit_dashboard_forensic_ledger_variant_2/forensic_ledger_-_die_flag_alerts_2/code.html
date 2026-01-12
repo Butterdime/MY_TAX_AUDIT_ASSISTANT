@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Forensic Ledger - MYAUDIT</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f9ac06",
+                        "background-light": "#ffffff",
+                        "background-dark": "#1a160d",
+                        "neon-amber": "#FFB000",
+                        "soft-mint": "#00D395",
+                        "slate-custom": "#64748b",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .dot-grid {
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .dark .dot-grid {
+            background-image: radial-gradient(#332d1d 1px, transparent 1px);
+        }
+        .pulse-warning {
+            box-shadow: 0 0 0 0 rgba(255, 176, 0, 0.4);
+            animation: pulse-ring 2s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 176, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 176, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 176, 0, 0); }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased min-h-screen">
+<div class="flex h-screen overflow-hidden dot-grid">
+<!-- Side Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md flex flex-col">
+<div class="p-6 flex items-center gap-3">
+<div class="size-10 bg-primary rounded-lg flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined">security</span>
+</div>
+<div>
+<h1 class="text-lg font-bold leading-none tracking-tight">MYAUDIT</h1>
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold">Forensic Suite</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-slate-500">grid_view</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-sm font-bold">Forensic Ledger</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="text-sm font-medium">Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500" href="#">
+<span class="material-symbols-outlined">warning</span>
+<span class="text-sm font-medium">Risk Reports</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="text-sm">New Audit</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-hidden">
+<!-- Top Navbar -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-background-dark/50 backdrop-blur-sm flex items-center justify-between px-8">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-900 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/20" placeholder="Search transactions, entities or risk flags..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-xs font-bold leading-none">Admin User</p>
+<p class="text-[10px] text-slate-500">Compliance Lead</p>
+</div>
+<div class="size-8 rounded-full bg-slate-200" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuACDM9JWfD7knOK_P8zYU8vKCERPNr_bvdyXMuLTbcwP8KTI4nREdns2zRUyGiXeb3-Kv5ZMFUi7xsmCHMbB_G9OeOD3s1kitT6tev1WkdaWYyvLjGaKvEcIaeHaLC-EjleOa08rEezlvChmZx2u5ypfJ3jGHUoaXL0TaYJWnWmGA9Ju3QpfZblRXx9va393SiZ4ZepAcSFWtTd9Qj_yHs4H44n94pOtKWB34MUWUO_Uhd0_1aFzP4S-pDvzrFhUomgtXqSlQDsRtts'); background-size: cover;"></div>
+</div>
+</div>
+</header>
+<!-- Page Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-6xl mx-auto flex gap-8">
+<!-- Ledger Section -->
+<div class="flex-1 space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-3xl font-black tracking-tight">Forensic Ledger</h2>
+<p class="text-slate-500 mt-1">Real-time risk detection and misclassification monitoring.</p>
+</div>
+<button class="px-4 py-2 border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                                Export CSV
+                            </button>
+</div>
+<!-- Ledger Table -->
+<div class="bg-transparent space-y-3">
+<!-- Table Header -->
+<div class="grid grid-cols-6 px-6 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+<div class="col-span-1">Date</div>
+<div class="col-span-2">Description</div>
+<div class="col-span-1">Amount</div>
+<div class="col-span-1 text-center">Status</div>
+<div class="col-span-1 text-right">Action</div>
+</div>
+<!-- Row 1: The DIE Flagged Alert -->
+<div class="grid grid-cols-6 items-center px-6 py-4 bg-white dark:bg-slate-900 border-2 border-neon-amber rounded-xl shadow-[0_4px_20px_-5px_rgba(255,176,0,0.15)] relative group">
+<div class="absolute -left-1 top-4 bottom-4 w-1 bg-neon-amber rounded-full"></div>
+<div class="col-span-1 text-sm text-slate-500 font-medium">Oct 24, 2023</div>
+<div class="col-span-2">
+<div class="font-bold text-slate-900 dark:text-white">Annual Dinner</div>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-[10px] bg-neon-amber/10 text-neon-amber px-1.5 py-0.5 rounded font-bold uppercase">Misclassification Risk</span>
+<span class="text-[10px] text-slate-400 font-medium">Staff Welfare → Entertainment</span>
+</div>
+</div>
+<div class="col-span-1 font-bold text-slate-900 dark:text-white">-$2,450.00</div>
+<div class="col-span-1 flex justify-center">
+<span class="px-3 py-1 bg-neon-amber text-white text-[10px] font-black rounded-full shadow-sm">DIE_FLAGGED</span>
+</div>
+<div class="col-span-1 text-right">
+<button class="text-neon-amber font-bold text-sm hover:underline">Review</button>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-6 items-center px-6 py-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl hover:shadow-md transition-shadow">
+<div class="col-span-1 text-sm text-slate-500 font-medium">Oct 23, 2023</div>
+<div class="col-span-2">
+<div class="font-bold text-slate-900 dark:text-white">Software Subscription</div>
+<div class="text-[10px] text-slate-400 font-medium mt-1">IT Expenses</div>
+</div>
+<div class="col-span-1 font-bold text-slate-900 dark:text-white">-$45.00</div>
+<div class="col-span-1 flex justify-center">
+<span class="px-3 py-1 bg-soft-mint/10 text-soft-mint text-[10px] font-black rounded-full uppercase">Audit_Ready</span>
+</div>
+<div class="col-span-1 text-right">
+<button class="text-slate-400 font-bold text-sm hover:text-slate-600 transition-colors">View</button>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-6 items-center px-6 py-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl hover:shadow-md transition-shadow">
+<div class="col-span-1 text-sm text-slate-500 font-medium">Oct 22, 2023</div>
+<div class="col-span-2">
+<div class="font-bold text-slate-900 dark:text-white">Office Supplies</div>
+<div class="text-[10px] text-slate-400 font-medium mt-1">General Admin</div>
+</div>
+<div class="col-span-1 font-bold text-slate-900 dark:text-white">-$120.00</div>
+<div class="col-span-1 flex justify-center">
+<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-500 text-[10px] font-black rounded-full uppercase">New</span>
+</div>
+<div class="col-span-1 text-right">
+<button class="text-slate-400 font-bold text-sm hover:text-slate-600 transition-colors">Review</button>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-6 items-center px-6 py-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl hover:shadow-md transition-shadow">
+<div class="col-span-1 text-sm text-slate-500 font-medium">Oct 21, 2023</div>
+<div class="col-span-2">
+<div class="font-bold text-slate-900 dark:text-white">Client Lunch</div>
+<div class="text-[10px] text-slate-400 font-medium mt-1">Entertainment</div>
+</div>
+<div class="col-span-1 font-bold text-slate-900 dark:text-white">-$85.00</div>
+<div class="col-span-1 flex justify-center">
+<span class="px-3 py-1 bg-soft-mint/10 text-soft-mint text-[10px] font-black rounded-full uppercase">Audit_Ready</span>
+</div>
+<div class="col-span-1 text-right">
+<button class="text-slate-400 font-bold text-sm hover:text-slate-600 transition-colors">View</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar (The Aoutha) -->
+<aside class="w-80 shrink-0 space-y-6">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+<h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                                The Aoutha
+                            </h3>
+<!-- Readiness Score Gauge -->
+<div class="flex flex-col items-center py-4">
+<div class="relative size-32">
+<svg class="size-full transform -rotate-90">
+<circle class="text-slate-100 dark:text-slate-800" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-neon-amber" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.42" stroke-dashoffset="116.61" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-3xl font-black text-neon-amber">68%</span>
+<span class="text-[10px] font-bold uppercase text-slate-400">Readiness</span>
+</div>
+</div>
+<div class="mt-4 text-center">
+<p class="text-xs font-bold text-neon-amber">Below Threshold (80%)</p>
+<p class="text-[10px] text-slate-400 mt-1 max-w-[160px]">Action required to meet audit-ready compliance standards.</p>
+</div>
+</div>
+<hr class="my-6 border-slate-100 dark:border-slate-800"/>
+<!-- Risk Pulse -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400">Risk Pulse</p>
+<div class="size-2 bg-neon-amber rounded-full pulse-warning"></div>
+</div>
+<div class="bg-neon-amber/5 p-4 rounded-xl border border-neon-amber/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-neon-amber">error</span>
+<div>
+<p class="text-sm font-black text-neon-amber">3 Pending DIE Flags</p>
+<p class="text-[10px] text-slate-500 leading-tight mt-0.5">High-confidence misclassification risks identified in the ledger.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Sidebar Card -->
+<div class="bg-primary/10 p-6 rounded-2xl border border-primary/20">
+<h4 class="text-sm font-bold text-primary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span>
+                                AI Insight
+                            </h4>
+<p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                                Categorizing "Annual Dinner" as Entertainment instead of Staff Welfare will recover approximately <strong>$490.00</strong> in GST input tax credits.
+                            </p>
+</div>
+<!-- Footer Disclaimer -->
+<div class="px-2">
+<p class="text-[10px] text-slate-400 italic text-center">
+                                Internal guidance, not formal tax advice. Use according to firm compliance policies.
+                            </p>
+</div>
+</aside>
+</div>
+</div>
+</main>
+</div>
+</body></html>

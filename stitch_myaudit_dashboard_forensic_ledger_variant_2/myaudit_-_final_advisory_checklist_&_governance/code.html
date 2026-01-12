@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT - Final Advisory Checklist &amp; Governance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d33f2",
+                        "neon-amber": "#FFB000",
+                        "background-light": "#f5f6f8",
+                        "background-dark": "#0a0a0f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .dot-grid {
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .neon-glow-cobalt {
+            box-shadow: 0 0 15px rgba(13, 51, 242, 0.4);
+        }
+        .neon-glow-amber {
+            box-shadow: 0 0 15px rgba(255, 176, 0, 0.3);
+        }
+        .forensic-border {
+            border: 1px solid rgba(13, 51, 242, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white min-h-screen relative overflow-x-hidden">
+<div class="dot-grid absolute inset-0 z-0 pointer-events-none"></div>
+<div class="relative z-10 layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#222949] bg-background-dark/80 backdrop-blur-md px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined text-3xl">shield_person</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">MYAUDIT</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-slate-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-slate-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Audit Logs</a>
+<a class="text-slate-400 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Reports</a>
+<a class="text-white text-sm font-bold leading-normal relative" href="#">
+                        Final Advisory
+                        <span class="absolute -bottom-[19px] left-0 w-full h-[2px] bg-primary"></span>
+</a>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-[#222949] text-white hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-[#222949] text-white hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-[1200px] mx-auto w-full px-6 py-8">
+<!-- Tabs Navigation -->
+<div class="pb-6">
+<div class="flex border-b border-[#313a68] gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#909acb] pb-3 pt-2" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">Overview</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#909acb] pb-3 pt-2" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">Ledger Analysis</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#909acb] pb-3 pt-2" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">Compliance</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-white pb-3 pt-2" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">Final Advisory</p>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-1">
+<h1 class="text-white tracking-tight text-[32px] font-bold leading-tight">Final Advisory Checklist &amp; Governance</h1>
+<p class="text-slate-400 text-sm">Review all forensic markers and secure the ledger for final filing.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Advisory Checklist Bento Card -->
+<div class="col-span-12 lg:col-span-5 bg-[#161a30] rounded-xl forensic-border p-6 flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-primary/10 pb-4">
+<h2 class="text-white text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">fact_check</span>
+                                Advisory Checklist
+                            </h2>
+<span class="text-[10px] uppercase tracking-widest text-primary font-bold bg-primary/10 px-2 py-1 rounded">Forensic Ready</span>
+</div>
+<div class="flex flex-col gap-1">
+<label class="flex items-center gap-x-4 py-3 px-3 rounded-lg hover:bg-primary/5 cursor-pointer transition-colors group">
+<div class="relative flex items-center">
+<input checked="" class="h-5 w-5 rounded border-[#313a68] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:outline-none" type="checkbox"/>
+</div>
+<div>
+<p class="text-white text-base font-semibold group-hover:text-primary transition-colors">Profit Sync Verified</p>
+<p class="text-slate-500 text-xs">Cross-referenced with Ledger V4.2</p>
+</div>
+</label>
+<label class="flex items-center gap-x-4 py-3 px-3 rounded-lg hover:bg-primary/5 cursor-pointer transition-colors group">
+<div class="relative flex items-center">
+<input checked="" class="h-5 w-5 rounded border-[#313a68] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:outline-none" type="checkbox"/>
+</div>
+<div>
+<p class="text-white text-base font-semibold group-hover:text-primary transition-colors">Documentation Prepared</p>
+<p class="text-slate-500 text-xs">Audit-trail attachments finalized</p>
+</div>
+</label>
+<label class="flex items-center gap-x-4 py-3 px-3 rounded-lg hover:bg-primary/5 cursor-pointer transition-colors group">
+<div class="relative flex items-center">
+<input class="h-5 w-5 rounded border-[#313a68] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:outline-none" type="checkbox"/>
+</div>
+<div>
+<p class="text-white text-base font-semibold group-hover:text-primary transition-colors">7-Year Retention Confirmed</p>
+<p class="text-slate-500 text-xs">Compliance standard ISO-27001</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Main Action Center -->
+<div class="col-span-12 lg:col-span-7 bg-[#161a30] rounded-xl forensic-border p-8 flex flex-col items-center justify-center text-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+<div class="mb-6 p-4 rounded-full bg-primary/10 border border-primary/20 neon-glow-cobalt">
+<span class="material-symbols-outlined text-5xl text-primary">description</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">Final Summary Generation</h3>
+<p class="text-slate-400 mb-8 max-w-md">Compile all ledger analytics, tax reconciliations, and compliance markers into a single verified report.</p>
+<button class="bg-primary hover:bg-blue-600 text-white px-10 py-4 rounded-xl font-bold text-lg flex items-center gap-3 transition-all transform hover:scale-[1.02] neon-glow-cobalt active:scale-[0.98]">
+<span class="material-symbols-outlined">download</span>
+                            Download Accounting &amp; Tax Summary
+                        </button>
+<p class="mt-6 text-[11px] text-slate-500 uppercase tracking-widest font-mono">MD5 Hash: 8f92b7c1e5a3d4f0b2e8c1a9d0f</p>
+</div>
+<!-- Governance Control Card -->
+<div class="col-span-12 bg-[#1b1e2e] rounded-xl border-2 border-neon-amber/20 p-8 neon-glow-amber">
+<div class="flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="flex items-start gap-5">
+<div class="p-3 bg-neon-amber/10 rounded-lg">
+<span class="material-symbols-outlined text-neon-amber text-4xl">lock_person</span>
+</div>
+<div>
+<h2 class="text-neon-amber text-2xl font-black italic tracking-tighter uppercase">Lock Financial Year 2023-24</h2>
+<p class="text-slate-400 max-w-xl text-sm mt-1 leading-relaxed">
+                                        CRITICAL ACTION: Enabling this toggle permanently freezes the current ledger period. 
+                                        This will trigger the <code class="bg-black/40 px-1 py-0.5 rounded text-neon-amber">AUDIT_LOCK</code> event, preventing further modifications and finalizing the chain of custody.
+                                    </p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-3 min-w-[240px]">
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-20 h-10 bg-[#313a68] rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-8 after:w-9 after:transition-all peer-checked:bg-neon-amber"></div>
+</div>
+<span class="text-neon-amber text-xs font-bold uppercase tracking-widest animate-pulse">Switch to Freeze Ledger</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Fixed Footer Disclaimer -->
+<footer class="fixed bottom-0 left-0 w-full bg-background-dark/95 backdrop-blur-xl border-t border-[#222949] py-3 px-10 text-center z-50">
+<div class="flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">info</span>
+<p class="text-slate-400 text-[11px] uppercase tracking-[0.2em] font-medium">
+                    Advisory information only; subject to professional verification • System ID: MYA-SEC-9920
+                </p>
+</div>
+</footer>
+</div>
+</body></html>

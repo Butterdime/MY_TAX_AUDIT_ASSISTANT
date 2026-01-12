@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT - Deployment Manifest Dashboard</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0b23e0",
+                        "background-light": "#f5f6f8",
+                        "background-dark": "#101222",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .terminal-bg { background-color: #0d0f1c; }
+        .thin-border { border: 0.5px solid #e2e4ed; }
+        .dark .thin-border { border-color: #2a2d45; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b thin-border bg-white dark:bg-background-dark px-6 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">terminal</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold tracking-tight">MYAUDIT</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-primary text-sm font-medium border-b-2 border-primary py-4 -mb-4" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Deployments</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Monitoring</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-64 pl-9 pr-4 py-1.5 text-sm bg-slate-100 dark:bg-slate-800 border-none rounded focus:ring-1 focus:ring-primary" placeholder="Search resources..." type="text"/>
+</div>
+<button class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">cloud_upload</span>
+                MANUAL DEPLOY
+            </button>
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden thin-border" data-alt="User profile avatar placeholder">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXaLW3Tk0FTToPnQKO8tqZ0twGDVV98Sl3cykLU671NR7nda23QPT0fGVNeqWqyOuCR_2eMc-FDa3a_LwNUT7CL1UZuGnDpYL5ki59vZccJVVolT4GDBN5ukHsMLCGVlDU58aXt8i8rqc-b8Aim6otCdtuHTS6Afskw7T7erTrhycWOZtqcJwZpxboe4pLHs7IZo4d0aFA6kKom4K3hfKjd4tcKbidbSxvQIE2ge9hlrLJ36NC0WRWg6vP45R0cEKXOzrlpjGfzHA1"/>
+</div>
+</div>
+</header>
+<main class="max-w-[1400px] mx-auto p-6">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 mb-6">
+<a class="text-slate-500 text-sm font-light hover:text-primary" href="#">Environments</a>
+<span class="text-slate-300 text-sm font-light">/</span>
+<span class="text-slate-900 dark:text-white text-sm font-medium">Production</span>
+</div>
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Deployment Manifest</h1>
+<p class="text-slate-500 dark:text-slate-400 font-light mt-1 text-sm">Real-time infrastructure health and CI/CD orchestration</p>
+</div>
+<div class="flex gap-2 text-xs font-medium uppercase text-slate-400">
+<span>Last Updated: 14:02:31 UTC</span>
+</div>
+</div>
+<!-- Main Bento Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Singapore Deployment Status -->
+<div class="col-span-12 md:col-span-4 bg-white dark:bg-slate-900 p-6 rounded-xl thin-border shadow-sm flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center border thin-border">
+<span class="material-symbols-outlined text-primary">public</span>
+</div>
+<div>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Region</p>
+<h3 class="text-slate-900 dark:text-white font-semibold">Singapore</h3>
+<p class="text-slate-500 text-[10px] font-light">asia-southeast1</p>
+</div>
+</div>
+<div class="bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 px-3 py-1 rounded-full text-[10px] font-bold border border-green-100 dark:border-green-900/50 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                        HEALTHY
+                    </div>
+</div>
+<div class="mt-8 pt-4 border-t thin-border">
+<div class="flex justify-between items-center">
+<span class="text-slate-500 text-xs font-light">Load Balancer Status</span>
+<span class="text-slate-900 dark:text-white text-xs font-medium">Active</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-1 rounded-full mt-2">
+<div class="bg-primary h-1 rounded-full w-[85%]"></div>
+</div>
+</div>
+</div>
+<!-- Cloud Functions Latency Sparkline -->
+<div class="col-span-12 md:col-span-4 bg-white dark:bg-slate-900 p-6 rounded-xl thin-border shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Cloud Functions</p>
+<h3 class="text-slate-900 dark:text-white font-semibold">Average Latency</h3>
+</div>
+<div class="text-right">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">42ms</p>
+<p class="text-green-500 text-[10px] font-medium flex items-center justify-end">
+<span class="material-symbols-outlined text-[12px]">trending_down</span> -2%
+                        </p>
+</div>
+</div>
+<div class="h-24 w-full">
+<svg class="w-full h-full" fill="none" preserveaspectratio="none" viewbox="0 0 400 100">
+<path d="M0 80C20 75 40 85 60 60C80 35 100 45 120 40C140 35 160 55 180 50C200 45 220 20 240 25C260 30 280 15 300 10C320 5 340 30 360 25C380 20 400 25 400 25" stroke="#0b23e0" stroke-linecap="round" stroke-width="2"></path>
+<defs>
+<lineargradient id="latencyGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#0b23e0" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#0b23e0" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0 80C20 75 40 85 60 60C80 35 100 45 120 40C140 35 160 55 180 50C200 45 220 20 240 25C260 30 280 15 300 10C320 5 340 30 360 25C380 20 400 25 400 25V100H0V80Z" fill="url(#latencyGradient)"></path>
+</svg>
+</div>
+</div>
+<!-- Stats Widgets (Sidebar style) -->
+<div class="col-span-12 md:col-span-4 flex flex-col gap-4">
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl thin-border shadow-sm flex items-center justify-between">
+<div>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Uptime</p>
+<p class="text-xl font-bold text-slate-900 dark:text-white">99.99%</p>
+</div>
+<span class="material-symbols-outlined text-primary/40 text-3xl">query_stats</span>
+</div>
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl thin-border shadow-sm flex items-center justify-between">
+<div>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Security Scan</p>
+<p class="text-xl font-bold text-slate-900 dark:text-white">Passed</p>
+</div>
+<span class="material-symbols-outlined text-green-500/50 text-3xl">verified_user</span>
+</div>
+</div>
+<!-- Central Terminal Build Log -->
+<div class="col-span-12 md:col-span-9 terminal-bg rounded-xl overflow-hidden shadow-2xl thin-border">
+<div class="bg-slate-800/50 border-b border-slate-700 px-4 py-2 flex items-center justify-between">
+<div class="flex gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+</div>
+<div class="text-[10px] text-slate-400 font-mono flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">code</span>
+                        production-v1.1-enhanced.log
+                    </div>
+<div></div>
+</div>
+<div class="p-6 font-mono text-sm leading-relaxed overflow-y-auto max-h-[360px]">
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">14:00:01</span>
+<span class="text-slate-300">Initializing deployment manifest...</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">14:00:04</span>
+<span class="text-slate-300">Resolving workspace dependencies... [428 cached]</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">14:00:12</span>
+<span class="text-blue-400">INFO: Starting build for v1.1-ENHANCED</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">14:01:45</span>
+<span class="text-slate-300">Compiling assets for production...</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">14:02:10</span>
+<span class="text-green-400 font-bold">✓ v1.1-ENHANCED build successful (12.4s)</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">14:02:11</span>
+<span class="text-primary font-medium underline underline-offset-4">Pushing to Firebase Hosting (myaudit-prod-a1)...</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">14:02:25</span>
+<span class="text-slate-300">Syncing Cloud Functions environment variables...</span>
+</div>
+<div class="flex gap-4">
+<span class="text-slate-600 select-none">14:02:30</span>
+<span class="text-green-400">Deploy complete: https://myaudit-v1-1.app.goo.gl</span>
+</div>
+<div class="mt-2 flex gap-4">
+<span class="text-slate-600 select-none">14:02:31</span>
+<span class="text-white animate-pulse">_</span>
+</div>
+</div>
+</div>
+<!-- Right System Health Sidebar -->
+<div class="col-span-12 md:col-span-3 flex flex-col gap-6">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl thin-border shadow-sm flex-1">
+<h4 class="text-slate-900 dark:text-white text-sm font-semibold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">health_and_safety</span>
+                        System Health
+                    </h4>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<span class="text-slate-500 text-xs font-light">API Response</span>
+<span class="text-slate-900 dark:text-white text-xs font-medium">98ms</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-slate-500 text-xs font-light">DB Load</span>
+<span class="text-slate-900 dark:text-white text-xs font-medium">12%</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-slate-500 text-xs font-light">Memory Usage</span>
+<span class="text-slate-900 dark:text-white text-xs font-medium">4.2GB / 8GB</span>
+</div>
+</div>
+<div class="mt-10">
+<p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest mb-4">Traffic Source</p>
+<div class="flex gap-1 h-2 rounded-full overflow-hidden">
+<div class="bg-primary w-[60%]" title="Direct"></div>
+<div class="bg-indigo-300 w-[25%]" title="API"></div>
+<div class="bg-slate-200 dark:bg-slate-700 w-[15%]" title="Other"></div>
+</div>
+<div class="mt-4 grid grid-cols-2 gap-2">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="text-[10px] text-slate-500">Direct (60%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-300"></span>
+<span class="text-[10px] text-slate-500">API (25%)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Infrastructure Map Placeholder Card -->
+<div class="col-span-12 bg-white dark:bg-slate-900 p-6 rounded-xl thin-border shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h4 class="text-slate-900 dark:text-white text-sm font-semibold">Global Distribution</h4>
+<p class="text-slate-500 text-[10px] font-light mt-1">Edge node latency distribution</p>
+</div>
+<button class="text-primary text-xs font-semibold hover:underline">Download Topology</button>
+</div>
+<div class="w-full h-48 bg-slate-50 dark:bg-slate-800/50 rounded-lg flex items-center justify-center border thin-border border-dashed border-slate-300" data-location="Singapore" style="https://lh3.googleusercontent.com/aida-public/AB6AXuA5lzm7SS08hr_0rzHIby8EonyRb6TsY0w8SUqOpU4Q39DtP7lv2QgSE52P_av2mLOO6TmQFGo1zLqcpndu--aJcFJkYoI2um8h39f9nR2zFz60llr8CnCa9oFUrdBP2pmo_KT54RE3e4eNrEJsCfrGTofOWFOxQBg4_IrvlzOggTBQk3AcXs8YX7KFHP0DNwCaXh5ZEBOpgOtADWDAz_9q8-4TzWkVstN2Tw3W5hFKCl13-YKpG1s8ljFBrS3P64PF7mTdkWPWCh7g">
+<div class="text-center">
+<span class="material-symbols-outlined text-slate-300 text-5xl mb-2">map</span>
+<p class="text-slate-400 text-xs">Interactive infrastructure map loading...</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Meta -->
+<footer class="mt-12 py-8 border-t thin-border text-center">
+<p class="text-slate-400 text-[10px] font-light">MYAUDIT Platform Orchestrator v2.4.11-stable © 2024</p>
+</footer>
+</body></html>

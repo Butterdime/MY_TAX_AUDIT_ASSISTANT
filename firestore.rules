@@ -1,18 +1,21 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // Guardian Governance: Tier 2 Hard-Block for MYAUDIT v1.2
+    match /ledgers/{year}/entries/{entryId} {
+      
+      // allow read access for authenticated owners
+      allow read: if request.auth != null;
 
-    // Deny updates to ledger entries that are outside of Malaysia or have a high transaction amount
-    match /ledgers/{ledgerId} {
-      allow update: if request.resource.data.currency == 'MYR' && request.resource.data.amount <= 1000000;
-      // You can add other rules for create, read, and delete as needed
-      allow create, read, delete: if true; // Example: allow all other operations
-    }
+      // Tier 2: Block ALL updates to entries marked as LOCKED_FOR_AUDIT
+      allow update: if request.auth != null && 
+                    resource.data.status != "LOCKED_FOR_AUDIT";
 
-    // Allow all operations on other collections for now
-    match /{document=**} {
-      allow read, write: if true;
+      // Tier 2: Enforce e-invoice requirement for transactions > RM 10k
+      allow create: if request.auth != null &&
+                    (request.resource.data.amount <= 10000 || 
+                     request.resource.data.eInvoiceRef != null);
     }
   }
 }

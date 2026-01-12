@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT - Audit Conflict Resolver</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f9c31f",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#231e0f",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(249, 195, 31, 0.3);
+        }
+        .forensic-row {
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .forensic-row:hover {
+            border-left: 4px solid #f9c31f;
+            background: rgba(74, 64, 33, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-white min-h-screen">
+<!-- Global Navigation -->
+<header class="flex items-center justify-between border-b border-solid border-[#4a4021] px-10 py-4 bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined text-3xl">shield_person</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-tight uppercase">MYAUDIT</h2>
+</div>
+<nav class="flex items-center gap-8 ml-4">
+<a class="text-[#ccbd8e] hover:text-white text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-[#ccbd8e] hover:text-white text-sm font-medium transition-colors" href="#">Inventory</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">Audit Resolver</a>
+<a class="text-[#ccbd8e] hover:text-white text-sm font-medium transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="bg-[#4a4021]/50 border border-[#f9c31f]/30 px-3 py-1.5 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">database</span>
+<span class="text-xs font-bold tracking-wider text-primary">DATA RESIDENT: SINGAPORE</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#ccbd8e] hover:text-white">
+<span class="material-symbols-outlined">search</span>
+</button>
+<div class="h-8 w-[1px] bg-[#4a4021]"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-xs font-bold text-white">Compliance Lead</p>
+<p class="text-[10px] text-[#ccbd8e]">ID: 8842-AX</p>
+</div>
+<div class="bg-primary/20 p-0.5 rounded-full border border-primary/50">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBRaSyZz3Tqcs-r-s1s7dnnuLkBOEzL7i18Glt2olEfgQgC59sN7p2jOMdBbmlpd90vHNw-5ftKFOb4vT493gYO_yJ9-6JoSPW3k5LirXlnJzyl2ZAWZ1oHysc1jAAz_tT8shsEvJ6tQnZfJ2qt0iLvSqgJpGDEBJ--2O5bpb_uX360Z6xIzApKmwT8FXwQAas-sIBbQBUtnwPJoLIvdHp4jg2B0qa1qFvSd7aw6HA3TC8XzWxK4RZjCbOnCs-zeIqmAjzH02E5znyr");'></div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto p-8">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 mb-8">
+<a class="text-[#ccbd8e] text-sm hover:underline italic" href="#">Compliance Dashboard</a>
+<span class="text-[#4a4021] text-sm">/</span>
+<span class="text-white text-sm font-bold">Audit Conflict Resolver</span>
+<span class="ml-4 px-2 py-0.5 rounded bg-[#4a4021] text-[#ccbd8e] text-[10px] font-mono">v2.4.0-Forensic</span>
+</div>
+<!-- Header Section with Gauge -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<div class="lg:col-span-2 flex flex-col justify-center">
+<h1 class="text-white text-5xl font-black leading-none tracking-tighter mb-4">
+                    Action Required: <span class="text-primary italic">3 Conflicts</span>
+</h1>
+<p class="text-[#ccbd8e] text-lg max-w-xl font-light">
+                    MIDA/LHDN Compliance Readiness Status is currently below the target threshold. Resolve critical documentation gaps to prevent audit failure.
+                </p>
+<div class="mt-8 flex gap-4">
+<button class="bg-primary text-background-dark px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:brightness-110 transition-all neon-glow">
+<span class="material-symbols-outlined font-bold">upload_file</span>
+                        Bulk Resolve Conflicts
+                    </button>
+<button class="border border-[#4a4021] text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:bg-[#4a4021] transition-all">
+<span class="material-symbols-outlined">description</span>
+                        Export Forensic Log
+                    </button>
+</div>
+</div>
+<!-- Gauge Card -->
+<div class="bg-[#4a4021]/30 border border-[#4a4021] rounded-xl p-6 flex flex-col items-center justify-center relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
+<span class="material-symbols-outlined text-6xl">analytics</span>
+</div>
+<div class="relative size-40 mb-4">
+<svg class="size-full transform -rotate-90" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="#2a2414" stroke-width="8"></circle>
+<circle cx="50" cy="50" fill="none" r="45" stroke="#f9c31f" stroke-dasharray="282.7" stroke-dashoffset="33.9" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-4xl font-black text-white">88%</span>
+<span class="text-[10px] text-[#ccbd8e] font-bold tracking-widest uppercase">Readiness</span>
+</div>
+</div>
+<div class="text-center">
+<p class="text-primary text-sm font-bold tracking-tight uppercase">Neon Amber - Critical Threshold</p>
+<p class="text-[#ccbd8e] text-xs mt-1 italic">Target: 95.0% for LHDN Submission</p>
+</div>
+</div>
+</div>
+<!-- Conflict List -->
+<div class="space-y-6">
+<div class="flex items-center justify-between px-4">
+<h3 class="text-[#ccbd8e] text-xs font-bold tracking-[0.2em] uppercase italic">Unresolved Forensic Conflicts</h3>
+<div class="flex items-center gap-4 text-[10px] font-bold text-[#ccbd8e]">
+<span class="flex items-center gap-1"><span class="size-2 rounded-full bg-primary"></span> High Priority</span>
+<span class="flex items-center gap-1"><span class="size-2 rounded-full bg-red-500"></span> Missing Proof</span>
+</div>
+</div>
+<!-- Conflict Item 1 -->
+<div class="forensic-row bg-[#4a4021]/20 border border-[#4a4021] rounded-lg p-6 flex flex-wrap items-center justify-between gap-6 group">
+<div class="flex items-start gap-4 flex-1 min-w-[300px]">
+<div class="bg-primary/10 p-3 rounded-lg text-primary border border-primary/20">
+<span class="material-symbols-outlined text-2xl">warning</span>
+</div>
+<div>
+<h4 class="text-white text-lg font-bold group-hover:text-primary transition-colors">Missing Documentation for Asset Claim</h4>
+<p class="text-[#ccbd8e] text-sm mt-1">Rule ID: <span class="font-mono text-white">LHDN-2024-AC-09</span> • Threshold: <span class="text-primary font-bold">&gt; RM 10,000.00</span></p>
+<div class="flex gap-2 mt-3">
+<span class="px-2 py-0.5 rounded bg-red-900/40 text-red-400 text-[10px] font-bold uppercase tracking-wider border border-red-500/20">Missing Receipt</span>
+<span class="px-2 py-0.5 rounded bg-orange-900/40 text-orange-400 text-[10px] font-bold uppercase tracking-wider border border-orange-500/20">Capital Allowance</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<a class="text-[#ccbd8e] text-sm font-medium hover:text-white flex items-center gap-1 px-4 py-2 hover:bg-[#4a4021]/50 rounded transition-all" href="#">
+                        View Transaction
+                        <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+<button class="bg-primary text-background-dark px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-all neon-glow">
+<span class="material-symbols-outlined text-lg">add_a_photo</span>
+                        Upload Missing Doc
+                    </button>
+</div>
+</div>
+<!-- Conflict Item 2 -->
+<div class="forensic-row bg-[#4a4021]/20 border border-[#4a4021] rounded-lg p-6 flex flex-wrap items-center justify-between gap-6 group">
+<div class="flex items-start gap-4 flex-1 min-w-[300px]">
+<div class="bg-primary/10 p-3 rounded-lg text-primary border border-primary/20">
+<span class="material-symbols-outlined text-2xl">clinical_notes</span>
+</div>
+<div>
+<h4 class="text-white text-lg font-bold group-hover:text-primary transition-colors">Forensic Mismatch: Vendor Entity ID</h4>
+<p class="text-[#ccbd8e] text-sm mt-1">Rule ID: <span class="font-mono text-white">MIDA-TAX-E-202</span> • Conflict: <span class="text-primary font-bold">Mismatched SSM Reg No</span></p>
+<div class="flex gap-2 mt-3">
+<span class="px-2 py-0.5 rounded bg-[#4a4021] text-[#ccbd8e] text-[10px] font-bold uppercase tracking-wider">Vendor Validation</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<a class="text-[#ccbd8e] text-sm font-medium hover:text-white flex items-center gap-1 px-4 py-2 hover:bg-[#4a4021]/50 rounded transition-all" href="#">
+                        View Transaction
+                        <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+<button class="bg-primary text-background-dark px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-all neon-glow">
+<span class="material-symbols-outlined text-lg">edit_document</span>
+                        Upload Missing Doc
+                    </button>
+</div>
+</div>
+<!-- Conflict Item 3 -->
+<div class="forensic-row bg-[#4a4021]/20 border border-[#4a4021] rounded-lg p-6 flex flex-wrap items-center justify-between gap-6 group">
+<div class="flex items-start gap-4 flex-1 min-w-[300px]">
+<div class="bg-primary/10 p-3 rounded-lg text-primary border border-primary/20">
+<span class="material-symbols-outlined text-2xl">history_edu</span>
+</div>
+<div>
+<h4 class="text-white text-lg font-bold group-hover:text-primary transition-colors">Missing Director Authorization Signature</h4>
+<p class="text-[#ccbd8e] text-sm mt-1">Rule ID: <span class="font-mono text-white">CORP-GOV-04</span> • Amount: <span class="text-primary font-bold">RM 45,500.22</span></p>
+<div class="flex gap-2 mt-3">
+<span class="px-2 py-0.5 rounded bg-red-900/40 text-red-400 text-[10px] font-bold uppercase tracking-wider border border-red-500/20">Signature Missing</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<a class="text-[#ccbd8e] text-sm font-medium hover:text-white flex items-center gap-1 px-4 py-2 hover:bg-[#4a4021]/50 rounded transition-all" href="#">
+                        View Transaction
+                        <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+<button class="bg-primary text-background-dark px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-all neon-glow">
+<span class="material-symbols-outlined text-lg">stylus</span>
+                        Upload Missing Doc
+                    </button>
+</div>
+</div>
+</div>
+<!-- Bottom Status -->
+<div class="mt-16 border-t border-[#4a4021] pt-8 flex items-center justify-between opacity-60">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">vpn_lock</span>
+<span class="text-xs uppercase font-bold tracking-widest">End-to-End Encrypted</span>
+</div>
+<div class="flex items-center gap-2 border-l border-[#4a4021] pl-6">
+<span class="material-symbols-outlined text-sm">history</span>
+<span class="text-xs">Last Scan: 2 mins ago</span>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-[#4a4021]/30 px-3 py-1 rounded">
+<span class="material-symbols-outlined text-xs text-primary fill-1">verified_user</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">MIDA Compliance Standard v2024.1</span>
+</div>
+</div>
+</main>
+<!-- Side Fixed Badge -->
+<div class="fixed right-8 bottom-8 flex flex-col gap-2">
+<button class="size-12 rounded-full bg-primary text-background-dark flex items-center justify-center neon-glow hover:scale-105 transition-transform">
+<span class="material-symbols-outlined font-bold">support_agent</span>
+</button>
+</div>
+</body></html>

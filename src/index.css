@@ -1,1 +1,52 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #f9ac06;
+  --color-neon-amber: #ffb000;
+  --color-soft-mint: #00d395;
+  --color-background-light: #ffffff;
+  --color-background-dark: #1a160d;
+  
+  --font-display: "Inter", sans-serif;
+}
+
+@layer utilities {
+  .dot-grid {
+    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .dark .dot-grid {
+    background-image: radial-gradient(#332d1d 1px, transparent 1px);
+  }
+
+  .pulse-warning {
+    box-shadow: 0 0 0 0 rgba(255, 176, 0, 0.4);
+    animation: pulse-ring 2s infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(255, 176, 0, 0.7);
+    }
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(255, 176, 0, 0);
+    }
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(255, 176, 0, 0);
+    }
+  }
+
+  .glass-card {
+    @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50;
+  }
+}
+
+@layer base {
+  body {
+    @apply font-display;
+  }
+}

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT Dashboard - Forensic Ledger</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2e5bff",
+                        "soft-mint": "#00D395",
+                        "neon-amber": "#FFB000",
+                        "background-light": "#ffffff",
+                        "background-dark": "#0f1323",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dot-grid-bg {
+            background-image: radial-gradient(#d1d5db 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-72 border-r border-slate-200 dark:border-slate-800 flex flex-col bg-white/80 dark:bg-background-dark/80 backdrop-blur-md z-20">
+<div class="p-8 flex flex-col h-full">
+<div class="flex items-center gap-3 mb-12">
+<div class="bg-primary size-10 rounded-full flex items-center justify-center text-white">
+<span class="material-symbols-outlined font-bold">account_balance_wallet</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">MYAUDIT</h1>
+<p class="text-[10px] font-medium uppercase tracking-widest text-slate-400">Fintech Solutions</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<div class="flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 bg-primary/10 text-primary rounded-full cursor-pointer">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">table_chart</span>
+<p class="text-sm font-medium">Forensic Ledger</p>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">description</span>
+<p class="text-sm font-medium">Reports</p>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">analytics</span>
+<p class="text-sm font-medium">Analytics</p>
+</div>
+<div class="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50">
+<div class="flex justify-between items-end">
+<span class="text-xs font-light text-slate-500">Readiness Score</span>
+<span class="text-lg font-medium text-primary">88%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[88%] rounded-full"></div>
+</div>
+<p class="text-[10px] font-light text-slate-400">Electric Cobalt Status Active</p>
+</div>
+</div>
+</nav>
+<div class="mt-8 flex flex-col gap-2">
+<div class="flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-slate-900 transition-colors cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-red-500 transition-colors cursor-pointer">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium">Logout</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col relative h-screen overflow-hidden">
+<!-- Header -->
+<header class="h-20 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-12 bg-white/50 backdrop-blur-sm z-10">
+<div class="flex items-center gap-6">
+<h2 class="text-2xl font-semibold text-slate-900 dark:text-white">Forensic Ledger</h2>
+<div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-full">
+<button class="px-6 py-1.5 rounded-full text-sm font-medium text-slate-500">Overview</button>
+<button class="px-6 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm">Transactions</button>
+<button class="px-6 py-1.5 rounded-full text-sm font-medium text-slate-500">Compliance</button>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-full text-sm focus:ring-2 ring-primary w-64 transition-all" placeholder="Search ledger..." type="text"/>
+</div>
+<button class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-primary overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="Close up of professional auditor face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzPPMd-h8Kp1-R2UQ8HT9s10fyhNbnc9Pr6AXZe6dV56YhBsv9I15YZ4m09pwsGhMRgpIdGvZBq1uc4BuF6pzUVdZ64rUgyY7ZJnLQeC3UuwFzH2e_z5miRLm4IDsUKP96vj_WcB-vADI5PiYKPhxcjU4-Qy0Gn0IZ8INCh8_uq_TW2lIgsmrhfC9s0IbfVxH-9fI_SUVGukywhd5fZlP5YqlGIh09TKm7r-FecTg5KcNXioqatyqbZWbgy8DxIwHijrk-EqQ1wbc5"/>
+</div>
+</div>
+</header>
+<!-- Content Grid -->
+<div class="flex-1 p-8 overflow-y-auto">
+<div class="grid grid-cols-12 gap-6 max-w-[1600px] mx-auto">
+<!-- Ledger Table Bento Box -->
+<div class="col-span-9 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm flex flex-col">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<h3 class="text-lg font-medium text-slate-900 dark:text-white">Active Audit Records</h3>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-full text-xs font-medium border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-sm">filter_list</span> Filter
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-full text-xs font-medium border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-sm">download</span> Export
+                            </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50/50 dark:bg-slate-800/50">
+<th class="px-6 py-4 text-[11px] font-light uppercase tracking-widest text-slate-400">Transaction ID</th>
+<th class="px-6 py-4 text-[11px] font-light uppercase tracking-widest text-slate-400">Timestamp</th>
+<th class="px-6 py-4 text-[11px] font-light uppercase tracking-widest text-slate-400">Entity</th>
+<th class="px-6 py-4 text-[11px] font-light uppercase tracking-widest text-slate-400">Amount</th>
+<th class="px-6 py-4 text-[11px] font-light uppercase tracking-widest text-slate-400">Audit Gap</th>
+<th class="px-6 py-4 text-[11px] font-light uppercase tracking-widest text-slate-400 text-center">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-6 text-sm font-medium text-slate-700 dark:text-slate-300">#TXN-9021-AF</td>
+<td class="px-6 py-6 text-sm font-light text-slate-500">2023-10-24 14:20:11</td>
+<td class="px-6 py-6 text-sm font-medium text-slate-800 dark:text-slate-100">Global Corp Holdings</td>
+<td class="px-6 py-6 text-sm font-medium">$42,500.00</td>
+<td class="px-6 py-6">
+<span class="px-3 py-1 bg-soft-mint/10 text-soft-mint text-xs font-medium rounded-full">+$1,200.00 Verified</span>
+</td>
+<td class="px-6 py-6 text-center">
+<span class="material-symbols-outlined text-soft-mint">check_circle</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-6 text-sm font-medium text-slate-700 dark:text-slate-300">#TXN-8842-KB</td>
+<td class="px-6 py-6 text-sm font-light text-slate-500">2023-10-24 13:05:44</td>
+<td class="px-6 py-6 text-sm font-medium text-slate-800 dark:text-slate-100">CryptoPay LLC</td>
+<td class="px-6 py-6 text-sm font-medium">$12,300.50</td>
+<td class="px-6 py-6">
+<span class="px-3 py-1 bg-neon-amber/10 text-neon-amber text-xs font-medium rounded-full">+$450.00 Pending</span>
+</td>
+<td class="px-6 py-6 text-center">
+<span class="material-symbols-outlined text-neon-amber">hourglass_top</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors bg-soft-mint/5">
+<td class="px-6 py-6 text-sm font-medium text-slate-700 dark:text-slate-300">#TXN-7731-XC</td>
+<td class="px-6 py-6 text-sm font-light text-slate-500">2023-10-23 16:45:01</td>
+<td class="px-6 py-6 text-sm font-medium text-slate-800 dark:text-slate-100">Vertex Digital Systems</td>
+<td class="px-6 py-6 text-sm font-medium">$8,900.00</td>
+<td class="px-6 py-6">
+<span class="px-3 py-1 bg-soft-mint text-white text-xs font-medium rounded-full">+$2,450.00 Reconciled</span>
+</td>
+<td class="px-6 py-6 text-center">
+<span class="material-symbols-outlined text-soft-mint">verified</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-6 text-sm font-medium text-slate-700 dark:text-slate-300">#TXN-6610-OL</td>
+<td class="px-6 py-6 text-sm font-light text-slate-500">2023-10-23 09:12:30</td>
+<td class="px-6 py-6 text-sm font-medium text-slate-800 dark:text-slate-100">Alpha Digital Markets</td>
+<td class="px-6 py-6 text-sm font-medium">$105,000.00</td>
+<td class="px-6 py-6">
+<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-500 text-xs font-medium rounded-full">+$0.00 Stable</span>
+</td>
+<td class="px-6 py-6 text-center">
+<span class="material-symbols-outlined text-slate-300">radio_button_unchecked</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-6 text-sm font-medium text-slate-700 dark:text-slate-300">#TXN-5509-ZV</td>
+<td class="px-6 py-6 text-sm font-light text-slate-500">2023-10-22 11:30:15</td>
+<td class="px-6 py-6 text-sm font-medium text-slate-800 dark:text-slate-100">Omega Trading Group</td>
+<td class="px-6 py-6 text-sm font-medium">$2,100.00</td>
+<td class="px-6 py-6">
+<span class="px-3 py-1 bg-red-100 text-red-500 text-xs font-medium rounded-full">-$15.00 Flagged</span>
+</td>
+<td class="px-6 py-6 text-center">
+<span class="material-symbols-outlined text-red-500">error</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-6 text-sm font-medium text-slate-700 dark:text-slate-300">#TXN-4491-MQ</td>
+<td class="px-6 py-6 text-sm font-light text-slate-500">2023-10-22 08:22:59</td>
+<td class="px-6 py-6 text-sm font-medium text-slate-800 dark:text-slate-100">Luminous Wealth</td>
+<td class="px-6 py-6 text-sm font-medium">$67,200.00</td>
+<td class="px-6 py-6">
+<span class="px-3 py-1 bg-soft-mint/10 text-soft-mint text-xs font-medium rounded-full">+$12,400.00 Verified</span>
+</td>
+<td class="px-6 py-6 text-center">
+<span class="material-symbols-outlined text-soft-mint">check_circle</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-auto p-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs text-slate-400">
+<p>Showing 6 of 1,244 transactions</p>
+<div class="flex gap-2">
+<button class="size-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="size-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50 bg-primary text-white border-primary">1</button>
+<button class="size-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50">2</button>
+<button class="size-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50">3</button>
+<button class="size-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Right Side Panels -->
+<div class="col-span-3 flex flex-col gap-6">
+<!-- The Aoutha Risk Panel -->
+<div class="glass-panel rounded-xl p-6 shadow-lg border border-white/20">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-semibold text-slate-800 dark:text-white">The Aoutha</h4>
+<span class="bg-neon-amber text-white text-[10px] px-2 py-0.5 rounded-full uppercase tracking-tighter">Live Risk</span>
+</div>
+<p class="text-[10px] font-light text-slate-500 uppercase tracking-widest mb-4">Active Intelligence Alerts</p>
+<div class="space-y-4">
+<div class="flex gap-4 p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/40">
+<div class="text-neon-amber">
+<span class="material-symbols-outlined text-2xl">warning</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-medium text-slate-900 dark:text-white">Threshold Breach</span>
+<span class="text-[11px] font-light text-slate-500">TXN-8842 exceeded 20% variance</span>
+<span class="text-[10px] text-neon-amber mt-1 font-medium">Action Required</span>
+</div>
+</div>
+<div class="flex gap-4 p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/40">
+<div class="text-slate-400">
+<span class="material-symbols-outlined text-2xl">info</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-medium text-slate-900 dark:text-white">Entity Verified</span>
+<span class="text-[11px] font-light text-slate-500">Alpha Digital Markets KYC update</span>
+<span class="text-[10px] text-slate-400 mt-1">2 mins ago</span>
+</div>
+</div>
+<div class="flex gap-4 p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/40">
+<div class="text-neon-amber">
+<span class="material-symbols-outlined text-2xl">shield</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-medium text-slate-900 dark:text-white">Jurisdiction Alert</span>
+<span class="text-[11px] font-light text-slate-500">Incoming cross-border relay detected</span>
+<span class="text-[10px] text-neon-amber mt-1 font-medium">Awaiting Mr R.P.P</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 rounded-full border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-600 hover:bg-white/50 transition-colors">View All Risk Logs</button>
+</div>
+<!-- Mr R.P.P Oversight Panel -->
+<div class="glass-panel rounded-xl p-6 shadow-lg border border-white/20 flex-1">
+<div class="flex items-center gap-4 mb-6">
+<div class="size-12 rounded-full bg-slate-100 p-1">
+<img alt="Mr R.P.P avatar" class="w-full h-full rounded-full object-cover" data-alt="Senior auditor profile photo black and white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYdBPjdd-LksWcyjub20yloHiEXVSvn29HJx2HR_6CsHUrnCiVMFaQyY4_dhypcUuPQlwgCIxX-BX-0o24GXFOyrtsq0ONycZUhZ3LdiDr1YcrIFrtLaS4dipyiql99l15PcaRS-Lg10Ppg5DpfJ7cSFzF_ULAZV3dYGv5UqQXHOGGHhvciW6T2njjJcVz6sljvZ3j_z4bXfnUImLTTSyepCDHONIAQkrVcsnpQYLCjdBaUiyIz-brW1EF2L7f_ax-WZKbnGb7zpy1"/>
+</div>
+<div>
+<h4 class="font-semibold text-slate-800 dark:text-white leading-tight">Mr R.P.P</h4>
+<p class="text-[11px] font-light text-slate-400 uppercase tracking-widest">Lead Forensic Auditor</p>
+</div>
+</div>
+<div class="bg-primary/5 rounded-xl p-4 border border-primary/10">
+<div class="flex justify-between items-center mb-2">
+<span class="text-[11px] font-medium text-slate-500 uppercase">Case Efficiency</span>
+<span class="text-sm font-semibold text-primary">94.2%</span>
+</div>
+<div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[94%]"></div>
+</div>
+</div>
+<div class="mt-6 space-y-3">
+<h5 class="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Specialized Metrics</h5>
+<div class="flex justify-between py-2 border-b border-white/20">
+<span class="text-xs font-light text-slate-500">Gaps Closed</span>
+<span class="text-xs font-medium">1,202</span>
+</div>
+<div class="flex justify-between py-2 border-b border-white/20">
+<span class="text-xs font-light text-slate-500">Avg. Discovery Time</span>
+<span class="text-xs font-medium">14.2s</span>
+</div>
+<div class="flex justify-between py-2">
+<span class="text-xs font-light text-slate-500">Compliance Rate</span>
+<span class="text-xs font-medium text-soft-mint">99.8%</span>
+</div>
+</div>
+<div class="mt-auto pt-6">
+<button class="w-full py-3 bg-slate-900 dark:bg-white dark:text-slate-900 text-white rounded-xl text-xs font-medium flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">mail</span> Request Audit Review
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Disclaimer -->
+<footer class="h-10 border-t border-slate-100 dark:border-slate-800 flex items-center px-12 bg-white/80 backdrop-blur-sm">
+<p class="text-[10px] font-light text-slate-400 uppercase tracking-widest">
+                Confidential Fintech Data • MYAUDIT V2.4.1 • Disclaimer: Forensic ledger data is generated via automated auditing protocols. Discrepancies should be manually verified by lead auditors.
+            </p>
+<div class="ml-auto flex items-center gap-4">
+<span class="size-2 rounded-full bg-soft-mint"></span>
+<span class="text-[10px] font-medium text-slate-400">Node Cluster: Frankfurt-01</span>
+</div>
+</footer>
+</main>
+</body></html>

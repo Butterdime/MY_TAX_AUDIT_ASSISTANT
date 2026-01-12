@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT - MIDA Export Variant 2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3ff906",
+                        "background-light": "#ffffff",
+                        "background-dark": "#14230f",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#101c0d] dark:text-white transition-colors duration-200">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full border-b border-[#e5e7eb] dark:border-[#2a3d24] bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 lg:px-10 py-3">
+<div class="max-w-[1440px] mx-auto flex items-center justify-between gap-8">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-[#101c0d]">verified</span>
+</div>
+<h2 class="text-xl font-black tracking-tight dark:text-white uppercase">MYAUDIT</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-bold border-b-2 border-primary py-1" href="#">Asset Registry</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Compliance</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex-1 max-w-md hidden lg:block">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full h-10 pl-10 pr-4 bg-[#f3f4f6] dark:bg-[#1e2e18] border-none rounded focus:ring-1 focus:ring-primary transition-all text-sm" placeholder="Search qualifying assets..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 h-10 bg-primary text-[#101c0d] text-sm font-bold rounded hover:bg-opacity-90 transition-all">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>Export CSV</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded bg-[#f3f4f6] dark:bg-[#1e2e18] hover:bg-[#e5e7eb] dark:hover:bg-[#2a3d24] transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white"></span>
+</button>
+<div class="size-10 rounded-full bg-cover bg-center border border-[#e5e7eb] dark:border-[#2a3d24]" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZa4l6E5Hyg9aAcujgjo1WAJgDMzD702O2pj9MRHPiYsvM8drfjYTwCRWQPty_2ZCExU0YNG3Og8OLogVrumjigjLV2n1A0nZ273D3n0gG8n2WbQ7ZQUCUqDuOl7Q2QgWfGQHSsrshaa7Q37745-Eu4evWqGvqhiek_sTX6uAWgX7IfxXBOHiYN4gJtuKAul0OqxNWorhiDxNYMUp25AhYxzFRm_MEWv_Yo2trH303_S9Xfp_MBcafQlVhQv50TlD9lUOQXFoZXhml')"></div>
+</div>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-6 lg:px-10 py-8">
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Main Content Area -->
+<div class="flex-1 space-y-6">
+<!-- Page Heading & Total Summary -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#e5e7eb] dark:border-[#2a3d24] pb-6">
+<div class="space-y-1">
+<h1 class="text-3xl font-black tracking-tight">MYAUDIT - MIDA Export Variant 2</h1>
+<p class="text-gray-500 dark:text-gray-400">Automation Asset Registry view within the MIDA dashboard</p>
+</div>
+<div class="bg-primary/10 dark:bg-primary/5 border border-primary/20 p-4 rounded-lg flex items-center gap-6">
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Total Qualifying Expenditure</p>
+<p class="text-3xl font-black text-[#101c0d] dark:text-white">RM 145,000</p>
+</div>
+<div class="h-10 w-px bg-primary/20"></div>
+<div class="flex items-center gap-2 px-3 py-1 bg-primary text-[#101c0d] font-bold text-xs rounded-full">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>12% Tax Savings</span>
+</div>
+</div>
+</div>
+<!-- Asset Registry Table -->
+<div class="bg-white dark:bg-[#1a2b15] border border-[#e5e7eb] dark:border-[#2a3d24] rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto @container">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#f9fafb] dark:bg-[#1e2e18] border-b border-[#e5e7eb] dark:border-[#2a3d24]">
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 w-[35%]">Asset Name</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Purchase Date</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Amount (RM)</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">MIDA Incentive Category</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#e5e7eb] dark:divide-[#2a3d24]">
+<!-- Row 1 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-[#21331b] transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary">computer</span>
+<span class="font-semibold">Enterprise ERP License</span>
+</div>
+</td>
+<td class="px-6 py-5 text-gray-600 dark:text-gray-300">12 Oct 2023</td>
+<td class="px-6 py-5 font-bold">45,000.00</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#f3f4f6] dark:bg-[#2a3d24] text-gray-800 dark:text-gray-200">
+                                            Digital Transformation
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-sm font-bold text-primary hover:underline flex items-center gap-1 justify-end ml-auto">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                                            View Evidence
+                                        </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-[#21331b] transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary">precision_manufacturing</span>
+<span class="font-semibold">AI-Driven Robotics Controller</span>
+</div>
+</td>
+<td class="px-6 py-5 text-gray-600 dark:text-gray-300">05 Jan 2024</td>
+<td class="px-6 py-5 font-bold">80,000.00</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#f3f4f6] dark:bg-[#2a3d24] text-gray-800 dark:text-gray-200">
+                                            Automation CA
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-sm font-bold text-primary hover:underline flex items-center gap-1 justify-end ml-auto">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                                            View Evidence
+                                        </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-[#21331b] transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary">cloud</span>
+<span class="font-semibold">Cloud Infrastructure Setup</span>
+</div>
+</td>
+<td class="px-6 py-5 text-gray-600 dark:text-gray-300">22 Feb 2024</td>
+<td class="px-6 py-5 font-bold">15,000.00</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#f3f4f6] dark:bg-[#2a3d24] text-gray-800 dark:text-gray-200">
+                                            Digital Transformation
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-sm font-bold text-primary hover:underline flex items-center gap-1 justify-end ml-auto">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                                            View Evidence
+                                        </button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-[#21331b] transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary">sensors</span>
+<span class="font-semibold">Smart Sensor Array</span>
+</div>
+</td>
+<td class="px-6 py-5 text-gray-600 dark:text-gray-300">15 Mar 2024</td>
+<td class="px-6 py-5 font-bold">5,000.00</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#f3f4f6] dark:bg-[#2a3d24] text-gray-800 dark:text-gray-200">
+                                            Automation CA
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-sm font-bold text-primary hover:underline flex items-center gap-1 justify-end ml-auto">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                                            View Evidence
+                                        </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Sidebar -->
+<aside class="w-full lg:w-80 space-y-6">
+<!-- Compliance Hub Card -->
+<div class="bg-white dark:bg-[#1a2b15] border border-[#e5e7eb] dark:border-[#2a3d24] rounded-xl p-6 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="font-bold text-lg">Compliance Hub</h3>
+<p class="text-xs text-gray-500">Audit &amp; Verification Status</p>
+</div>
+<span class="material-symbols-outlined text-primary">verified_user</span>
+</div>
+<div class="space-y-6">
+<!-- Advisory Clock Widget -->
+<div class="space-y-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<p class="text-xs font-bold uppercase text-gray-500">Compliance Clock</p>
+</div>
+<div class="relative size-40 mx-auto flex items-center justify-center">
+<svg class="size-full transform -rotate-90">
+<circle class="text-[#f3f4f6] dark:text-[#2a3d24]" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="110" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="text-2xl font-black">28</span>
+<span class="text-[10px] font-bold uppercase text-gray-500">Days Left</span>
+</div>
+</div>
+<p class="text-center text-xs text-gray-500 font-medium">Until SIRIM On-Site Audit</p>
+</div>
+<!-- YA 2026 Ready Badge -->
+<div class="bg-primary/10 border border-primary/30 p-4 rounded-lg flex items-center gap-4">
+<div class="size-10 rounded bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[#101c0d] font-bold">check_circle</span>
+</div>
+<div>
+<h4 class="font-black text-sm text-[#101c0d] dark:text-white">LHDN YA 2026 Ready</h4>
+<p class="text-[11px] text-gray-600 dark:text-gray-400">Documentation verified</p>
+</div>
+</div>
+<!-- Mini Navigation -->
+<div class="space-y-2 pt-2 border-t border-[#e5e7eb] dark:border-[#2a3d24]">
+<a class="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-[#21331b] transition-all group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-gray-400 group-hover:text-primary transition-colors">timeline</span>
+<span class="text-sm font-medium">Audit Timeline</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-gray-300">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-[#21331b] transition-all group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-gray-400 group-hover:text-primary transition-colors">folder_open</span>
+<span class="text-sm font-medium">Documentation</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-gray-300">chevron_right</span>
+</a>
+</div>
+<button class="w-full py-3 bg-primary text-[#101c0d] font-black text-sm rounded shadow-lg shadow-primary/10 hover:shadow-primary/30 transition-all uppercase tracking-widest">
+                            Generate Final Report
+                        </button>
+</div>
+</div>
+<!-- Assistance Card -->
+<div class="p-6 bg-[#f9fafb] dark:bg-[#1e2e18] rounded-xl border border-dashed border-gray-300 dark:border-gray-700">
+<h4 class="font-bold text-sm mb-2">Need SIRIM Assistance?</h4>
+<p class="text-xs text-gray-500 mb-4 leading-relaxed">Schedule a pre-audit consultation with our certified MIDA consultants.</p>
+<button class="text-xs font-bold text-primary flex items-center gap-1">
+                        Contact Advisory
+                        <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="max-w-[1440px] mx-auto px-6 lg:px-10 py-10 mt-10 border-t border-[#e5e7eb] dark:border-[#2a3d24]">
+<div class="flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-gray-400 text-[20px]">verified</span>
+<span class="text-sm text-gray-500 font-medium">© 2024 MYAUDIT Compliance Engine. Licensed for MIDA Export Framework.</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-xs font-bold text-gray-400 hover:text-primary uppercase tracking-widest" href="#">Security</a>
+<a class="text-xs font-bold text-gray-400 hover:text-primary uppercase tracking-widest" href="#">Privacy</a>
+<a class="text-xs font-bold text-gray-400 hover:text-primary uppercase tracking-widest" href="#">Help Center</a>
+</div>
+</div>
+</footer>
+</body></html>

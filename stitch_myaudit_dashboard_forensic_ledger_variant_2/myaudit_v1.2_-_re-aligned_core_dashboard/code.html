@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT v1.2 - Re-Aligned Core Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0d33f2",
+              "background-light": "#f5f6f8",
+              "background-dark": "#101322",
+            },
+            fontFamily: {
+              "display": ["Public Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; }
+        .forensic-glow { box-shadow: 0 0 15px rgba(13, 51, 242, 0.15); }
+        .neon-border { border-left: 4px solid #0d33f2; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#0d101c] dark:text-white min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-white dark:bg-background-dark border-b border-[#e7e9f4] dark:border-gray-800 px-6 py-3 flex items-center justify-between">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined text-2xl">analytics</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight">MYAUDIT <span class="text-primary">v1.2</span></h1>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-semibold text-primary" href="#">Dashboard</a>
+<a class="text-sm font-medium text-gray-500 hover:text-primary transition-colors" href="#">Reports</a>
+<a class="text-sm font-medium text-gray-500 hover:text-primary transition-colors" href="#">Forensic Log</a>
+<a class="text-sm font-medium text-gray-500 hover:text-primary transition-colors" href="#">Archive</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">search</span>
+<input class="pl-10 pr-4 py-2 bg-gray-100 dark:bg-gray-800 border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary/20" placeholder="Search audits..." type="text"/>
+</div>
+<button class="p-2 text-gray-500 hover:bg-gray-100 rounded-lg">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-xs">AD</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-6 py-8">
+<!-- Pinned Progress Bar Stage -->
+<div class="mb-8 bg-white dark:bg-background-dark p-6 rounded-xl border border-[#e7e9f4] dark:border-gray-800 shadow-sm">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h2 class="text-sm font-bold text-primary uppercase tracking-widest mb-1">Audit Status</h2>
+<p class="text-2xl font-black">Stage 3 of 4: Refinement &amp; DIE</p>
+</div>
+<p class="text-2xl font-black text-primary">75%</p>
+</div>
+<div class="w-full h-3 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden flex">
+<div class="h-full bg-primary" style="width: 75%;"></div>
+</div>
+<div class="grid grid-cols-4 mt-4 text-[10px] font-bold uppercase tracking-tighter text-gray-400">
+<div class="text-primary">Incentive Profile</div>
+<div class="text-primary">Extraction Hub</div>
+<div class="text-primary border-b-2 border-primary pb-1">Refinement &amp; DIE</div>
+<div class="text-right">Tax Planning</div>
+</div>
+</div>
+<!-- Section Heading -->
+<div class="mb-8">
+<h3 class="text-4xl font-black tracking-tight mb-2">Refinement &amp; Forensic Validation</h3>
+<p class="text-gray-500 dark:text-gray-400 max-w-2xl text-lg">Analyze anomalies and validate tax reclassifications for maximum capital allowance and R&amp;D savings.</p>
+</div>
+<!-- Navigation Tabs -->
+<div class="flex border-b border-gray-200 dark:border-gray-800 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
+<button class="px-6 py-4 text-sm font-bold text-gray-400 border-b-2 border-transparent flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">person_search</span> Incentive Profile
+            </button>
+<button class="px-6 py-4 text-sm font-bold text-gray-400 border-b-2 border-transparent flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">upload_file</span> Extraction Hub
+            </button>
+<button class="px-6 py-4 text-sm font-bold text-primary border-b-2 border-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">biotech</span> Refinement &amp; DIE
+            </button>
+<button class="px-6 py-4 text-sm font-bold text-gray-400 border-b-2 border-transparent flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">lightbulb</span> Tax Planning
+            </button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left & Middle: Checklist & Badges (Refinement Area) -->
+<div class="lg:col-span-2 space-y-6">
+<!-- Action Signal -->
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-start gap-4">
+<div class="mt-1 text-primary">
+<span class="material-symbols-outlined text-3xl">verified</span>
+</div>
+<div>
+<p class="font-bold text-lg">Incentive Eligibility Signal</p>
+<p class="text-gray-600 dark:text-gray-400">Based on your Tech &amp; Manufacturing profile, you qualify for high-tier R&amp;D tax credits.</p>
+</div>
+</div>
+<button class="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2">
+                        View Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Forensic Checklist -->
+<div class="bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm">
+<div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 flex justify-between items-center">
+<h4 class="font-bold text-sm uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">fact_check</span> Forensic Validation Checklist
+                        </h4>
+<span class="text-xs font-mono bg-primary/10 text-primary px-2 py-1 rounded">5/8 COMPLETE</span>
+</div>
+<div class="divide-y divide-gray-100 dark:divide-gray-800">
+<div class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+<input checked="" class="rounded text-primary focus:ring-primary h-5 w-5" type="checkbox"/>
+<div class="flex-1">
+<p class="font-semibold text-sm">Director Fee Validation</p>
+<p class="text-xs text-gray-500">Cross-referenced with ACRA filing documents.</p>
+</div>
+<span class="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded">VALIDATED</span>
+</div>
+<div class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+<input checked="" class="rounded text-primary focus:ring-primary h-5 w-5" type="checkbox"/>
+<div class="flex-1">
+<p class="font-semibold text-sm">Software R&amp;D Personnel Allocation</p>
+<p class="text-xs text-gray-500">80% of salary identified as qualifying expenditure.</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-primary text-white text-[10px] font-bold rounded">+RM 12,400 SAVINGS</span>
+</div>
+</div>
+<div class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors bg-blue-50/30 dark:bg-primary/5">
+<input class="rounded text-primary focus:ring-primary h-5 w-5" type="checkbox"/>
+<div class="flex-1">
+<p class="font-semibold text-sm">Capital Allowance: New Hardware Hub</p>
+<p class="text-xs text-gray-500">Require specific serial numbers for forensic verification.</p>
+</div>
+<span class="px-2 py-1 bg-amber-100 text-amber-700 text-[10px] font-bold rounded">ACTION REQ</span>
+</div>
+</div>
+</div>
+<!-- Live Extraction Log (Context from Hub) -->
+<div class="bg-black text-green-400 font-mono text-xs p-4 rounded-lg shadow-inner overflow-hidden border border-gray-800">
+<div class="flex items-center gap-2 mb-2 text-gray-500 font-bold uppercase tracking-widest text-[10px]">
+<span class="material-symbols-outlined text-xs">terminal</span> Live Status Log
+                    </div>
+<div class="space-y-1">
+<p class="opacity-70">[10:42:12] AI scanning Singapore-resident doc: INV_2023_992.pdf...</p>
+<p class="text-green-300">[10:42:15] Extraction Successful: GST Data Matched.</p>
+<p class="opacity-70">[10:43:01] Forensic Match: Director Remuneration vs Ledger... [Success]</p>
+<p class="text-blue-400">[10:43:05] ALERT: New Tax Reclassification identified (+RM 2,500)</p>
+<div class="w-1 h-3 bg-green-500 inline-block animate-pulse ml-1"></div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Advisor Insights & Summary -->
+<div class="space-y-6">
+<!-- Mr. R.P.P Advisor -->
+<div class="bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-800 rounded-xl p-6 forensic-glow relative overflow-hidden">
+<div class="absolute top-0 right-0 p-3 opacity-10">
+<span class="material-symbols-outlined text-6xl">person</span>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<div class="h-12 w-12 rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<div>
+<p class="font-bold">Mr. R.P.P's Advice</p>
+<p class="text-xs text-primary font-bold uppercase tracking-tighter">AI Tax Consultant</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg italic text-sm text-gray-700 dark:text-gray-300 neon-border">
+                            "Based on your recent hardware expansion in Jurong, you qualify for the Accelerated Depreciation claim. We've reclassified these assets for you."
+                        </div>
+<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg italic text-sm text-gray-700 dark:text-gray-300 neon-border">
+                            "I recommend validating the R&amp;D staff list by EOD to finalize the extra RM 45k saving forecast."
+                        </div>
+</div>
+</div>
+<!-- Savings Summary Card -->
+<div class="bg-primary text-white rounded-xl p-6">
+<h5 class="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Total Estimated Savings</h5>
+<div class="flex items-baseline gap-2 mb-4">
+<span class="text-3xl font-black">RM 57,400.00</span>
+<span class="text-xs font-bold bg-white/20 px-2 py-0.5 rounded text-white">+12% vs LY</span>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex justify-between text-xs border-b border-white/10 pb-2">
+<span class="opacity-80">R&amp;D Credits</span>
+<span class="font-bold">RM 45,000</span>
+</div>
+<div class="flex justify-between text-xs border-b border-white/10 pb-2">
+<span class="opacity-80">Capital Allowance</span>
+<span class="font-bold">RM 9,900</span>
+</div>
+<div class="flex justify-between text-xs">
+<span class="opacity-80">GST Reclaims</span>
+<span class="font-bold">RM 2,500</span>
+</div>
+</div>
+<button class="w-full py-3 bg-white text-primary font-black rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">download</span>
+                        Download Full Summary
+                    </button>
+</div>
+<!-- Hub Upload Context -->
+<div class="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-8 flex flex-col items-center justify-center text-center hover:border-primary transition-colors group cursor-pointer">
+<div class="mb-4 text-gray-400 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-5xl">cloud_upload</span>
+</div>
+<p class="font-bold text-sm mb-1">Singapore Extraction Dropzone</p>
+<p class="text-xs text-gray-500">Drag your IR8A, GST F5, or Ledger files here</p>
+<div class="mt-4 flex gap-2">
+<span class="text-[10px] px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded font-bold uppercase">PDF</span>
+<span class="text-[10px] px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded font-bold uppercase">XLSX</span>
+<span class="text-[10px] px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded font-bold uppercase">CSV</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Global Floating Action (Final Stage Preview) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2">
+<button class="bg-primary text-white px-8 py-4 rounded-full font-bold shadow-2xl hover:scale-105 transition-transform flex items-center gap-3">
+<span class="material-symbols-outlined">summarize</span>
+            Download accounting &amp; tax summary
+        </button>
+</div>
+</body></html>

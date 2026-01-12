@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MYAUDIT - Security &amp; Governance Posture Variant 2</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0448ae",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1723",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .dot-grid {
+            background-image: radial-gradient(#0448ae22 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .pulse-container {
+            position: relative;
+        }
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border: 2px solid #0448ae;
+            border-radius: 0.5rem;
+            opacity: 0.5;
+            animation: pulse-ring 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            80%, 100% { transform: translate(-50%, -50%) scale(1.1, 1.3); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#0d131c] dark:text-slate-100 min-h-screen">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
+<span class="material-symbols-outlined text-3xl font-bold">verified_user</span>
+</div>
+<h2 class="text-[#0d131c] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">MYAUDIT</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-[#0d131c] dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-[#0d131c] dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Audits</a>
+<a class="text-[#0d131c] dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Reports</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">Governance</a>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-[#0d131c] dark:text-white hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-[#0d131c] dark:text-white hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-700" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7EXEttI1wqPOqKLLXz9J67NLzD3Xg6Jq0RcduK6N2VNqwLXOHOSGHPud82v5G25GWI7hAXVm1TP-yQWlzUWDS8qmH2nFS8oG1CniDZfe0lkFtY6Z69_MTbGTtvMCg4clIn1G3_gZdyO5ZcK-2GA6oHMJ9rUh79Gr_fnQ1cK5wqc7GPTeDQQ0BA1sXx7HdU9ZKYbVVWTtsU6dtdElqVY0TDaRfCsd1brUzY6afqaWakP8RmpjCirF8D6AM7YinSA6OjAGUTw5jNVHd");'></div>
+</div>
+</header>
+<!-- Main Content Overlay -->
+<main class="flex-1 flex items-center justify-center p-6 dot-grid">
+<div class="w-full max-w-[1000px] bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden relative">
+<!-- Headline Section -->
+<div class="text-center pt-12 px-6 pb-6">
+<div class="inline-flex items-center gap-2 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+<span class="material-symbols-outlined text-sm">security</span>
+                        Annual Compliance Review
+                    </div>
+<h1 class="text-[#0d131c] dark:text-white tracking-tight text-3xl md:text-4xl font-bold leading-tight mb-3">Security &amp; Governance Posture: 2023 Review</h1>
+<p class="text-slate-600 dark:text-slate-400 text-base max-w-2xl mx-auto">
+                        Your data is now audit-proofed for professional review. Locking this year ensures total data integrity and regulatory compliance.
+                    </p>
+</div>
+<!-- Bento-Style Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-8">
+<!-- Immutable Audit Trail -->
+<div class="group flex flex-col gap-4 p-6 rounded-xl border border-primary/20 bg-slate-50 dark:bg-slate-800/50 hover:border-primary transition-all duration-300">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined text-3xl">history_edu</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-tighter">Chain-of-Custody</span>
+</div>
+<div>
+<p class="text-[#0d131c] dark:text-white text-lg font-bold leading-tight mb-1">Immutable Audit Trail</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-normal">Full tracking enabled. Every transaction is cryptographically signed and timestamped.</p>
+</div>
+</div>
+<!-- LHDN Section 82A -->
+<div class="group flex flex-col gap-4 p-6 rounded-xl border border-primary/20 bg-slate-50 dark:bg-slate-800/50 hover:border-primary transition-all duration-300">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined text-3xl">policy</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-tighter">Regulatory Compliance</span>
+</div>
+<div>
+<p class="text-[#0d131c] dark:text-white text-lg font-bold leading-tight mb-1">LHDN Section 82A</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-normal">Fully compliant with Malaysian tax record-keeping requirements for seven years.</p>
+</div>
+</div>
+<!-- Data Residency -->
+<div class="group flex flex-col gap-4 p-6 rounded-xl border border-primary/20 bg-slate-50 dark:bg-slate-800/50 hover:border-primary transition-all duration-300">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined text-3xl">hub</span>
+</div>
+<span class="text-[10px] font-bold text-green-500 uppercase tracking-tighter">Verified Status</span>
+</div>
+<div>
+<p class="text-[#0d131c] dark:text-white text-lg font-bold leading-tight mb-1">Data Residency</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-normal">Verified: Hosted on Tier-3 local infrastructure within sovereign jurisdiction.</p>
+</div>
+</div>
+</div>
+<!-- Stats Footer -->
+<div class="flex flex-wrap gap-4 px-8 pb-4">
+<div class="flex-1 flex items-center gap-3 p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary">security</span>
+<div>
+<p class="text-xs text-slate-500 font-medium">System Status</p>
+<p class="text-sm font-bold">Verified &amp; Secure</p>
+</div>
+</div>
+<div class="flex-1 flex items-center gap-3 p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary">lock</span>
+<div>
+<p class="text-xs text-slate-500 font-medium">Encryption Standard</p>
+<p class="text-sm font-bold">AES-256 Bit</p>
+</div>
+</div>
+<div class="flex-1 flex items-center gap-3 p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<span class="material-symbols-outlined text-primary">data_check</span>
+<div>
+<p class="text-xs text-slate-500 font-medium">Data Integrity</p>
+<p class="text-sm font-bold">100% Validated</p>
+</div>
+</div>
+</div>
+<!-- Action Button Section -->
+<div class="p-12 text-center bg-slate-50 dark:bg-slate-800/30 mt-4 border-t border-slate-100 dark:border-slate-800">
+<div class="pulse-container inline-block">
+<div class="pulse-ring"></div>
+<button class="relative flex items-center justify-center gap-3 bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-lg font-bold text-lg transition-all shadow-lg hover:shadow-primary/20 active:scale-[0.98]">
+<span class="material-symbols-outlined">lock_person</span>
+                            Lock Year &amp; Generate Certificate
+                        </button>
+</div>
+<p class="mt-4 text-xs text-slate-400 dark:text-slate-500 font-medium">
+                        This action is irreversible. It will seal all records for fiscal year 2023.
+                    </p>
+</div>
+</div>
+</main>
+<!-- Footer Mini-info -->
+<footer class="px-10 py-6 text-center text-slate-400 text-xs">
+<p>© 2024 MYAUDIT Governance Framework. All Rights Reserved. Compliant with international auditing standards ISA 200.</p>
+</footer>
+</div>
+</body></html>

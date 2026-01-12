@@ -21,7 +21,7 @@ export interface LedgerEntry {
   debit: number;
   credit: number;
   category: string;
-  status: "NEW" | "AUTO_TAGGED" | "USER_REVIEWED" | "AUDIT_READY" | "LOCKED";
+  status: "NEW" | "AUTO_TAGGED" | "USER_REVIEWED" | "AUDIT_READY" | "LOCKED" | "LOCKED_FOR_AUDIT";
   supportingDocLinks: string[];
   auditNotes?: string;
   // DIE metadata
@@ -29,6 +29,7 @@ export interface LedgerEntry {
   eventPurpose?: "MARKETING" | "WELFARE" | "REVENUE_GENERATION" | "OTHER" | null;
   sourceEvidence?: string[] | null;
   dieFlags?: DieFlag[];
+  eInvoiceStatus?: 'valid' | 'missing' | 'warning';
 }
 
 /**
@@ -237,12 +238,12 @@ export interface ProcessingState {
 }
 
 export interface TaxComputationResult {
-    grossSalary: number;
-    netPay: number;
-    deductions: {
-        epf: number;
-        socso: number;
-        eis: number;
-        total: number;
-    };
+  grossSalary: number;
+  netPay: number;
+  deductions: {
+    epf: number;
+    socso: number;
+    eis: number;
+    total: number;
+  };
 }

@@ -4,10 +4,17 @@ on:
     branches:
       - main
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: ⬇️ Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: 🏗️ Install & Build
+        run: |
+          npm install
+          npm run build
+
       - name: 🚀 Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:

@@ -1,0 +1,16 @@
+name: 🚀 Deploy to Firebase
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 🚀 Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting:myaudit-tax-2026
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

@@ -1,21 +1,33 @@
-export type ConfidenceLevel = 'low' | 'medium' | 'high' | number;
+
+// Note: In production, these types are imported from src/types/index.ts
+export type TransactionType = 'DEBIT' | 'CREDIT';
+export type AuditStatus = 'PENDING' | 'VALIDATED' | 'APPROVED';
+export type EInvoiceStatus = 'VALIDATED' | 'EXEMPT' | 'MISSING';
 
 export interface LedgerEntry {
-  id?: string;
-  transactionId?: string;
-  yearId?: string;
-  date?: string;
-  description?: string;
-  debit?: number;
-  credit?: number;
-  amount?: number;
-  category?: string;
-  confidence?: ConfidenceLevel;
-  eInvoiceStatus?: 'valid' | 'missing' | 'warning' | string;
-  dieFlags?: DieFlag[];
-  supportingDocLinks?: string[];
-  status?: 'AUDIT_READY' | 'DIE_FLAGGED' | 'New' | string;
+  id: string;
+  transactionDate: string;
+  description: string;
+  amount: number;
+  type: TransactionType;
+  sourceDocUrl: string;
+  supportingDocUrl: string;
+  category: string;
+  confidenceScore: number;
+  auditStatus: AuditStatus;
+  eInvoiceStatus: EInvoiceStatus;
+  dieFlags: string[];
+  metadata: Record<string, any>;
 }
+
+export interface RawOcrData {
+  date: string;
+  description: string;
+  amount: number;
+  type: 'DR' | 'CR';
+  metadata?: any;
+}
+export type ConfidenceLevel = 'low' | 'medium' | 'high' | number;
 
 export type DieFlagType = 'risk' | 'opportunity' | 'MISCLASSIFICATION_RISK';
 

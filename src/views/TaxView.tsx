@@ -1,50 +1,43 @@
 import React from 'react';
-import { LedgerEntry, IncentiveSignals } from '../types';
-import AutomationCapitalAllowanceCard from '../components/tax/AutomationCapitalAllowanceCard';
-import { calculateSimulatedACA } from '../logic/formulas';
 
-interface Props {
-  entries: LedgerEntry[];
-  signals: IncentiveSignals;
-}
-
-const TaxView: React.FC<Props> = ({ entries, signals }) => {
-
-  const { totalCA, qualifyingExpenditure } = calculateSimulatedACA(entries, signals);
-
+const TaxView: React.FC = () => {
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
-      <div>
-        <h2 className="text-2xl font-bold text-white">Tax Optimization Analysis</h2>
-        <p className="text-slate-400 mt-1">
-          Forensic audit of your ledger against 2026 Malaysian SME incentives.
+    <div className="font-display">
+      <div className="mb-10">
+        <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-3">Stage 4: Tax Simulation</h2>
+        <p className="text-slate-500 text-lg font-light leading-relaxed">
+          Project your YA 2026 tax obligations based on the refined ledger.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <AutomationCapitalAllowanceCard
-          totalCA={totalCA}
-          qualifyingExpenditure={qualifyingExpenditure}
-          isEnabled={signals.usesAutomation}
-        />
-        
-        {/* Placeholder for SME Tiered Tax Rate info */}
-        <div className="p-6 bg-slate-900 rounded-xl border border-slate-800">
-          <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
-            SME Tax Profile
-          </h3>
-          <p className="mt-4 text-3xl font-bold text-white">15% - 17%</p>
-          <p className="mt-2 text-sm text-slate-500">
-            Preferential rate applied to the first RM600,000 of income.
-          </p>
+      <div className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm">
+        <h3 className="text-2xl font-bold text-slate-900 mb-6">SME Tax Brackets (YA 2026)</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          
+          {/* Tier 1 */}
+          <div className="p-6 bg-slate-50 rounded-xl border border-slate-200">
+            <p className="text-sm font-bold text-slate-500 uppercase tracking-wider">First RM 150,000</p>
+            <p className="text-4xl font-black text-blue-600 my-2">15%</p>
+            <p className="text-sm text-slate-600">Chargeable Income</p>
+          </div>
+
+          {/* Tier 2 */}
+          <div className="p-6 bg-slate-50 rounded-xl border border-slate-200">
+            <p className="text-sm font-bold text-slate-500 uppercase tracking-wider">RM 150,001 - RM 600,000</p>
+            <p className="text-4xl font-black text-blue-600 my-2">17%</p>
+            <p className="text-sm text-slate-600">Chargeable Income</p>
+          </div>
+
+          {/* Tier 3 */}
+          <div className="p-6 bg-slate-50 rounded-xl border border-slate-200">
+            <p className="text-sm font-bold text-slate-500 uppercase tracking-wider">Above RM 600,000</p>
+            <p className="text-4xl font-black text-blue-600 my-2">24%</p>
+            <p className="text-sm text-slate-600">Chargeable Income</p>
+          </div>
         </div>
-      </div>
-      
-      <div className="mt-8 p-4 bg-blue-900/20 border border-blue-800/50 rounded-lg">
-        <p className="text-xs text-blue-300">
-          <strong>Note:</strong> Automation CA requires technical verification by SIRIM 
-          and approval from MIDA. This is a simulation based on your ledger data.
-        </p>
+        <div className="bg-amber-50 p-4 border-l-4 border-amber-400 rounded-r-lg text-sm text-amber-900">
+          <p><strong>Disclaimer:</strong> This is an AI-generated tax estimation for planning purposes only and is not a substitute for professional tax advice. Consult with a qualified tax agent for final filing.</p>
+        </div>
       </div>
     </div>
   );

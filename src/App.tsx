@@ -1,53 +1,34 @@
+// src/App.tsx
 import React, { useState } from 'react';
 import { Header } from './components/layout/Header';
-import IncentiveProfile from './components/IncentiveProfile';
-import { DocumentUploader } from './components/ingestion/DocumentUploader';
-import ExtractionResults from './components/ingestion/ExtractionResults';
+import { TabSwitch } from './components/TabSwitch';
+import SetupView from './views/SetupView';
+import ExtractionView from './views/ExtractionView';
 import RefinementView from './views/RefinementView';
 import TaxView from './views/TaxView';
-import { LedgerEntry, IncentiveSignals } from './types';
+import AuditLogView from './components/audit/AuditLogView'; // Export Tab 5
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('Tax');
-  const [entries, setEntries] = useState<LedgerEntry[]>([]);
-  const [signals, setSignals] = useState<IncentiveSignals>({ 
-    usesAutomation: true,
-    reinvestsInAssets: false,
-    employsDisabledStaff: false,
-    frequentSmallAssets: false,
-    hasPioneerStatus: false
-  });
-
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-  };
-
-  const handleEntriesExtracted = (entries: LedgerEntry[]) => {
-    setEntries(entries);
-    setActiveTab('Refinement');
-  };
-
-  const handleSignalUpdate = (key: keyof IncentiveSignals, value: boolean) => {
-    setSignals(prev => ({ ...prev, [key]: value }));
-  };
+  const [activeTab, setActiveTab] = useState('setup');
 
   return (
-    <div className="bg-slate-950 text-white min-h-screen font-sans">
+    <div className="min-h-screen bg-[#2B2F33] text-[#F5F7FA] font-sans">
       <Header />
-      <main className="p-4 sm:p-6 lg:p-8">
-        <div className="flex space-x-4 mb-4">
-          <button onClick={() => handleTabChange('Profile')} className={`px-4 py-2 rounded ${activeTab === 'Profile' ? 'bg-blue-600' : 'bg-gray-700'}`}>Profile</button>
-          <button onClick={() => handleTabChange('Ingestion')} className={`px-4 py-2 rounded ${activeTab === 'Ingestion' ? 'bg-blue-600' : 'bg-gray-700'}`}>Ingestion</button>
-          <button onClick={() => handleTabChange('Extraction')} className={`px-4 py-2 rounded ${activeTab === 'Extraction' ? 'bg-blue-600' : 'bg-gray-700'}`}>Extraction</button>
-          <button onClick={() => handleTabChange('Refinement')} className={`px-4 py-2 rounded ${activeTab === 'Refinement' ? 'bg-blue-600' : 'bg-gray-700'}`}>Refinement</button>
-          <button onClick={() => handleTabChange('Tax')} className={`px-4 py-2 rounded ${activeTab === 'Tax' ? 'bg-blue-600' : 'bg-gray-700'}`}>Tax</button>
-        </div>
-        {activeTab === 'Profile' && <IncentiveProfile signals={signals} onUpdate={handleSignalUpdate} />}
-        {activeTab === 'Ingestion' && <DocumentUploader onExtractionComplete={handleEntriesExtracted} />}
-        {activeTab === 'Extraction' && <ExtractionResults transactions={entries} />}
-        {activeTab === 'Refinement' && <RefinementView entries={entries} />}
-        {activeTab === 'Tax' && <TaxView entries={entries} signals={signals} />}
+      <main className="pt-32 pb-12 max-w-7xl mx-auto px-6">
+        <TabSwitch activeTab={activeTab} onTabChange={setActiveTab} />
+        
+        <section className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+          {activeTab === 'setup' && <SetupView />}
+          {activeTab === 'extraction' && <ExtractionView />}
+          {activeTab === 'refinement' && <RefinementView />}
+          {activeTab === 'tax' && <TaxView />}
+          {activeTab === 'export' && <AuditLogView />}
+        </section>
       </main>
+      
+      <footer className="text-center py-12 text-[10px] text-gray-600 uppercase tracking-[0.4em]">
+        Advisory Information Only • RPR COMMUNICATIONS © 2026
+      </footer>
     </div>
   );
 };

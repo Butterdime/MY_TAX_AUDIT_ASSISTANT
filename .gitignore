@@ -31,5 +31,16 @@ firestore-creation-audit-*.txt
 backend/functions/lib/
 infrastructure/terraform/plan.tfplan
 
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+
 # Secrets (never commit)
 github-ci-key.json
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl

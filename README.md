@@ -31,6 +31,16 @@ This project is automatically deployed via **GitHub Actions** to **Firebase Host
    npm run dev
    ```
 
+### Scripts
+
+After cloning the repo, ensure helper scripts are executable:
+
+```bash
+chmod +x scripts/*.sh
+```
+
+See `docs/MYA-TECH-019.md` for the MYAUDIT control plane verification script.
+
 ## Push-to-Deploy via GitHub Actions
 
 MYAUDIT uses GitHub Actions to deploy Firebase Functions, Firestore rules, and Hosting to the `myaudit-tax-2026` project.

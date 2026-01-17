@@ -1,0 +1,25 @@
+[
+  {
+    "localId": "test-auditor-001",
+    "email": "auditor@myaudit.test",
+    "emailVerified": true,
+    "passwordHash": "",
+    "salt": "",
+    "displayName": "Test Auditor",
+    "photoUrl": "",
+    "disabled": false,
+    "createdAt": "",
+    "lastLoginAt": "",
+    "providerUserInfo": [
+      {
+        "providerId": "password",
+        "email": "auditor@myaudit.test",
+        "federatedId": "",
+        "rawId": "",
+        "displayName": "Test Auditor",
+        "photoUrl": ""
+      }
+    ],
+    "customAttributes": "{\"role\":\"auditor\",\"department\":\"tax\"}"
+  }
+]

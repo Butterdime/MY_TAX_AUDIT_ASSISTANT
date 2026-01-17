@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
@@ -13,8 +13,11 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase app
-const app = initializeApp(firebaseConfig);
+// Expose full config to window for verification
+(window as any)._firebaseConfig = firebaseConfig;
+
+// Ensure single initialization
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 // Initialize Auth
 export const auth = getAuth(app);

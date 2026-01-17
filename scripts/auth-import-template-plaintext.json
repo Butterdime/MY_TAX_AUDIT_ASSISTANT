@@ -1,0 +1,11 @@
+[
+  {
+    "localId": "test-auditor-001",
+    "email": "auditor@myaudit.test",
+    "emailVerified": true,
+    "password": "TestPassword123!",
+    "displayName": "Test Auditor",
+    "disabled": false,
+    "customAttributes": "{\"role\":\"auditor\",\"department\":\"tax\"}"
+  }
+]

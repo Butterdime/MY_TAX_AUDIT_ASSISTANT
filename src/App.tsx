@@ -32,7 +32,7 @@ import {
   mapUILedgerEntryToLedgerEntry
 } from './types/index';
 import { auth } from './firebase';
-import { signInAnonymously, onAuthStateChanged, User } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged, User } from 'firebase/auth';
 import SovereignHeader from './components/layout/SovereignHeader';
 import TabRail from './components/layout/TabRail';
 
@@ -167,17 +167,35 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [pendingReclass, setPendingReclass] = useState<Record<string, Partial<UILedgerEntry>>>({});
   const [showIntro, setShowIntro] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [isSigningIn, setIsSigningIn] = useState(false);
 
-  // Firebase auth
+  // Firebase auth - Email/Password only (anonymous auth disabled)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
-      if (!user) {
-        signInAnonymously(auth).catch(console.error);
-      }
     });
     return () => unsubscribe();
   }, []);
+
+  // Handle sign in
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthError(null);
+    setIsSigningIn(true);
+    
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // Success - onAuthStateChanged will update user state
+    } catch (error: any) {
+      setAuthError(error.code || error.message);
+      console.error('Sign in error:', error);
+    } finally {
+      setIsSigningIn(false);
+    }
+  };
 
   // Derived UI ledger from forensic ledger
   const uiLedger = useMemo(() => {
@@ -295,7 +313,73 @@ export default function App() {
     <div className="min-h-screen flex flex-col font-sans selection:bg-cyan-500/30" style={{ backgroundColor: colors.charcoal, color: colors.white }}>
       <YearTransitionScreen isVisible={showIntro} onComplete={() => setShowIntro(false)} />
       
-      {!showIntro && (
+      {!showIntro && !user && (
+        <div className="flex-1 flex items-center justify-center p-10">
+          <div className="w-full max-w-md">
+            <div className="border-l-4 border-cyan-400 pl-8 py-2 mb-8">
+              <h2 className="text-3xl font-black tracking-tighter uppercase text-white">Sign In</h2>
+              <p className="text-slate-500 text-sm mt-1 uppercase tracking-widest font-bold">Email/Password Authentication</p>
+            </div>
+            <form onSubmit={handleSignIn} className="p-8 rounded-2xl bg-black/20 border border-white/5 space-y-6">
+              <div>
+                <label htmlFor="email" className="block text-[10px] text-slate-500 uppercase font-black mb-2">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="auditor@myaudit.test"
+                  required
+                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="block text-[10px] text-slate-500 uppercase font-black mb-2">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
+                  required
+                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                />
+              </div>
+              {authError && (
+                <div className="p-3 rounded-lg bg-red-500/20 border border-red-500/30">
+                  <p className="text-xs text-red-400 font-bold uppercase">{authError}</p>
+                </div>
+              )}
+              <button
+                type="submit"
+                disabled={isSigningIn}
+                className="w-full px-8 py-4 rounded-xl bg-cyan-500 text-slate-900 text-[11px] font-black uppercase tracking-widest shadow-xl shadow-cyan-500/10 hover:translate-y-[-2px] active:translate-y-[0] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isSigningIn ? (
+                  <>
+                    <RefreshCw size={16} className="animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  <>
+                    <Check size={16} />
+                    Sign In
+                  </>
+                )}
+              </button>
+              <p className="text-[9px] text-slate-500 text-center italic mt-4">
+                Test credentials: auditor@myaudit.test / TestPassword123!
+              </p>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {!showIntro && user && (
         <>
           {/* --- SOVEREIGN HEADER --- */}
           <SovereignHeader user={user} isAuditMode={isAuditMode} />

@@ -1,5 +1,7 @@
 import React, { ErrorInfo, ReactNode } from 'react';
 import ReactDOM from 'react-dom/client';
+// CRITICAL: Explicitly import to prevent tree-shaking of the window binding
+import './firebase';
 import App from './App';
 import './index.css';
 

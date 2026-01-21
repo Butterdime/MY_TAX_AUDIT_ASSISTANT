@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { collection, onSnapshot, query, orderBy, where, QuerySnapshot, DocumentData } from 'firebase/firestore';
 import { db } from '../firebase';
-import { LedgerEntry } from '../types';
+import type { LedgerEntry } from '../types';
+import type { UILedgerEntry } from '../types/viewModels';
+import { toUILedgerEntry } from '../types/viewModels';
 
 export const useLedgerEntries = (yearId: string) => {
-  const [entries, setEntries] = useState<LedgerEntry[]>([]);
+  const [canonicalEntries, setCanonicalEntries] = useState<LedgerEntry[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -14,26 +16,19 @@ export const useLedgerEntries = (yearId: string) => {
     const q = query(
       collection(db, 'ledger_entries'), 
       where('yearId', '==', yearId),
-      orderBy('transactionId', 'desc')
+      orderBy('transactionDate', 'desc')
     );
 
     const unsubscribe = onSnapshot(q, (snapshot: QuerySnapshot) => {
       const data = snapshot.docs.map(doc => {
         const docData = doc.data() as DocumentData;
         return {
-            id: doc.id,
-            transactionId: docData.transactionId || '',
-            yearId: docData.yearId || '',
-            description: docData.description || '',
-            debit: docData.debit || 0,
-            credit: docData.credit || 0,
-            category: docData.category || 'Uncategorized',
-            status: docData.status || 'NEW',
-            supportingDocLinks: docData.supportingDocLinks || [],
+          id: doc.id,
+          ...docData
         } as LedgerEntry;
       });
       
-      setEntries(data);
+      setCanonicalEntries(data);
       setLoading(false);
     }, (err) => {
       console.error("Firestore Listen Error:", err);
@@ -44,5 +39,9 @@ export const useLedgerEntries = (yearId: string) => {
     return () => unsubscribe();
   }, [yearId]);
 
-  return { entries, loading, error };
+  const uiEntries = useMemo(() => {
+    return canonicalEntries.map(toUILedgerEntry);
+  }, [canonicalEntries]);
+
+  return { canonicalEntries, uiEntries, loading, error };
 };

@@ -3,7 +3,7 @@ import { Database, RefreshCw, Zap } from 'lucide-react';
 import { useForensicContext } from '../../context/ForensicContext';
 
 const SetupView = () => {
-    const { handleRunAudit, forensicLedger } = useForensicContext();
+    const { handleRunAudit, rawEntries } = useForensicContext();
     const [isProcessing, setIsProcessing] = React.useState(false);
 
     const handleButtonClick = () => {
@@ -22,7 +22,7 @@ const SetupView = () => {
                 <p className="text-slate-400 max-w-md">Initialize the sovereign reporting context by mapping your legal entity to the 1000-9999 account substrate.</p>
                 <button
                     onClick={handleButtonClick}
-                    disabled={isProcessing || forensicLedger.length > 0}
+                    disabled={isProcessing || rawEntries.length > 0}
                     className="px-8 py-4 rounded-xl bg-cyan-500 text-slate-900 text-[11px] font-black uppercase tracking-widest shadow-xl shadow-cyan-500/10 hover:translate-y-[-2px] active:translate-y-[0] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                     {isProcessing ? (

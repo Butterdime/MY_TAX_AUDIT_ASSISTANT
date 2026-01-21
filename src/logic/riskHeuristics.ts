@@ -16,14 +16,12 @@ export function detectMisclassifications(entry: LedgerEntry): DieFlag[] {
         if (hasKeyword && entry.category !== category) {
             flags.push({
                 id: `${entry.id}-misclass`,
-                entryId: entry.id!,
-                title: 'Potential Misclassification',
-                message: `Entry \"${description}\" might be miscategorized. Expected ${category}, but found ${entry.category}.`,
-                flagType: "MISCLASSIFICATION_RISK",
-                suggestion: `Re-categorize to \"${category}\".`,
-                estimatedImpact: "Varies",
-                confidence: 0.8,
-                createdAt: new Date().toISOString(),
+                entryId: entry.id,
+                severity: 'med',
+                message: `Entry \"${description}\" might be miscategorized. Suggestion: Re-categorize to \"${category}\".`,
+                flagType: 'MISCLASSIFICATION_RISK',
+                category: 'compliance',
+                detectedAt: new Date().toISOString(),
             });
         }
     }
@@ -33,12 +31,16 @@ export function detectMisclassifications(entry: LedgerEntry): DieFlag[] {
 
 export function estimateRiskSimulation(entries: LedgerEntry[]) {
     const highRiskEntries = entries.filter(e => {
-        const debit = e.debit ?? 0;
-        return (debit > 500 && (!e.supportingDocLinks || e.supportingDocLinks.length === 0)) ||
+        const debit = e.type === 'DEBIT' ? e.amount : 0;
+        return (debit > 500 && !e.supportingDocUrl) ||
                e.category === 'Uncategorized';
     });
 
-    const estimatedExposure = highRiskEntries.reduce((acc, entry) => acc + (entry.debit ?? 0), 0);
+    const estimatedExposure = highRiskEntries.reduce((acc, entry) => {
+        const debit = entry.type === 'DEBIT' ? entry.amount : 0;
+        return acc + debit;
+    }, 0);
+
     const simulatedLeakage = estimatedExposure * 0.24; // 24% tax rate
 
     return {

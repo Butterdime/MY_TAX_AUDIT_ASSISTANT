@@ -9,7 +9,7 @@ export const useForensicLedger = (initialEntries: LedgerEntry[]) => {
 
   const updateCategory = (entryId: string, newCategory: string) => {
     setEntries(prev => prev.map(entry => 
-      entry.id === entryId ? { ...entry, category: newCategory, status: 'USER_REVIEWED' } : entry
+      entry.id === entryId ? { ...entry, category: newCategory, auditStatus: 'VALIDATED' } : entry
     ));
   };
 
@@ -22,7 +22,7 @@ export const useForensicLedger = (initialEntries: LedgerEntry[]) => {
 
   const stats = useMemo(() => {
     const total = entries.length;
-    const auditReady = entries.filter(e => e.status === 'AUDIT_READY').length;
+    const auditReady = entries.filter(e => e.auditStatus === 'APPROVED').length;
     const highRisk = entries.filter(e => e.dieFlags && e.dieFlags.length > 0).length;
     
     return {

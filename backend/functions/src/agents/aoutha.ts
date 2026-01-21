@@ -7,21 +7,22 @@ export const analyzeEntry = (entry: LedgerEntry): DieFlag[] => {
   
   if (entry.category === 'Uncategorized') {
     flags.push({
-      flagType: "MISCLASSIFICATION_RISK",
-      suggestion: `Entry "${entry.description}" is uncategorized and requires classification.`,
-      estimatedImpact: "Potential tax impact depends on correct categorization.",
-      confidence: 0.9,
-      createdAt: Date.now(),
+      severity: 'low',
+      message: `Entry "${entry.description}" is uncategorized and requires classification. Potential tax impact depends on correct categorization.`,
+      flagType: 'MISCLASSIFICATION_RISK',
+      category: 'tax',
+      detectedAt: new Date().toISOString(),
     });
   }
   
-  if (entry.debit > DOCUMENT_GAP_THRESHOLD && entry.supportingDocLinks.length === 0) {
+  const debit = entry.debit ?? 0;
+  if (debit > DOCUMENT_GAP_THRESHOLD && !entry.supportingDocUrl) {
     flags.push({
-      flagType: "MISSING_DOC",
-      suggestion: `Entry "${entry.description}" exceeds RM ${DOCUMENT_GAP_THRESHOLD} threshold but has no supporting documentation.`,
-      estimatedImpact: `Potential tax disallowance of RM ${entry.debit.toFixed(2)} if documentation is not provided.`,
-      confidence: 1.0,
-      createdAt: Date.now(),
+      severity: 'high',
+      message: `Entry "${entry.description}" exceeds RM ${DOCUMENT_GAP_THRESHOLD} threshold but has no supporting documentation. Potential tax disallowance of RM ${debit.toFixed(2)} if documentation is not provided.`,
+      flagType: 'MISSING_DOC',
+      category: 'compliance',
+      detectedAt: new Date().toISOString(),
     });
   }
   

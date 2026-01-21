@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckCircle2, Check } from 'lucide-react';
-import { UILedgerEntry } from '../../types';
+import type { UILedgerEntry } from '../../types/viewModels';
 
 interface RefinementViewProps {
   entries: UILedgerEntry[];
@@ -13,7 +13,7 @@ const RefinementView: React.FC<RefinementViewProps> = ({
   onReclassify,
   integrityScore
 }) => {
-    const flaggedEntries = entries.filter(e => e.dieFlags && e.dieFlags.length > 0);
+    const flaggedEntries = entries.filter(e => e.flags && e.flags.length > 0);
     const categoryOptions = [
         'Entertainment',
         'Staff Welfare',
@@ -45,7 +45,7 @@ const RefinementView: React.FC<RefinementViewProps> = ({
           {flaggedEntries.map((entry) => (
             <div
               key={entry.id}
-              className={`p-6 rounded-3xl bg-slate-950 border ${entry.dieFlags?.includes('MIN_WAGE_VIOLATION') ? 'border-amber-400/50' : 'border-slate-800'} space-y-4`}
+              className={`p-6 rounded-3xl bg-slate-950 border ${entry.flags?.includes('MIN_WAGE_VIOLATION') ? 'border-amber-400/50' : 'border-slate-800'} space-y-4`}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -53,8 +53,8 @@ const RefinementView: React.FC<RefinementViewProps> = ({
                     <p className="text-white font-black text-sm uppercase">
                       {entry.description}
                     </p>
-                    <span className={`px-2 py-1 text-[9px] font-black uppercase rounded ${entry.dieFlags?.includes('MIN_WAGE_VIOLATION') ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
-                      {entry.dieFlags?.[0] || 'FLAGGED'}
+                    <span className={`px-2 py-1 text-[9px] font-black uppercase rounded ${entry.flags?.includes('MIN_WAGE_VIOLATION') ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
+                      {entry.flags?.[0] || 'FLAGGED'}
                     </span>
                   </div>
                   <div className="flex items-center gap-4 text-[10px] text-slate-400">

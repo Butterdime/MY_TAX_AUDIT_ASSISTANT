@@ -1,9 +1,9 @@
 import React from 'react';
-import { LedgerEntry } from '../../types';
+import type { UILedgerEntry } from '../../types/viewModels';
 import TransactionRow from './TransactionRow';
 
 interface Props {
-  transactions: LedgerEntry[];
+  transactions: UILedgerEntry[];
 }
 
 const ExtractionResults: React.FC<Props> = ({ transactions }) => {

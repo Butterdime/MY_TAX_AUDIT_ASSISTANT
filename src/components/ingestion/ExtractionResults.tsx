@@ -1,8 +1,8 @@
 import React from 'react';
-import { LedgerEntry } from '../../types';
+import type { UILedgerEntry } from '../../types/viewModels';
 
 interface Props {
-  transactions: LedgerEntry[];
+  transactions: UILedgerEntry[];
 }
 
 export const ExtractionResults: React.FC<Props> = ({ transactions }) => {
@@ -28,7 +28,7 @@ export const ExtractionResults: React.FC<Props> = ({ transactions }) => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{entry.date}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{entry.description}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{entry.category}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-mono text-emerald-400">{entry.amount?.toFixed(2)}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-mono text-emerald-400">{(entry.debit ?? entry.credit)?.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>

@@ -3,6 +3,7 @@ node_modules/
 dist/
 dist-kontrol/
 npm-debug.log*
+npm_output.log
 .env
 .env.local
 

@@ -1,109 +1,70 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
-import { UILedgerEntry, LedgerEntry, mapLedgerEntryToUILedgerEntry, mapUILedgerEntryToLedgerEntry } from '../types';
-import { computeUpdatedFlags } from '../utils/logic/taxcompute';
+import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
+import type { LedgerEntry } from '../types';
+import type { UILedgerEntry } from '../types/viewModels';
+import { toUILedgerEntry } from '../types/viewModels';
 
-interface ForensicState {
-  ledger: UILedgerEntry[];
-  isAuditMode: boolean;
-  substrateIntegrity: number;
-  forensicLedger: LedgerEntry[];
-  flaggedUiEntries: UILedgerEntry[];
-  evidenceHash: string;
-  handleReclassifyEntry: (entryId: string, updates: Partial<UILedgerEntry>) => void;
-  handleExportAuditPack: () => void;
+export interface ForensicState {
+  entries: UILedgerEntry[];
+  rawEntries: LedgerEntry[];
+  loading: boolean;
+  error: string | null;
+  handleRunAudit: () => Promise<void> | void;
 }
 
 const ForensicContext = createContext<ForensicState | undefined>(undefined);
 
-export const useForensicContext = () => {
-  const context = useContext(ForensicContext);
-  if (!context) {
-    throw new Error('useForensicContext must be used within a ForensicProvider');
-  }
-  return context;
-};
+export const ForensicProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [rawEntries, setRawEntries] = useState<LedgerEntry[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-import { useSovereignSubstrate } from '../hooks/useSovereignSubstrate';
+  const handleRunAudit = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // In a real app, this would involve file parsing and API calls.
+      const massiveActivationYA2017: LedgerEntry[] = [
+        {
+          id: 'ya2017_001',
+          transactionDate: '2017-01-15',
+          description: 'ANNUAL STAFF DINNER - GALA EVENT',
+          amount: 100000,
+          type: 'DEBIT',
+          sourceDocUrl: 'https://docs.example.com/invoice_001.pdf',
+          supportingDocUrl: 'https://docs.example.com/receipt_001.pdf',
+          category: 'Entertainment',
+          confidenceScore: 0.85,
+          status: 'PENDING',
+          auditStatus: 'PENDING',
+          eInvoiceStatus: 'MISSING',
+          dieFlags: ['MISCLASSIFICATION_RISK'],
+          metadata: { accountCode: 8201, notes: 'Consider Staff Welfare classification' },
+          accountCode: '8201',
+          entityId: 'test-entity',
+        },
+      ];
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setRawEntries(massiveActivationYA2017);
+    } catch (e: any) {
+      setError(e.message || 'An unknown error occurred.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-export const ForensicProvider: React.FC<{ children: React.ReactNode, setActiveTab: (tab: string) => void, user: any }> = ({ children, setActiveTab, user }) => {
-    const { data: initialLedger, loading: isProcessing } = useSovereignSubstrate('massive-activation-1234567-X');
-    const [forensicLedger, setForensicLedger] = useState<LedgerEntry[]>([]);
-    const [isAuditMode, setIsAuditMode] = useState(false);
+  const entries = useMemo(() => rawEntries.map(toUILedgerEntry), [rawEntries]);
 
-    useEffect(() => {
-        if (initialLedger) {
-            setForensicLedger(initialLedger);
-        }
-    }, [initialLedger]);
-
-    const uiLedger = useMemo(() => {
-        return forensicLedger.map(mapLedgerEntryToUILedgerEntry);
-      }, [forensicLedger]);
-
-      const handleReclassifyEntry = (entryId: string, updates: Partial<UILedgerEntry>) => {
-        const originalEntry = forensicLedger.find(e => e.id === entryId);
-        if (!originalEntry) return;
-
-        const updatedUIEntry: UILedgerEntry = {
-          ...uiLedger.find(e => e.id === entryId)!,
-          ...updates
-        };
-
-        const newFlags = computeUpdatedFlags(updatedUIEntry, updatedUIEntry.category);
-        updatedUIEntry.dieFlags = newFlags;
-
-        const updatedLedgerEntry = mapUILedgerEntryToLedgerEntry(updatedUIEntry, originalEntry);
-
-        setForensicLedger(prev =>
-          prev.map(e => e.id === entryId ? updatedLedgerEntry : e)
-        );
-      };
-
-      const handleExportAuditPack = () => {
-        const exportData = {
-          timestamp: new Date().toISOString(),
-          ledger: forensicLedger,
-          metadata: {
-            year: 'YA2017',
-            entity: 'Test Entity',
-            generatedBy: user?.uid || 'anonymous'
-          }
-        };
-
-        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `myaudit-export-${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-      };
-
-      const flaggedUiEntries = useMemo(() => {
-        return uiLedger.filter(e => e.dieFlags && e.dieFlags.length > 0);
-      }, [uiLedger]);
-
-      const evidenceHash = useMemo(() => {
-        const hash = forensicLedger.length.toString(36).toUpperCase();
-        return `EVID-${hash}-${Date.now().toString(36).slice(-4).toUpperCase()}`;
-      }, [forensicLedger]);
-
-  const value = {
-    ledger: uiLedger,
-    isAuditMode,
-    substrateIntegrity: 0.0, // Placeholder
-    forensicLedger,
-    flaggedUiEntries,
-    evidenceHash,
-    handleReclassifyEntry,
-    handleExportAuditPack,
-  };
+  const value = useMemo(() => ({ entries, rawEntries, loading, error, handleRunAudit }), [entries, rawEntries, loading, error, handleRunAudit]);
 
   return (
     <ForensicContext.Provider value={value}>
       {children}
     </ForensicContext.Provider>
   );
+};
+
+export const useForensicContext = () => {
+  const ctx = useContext(ForensicContext);
+  if (!ctx) throw new Error('useForensicContext must be used within ForensicProvider');
+  return ctx;
 };

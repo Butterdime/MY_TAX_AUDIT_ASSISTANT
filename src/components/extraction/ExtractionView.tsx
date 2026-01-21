@@ -3,7 +3,8 @@ import { Search } from 'lucide-react';
 import { useForensicContext } from '../../context/ForensicContext';
 
 const ExtractionView = () => {
-    const { ledger, evidenceHash, forensicLedger } = useForensicContext();
+    const { entries, rawEntries } = useForensicContext();
+    const evidenceHash = `EVID-${rawEntries.length.toString(36).toUpperCase()}-${Date.now().toString(36).slice(-4).toUpperCase()}`;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -22,7 +23,7 @@ const ExtractionView = () => {
             <p className="text-[10px] text-slate-500 uppercase font-black mb-1">
               Forensic Ledger Status
             </p>
-            <p className="text-2xl font-black text-white">{forensicLedger.length} entries loaded</p>
+            <p className="text-2xl font-black text-white">{rawEntries.length} entries loaded</p>
           </div>
           {evidenceHash && (
             <div className="text-right">
@@ -34,7 +35,7 @@ const ExtractionView = () => {
           )}
         </div>
 
-        {ledger.length > 0 ? (
+        {entries.length > 0 ? (
           <div className="space-y-4">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-[11px]">
@@ -48,7 +49,7 @@ const ExtractionView = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800 font-medium">
-                  {ledger.slice(0, 10).map((entry) => (
+                  {entries.slice(0, 10).map((entry) => (
                     <tr
                       key={entry.id}
                       className="hover:bg-slate-800/30 transition-colors"
@@ -81,9 +82,9 @@ const ExtractionView = () => {
                 </tbody>
               </table>
             </div>
-            {forensicLedger.length > 10 && (
+            {rawEntries.length > 10 && (
               <p className="text-[9px] text-slate-500 text-center italic">
-                Showing first 10 of {forensicLedger.length} entries
+                Showing first 10 of {rawEntries.length} entries
               </p>
             )}
           </div>

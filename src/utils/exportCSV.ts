@@ -1,8 +1,8 @@
-import { LedgerEntry } from '../types';
+import { UILedgerEntry } from '../types/viewModels';
 
-export const exportToCSV = (transactions: LedgerEntry[], fileName: string = 'forensic_ledger_export') => {
+export const exportToCSV = (transactions: UILedgerEntry[], fileName: string = 'forensic_ledger_export') => {
   // Define 8 headers to match the new Debit/Credit structure
-  const headers = ['Date', 'Description', 'Debit', 'Credit', 'E-Invoice Status', 'Category', 'Status', 'DIE Flags'];
+  const headers = ['Date', 'Description', 'Debit', 'Credit', 'Status', 'Category', 'Flags'];
 
   const rows = transactions.map(t => [
     t.date || 'N/A', 
@@ -10,10 +10,9 @@ export const exportToCSV = (transactions: LedgerEntry[], fileName: string = 'for
     `"${(t.description || '').replace(/"/g, '""')}"`, 
     (t.debit || 0).toString(),
     (t.credit || 0).toString(),
-    t.eInvoiceStatus || 'pending',
-    t.category || 'Uncategorized',
     t.status || 'New',
-    (t.dieFlags && t.dieFlags.length > 0) ? 'YES' : 'NO'
+    t.category || 'Uncategorized',
+    t.flags.join(';')
   ]);
 
   const csvContent = [

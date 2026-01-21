@@ -1,53 +1,107 @@
-export * from '../types';
+// High-Inclusivity Canonical Frontend Types
+// This file serves as the single source of truth for frontend types.
 
-// UI-specific ledger entry type for display and editing
-export interface UILedgerEntry {
+// --- DieFlag ---
+// Combining backend canonical and legacy frontend fields
+export type DieFlagSeverity = 'low' | 'med' | 'high';
+export type DieFlagType = 'risk' | 'opportunity' | 'MISCLASSIFICATION_RISK' | string;
+
+export interface DieFlag {
+  // Backend canonical fields
+  severity: DieFlagSeverity;
+  message: string;
+  flagType: DieFlagType;
+  category?: 'compliance' | 'tax' | 'forensic' | 'timing';
+  detectedAt: string; // ISO String
+
+  // Legacy frontend fields for compatibility
+  id?: string;
+  entryId?: string;
+  title?: string;
+  suggestion?: string;
+  estimatedImpact?: string;
+  confidence?: 'low' | 'medium' | 'high' | number;
+  createdAt?: string;
+}
+
+// --- LedgerEntry ---
+// Combining backend canonical and legacy frontend fields
+export type TransactionType = 'debit' | 'credit' | 'DEBIT' | 'CREDIT';
+export type AuditStatus = 'pending' | 'reviewed' | 'flagged' | 'cleared' | 'PENDING' | 'VALIDATED' | 'APPROVED';
+export type EInvoiceStatus = 'VALIDATED' | 'EXEMPT' | 'MISSING';
+
+export interface LedgerEntry {
+  // Core Fields (mostly from backend canonical)
   id: string;
-  date: string;
+  transactionDate: string;
   description: string;
+  amount: number;
+  type: TransactionType;
+
+  // Optional & Legacy Fields
+  accountCode?: string;
+  reference?: string;
+  entityId?: string;
+  metadata?: { [key: string]: any };
+
+  // Status & Flag Fields
+  status: AuditStatus; // Unified status field
+  auditStatus?: AuditStatus; // Legacy alias
+  eInvoiceStatus?: EInvoiceStatus;
+  forensicFlags?: DieFlag[]; // Canonical
+  dieFlags?: string[]; // Legacy
+
+  // Other legacy fields
+  sourceDocUrl?: string;
+  supportingDocUrl?: string;
+  category?: string;
+  confidenceScore?: number;
+
+  // UI-specific fields that have been used in logic
   debit?: number;
   credit?: number;
-  category: string;
-  status: string;
-  dieFlags?: string[];
-  confidence?: number;
+  date?: string; // UI alias for transactionDate
+  confidence?: number; // UI alias for confidenceScore
 }
 
-// Mapping functions for converting between canonical and UI formats
-import type { LedgerEntry, TransactionType, AuditStatus, EInvoiceStatus } from '../types';
+// --- Other Application Types ---
 
-export function mapLedgerEntryToUILedgerEntry(entry: LedgerEntry): UILedgerEntry {
-  const isDebit = entry.type === 'DEBIT';
-  return {
-    id: entry.id,
-    date: entry.transactionDate,
-    description: entry.description,
-    debit: isDebit ? entry.amount : undefined,
-    credit: !isDebit ? entry.amount : undefined,
-    category: entry.category,
-    status: entry.auditStatus,
-    dieFlags: entry.dieFlags,
-    confidence: entry.confidenceScore,
-  };
+export interface IncentiveSignals {
+  usesAutomation: boolean;
+  reinvestsInAssets: boolean;
+  employsDisabledStaff: boolean;
+  frequentSmallAssets: boolean;
+  hasPioneerStatus: boolean;
 }
 
-export function mapUILedgerEntryToLedgerEntry(uiEntry: UILedgerEntry, original?: LedgerEntry): LedgerEntry {
-  const amount = (uiEntry.debit || 0) + (uiEntry.credit || 0);
-  const type: TransactionType = uiEntry.debit ? 'DEBIT' : 'CREDIT';
-  
-  return {
-    id: uiEntry.id,
-    transactionDate: uiEntry.date,
-    description: uiEntry.description,
-    amount,
-    type,
-    sourceDocUrl: original?.sourceDocUrl || '',
-    supportingDocUrl: original?.supportingDocUrl || '',
-    category: uiEntry.category,
-    confidenceScore: uiEntry.confidence || original?.confidenceScore || 0.5,
-    auditStatus: uiEntry.status as AuditStatus || 'PENDING',
-    eInvoiceStatus: original?.eInvoiceStatus || 'MISSING',
-    dieFlags: uiEntry.dieFlags || [],
-    metadata: original?.metadata || {},
-  };
+export type ActivityType = 'SYSTEM_ACTION' | 'USER_ACTION' | 'FLAG_RAISED';
+
+export interface ActivityLog {
+  id: string;
+  type: ActivityType;
+  details: string;
+  timestamp: number;
+}
+
+export interface AuditLogEntry {
+    id: string;
+    timestamp: number;
+    user: string;
+    details: string;
+}
+
+export interface TaxDeductions {
+  epf: number;
+  socso: number;
+  eis: number;
+  total: number;
+}
+
+export interface TaxComputationResult {
+  taxableIncome: number;
+  estimatedTax: number;
+  grossSalary: number;
+  netPay: number;
+  deductions: TaxDeductions;
+  notes?: string;
 }

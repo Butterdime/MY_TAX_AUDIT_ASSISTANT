@@ -11,11 +11,11 @@ export function mapEntriesToTasks(entries: LedgerEntry[]): RemediationTask[] {
     const tasks: RemediationTask[] = [];
 
     for (const entry of entries) {
-        const debit = entry.debit ?? 0;
+        const debit = entry.type === 'DEBIT' ? entry.amount : 0;
         const description = entry.description ?? '';
         const category = entry.category ?? '';
         
-        if (debit > 500 && (!entry.supportingDocLinks || entry.supportingDocLinks.length === 0)) {
+        if (debit > 500 && !entry.supportingDocUrl) {
             tasks.push({
                 id: entry.id!,
                 description: description,

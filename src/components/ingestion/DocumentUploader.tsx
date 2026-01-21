@@ -11,19 +11,35 @@ export const DocumentUploader: React.FC<Props> = ({ onExtractionComplete }) => {
     const dummyEntries: LedgerEntry[] = [
       {
         id: '1',
-        date: '2023-10-26',
+        transactionDate: '2023-10-26',
         description: 'Purchase of new robot arm',
         amount: 15000,
+        type: 'DEBIT',
+        sourceDocUrl: 'https://example.com/doc1.pdf',
+        supportingDocUrl: 'https://example.com/doc1.pdf',
         category: 'Capital Expenditure',
-        confidence: 0.95
+        confidenceScore: 0.95,
+        status: 'PENDING',
+        auditStatus: 'PENDING',
+        eInvoiceStatus: 'MISSING',
+        dieFlags: [],
+        metadata: {},
       },
       {
         id: '2',
-        date: '2023-10-25',
+        transactionDate: '2023-10-25',
         description: 'Software license for AI-powered sorting system',
         amount: 2500,
+        type: 'DEBIT',
+        sourceDocUrl: 'https://example.com/doc2.pdf',
+        supportingDocUrl: 'https://example.com/doc2.pdf',
         category: 'Operating Expense',
-        confidence: 0.8
+        confidenceScore: 0.8,
+        status: 'PENDING',
+        auditStatus: 'PENDING',
+        eInvoiceStatus: 'MISSING',
+        dieFlags: [],
+        metadata: {},
       },
     ];
     onExtractionComplete(dummyEntries);

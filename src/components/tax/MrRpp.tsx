@@ -10,8 +10,8 @@ interface Props {
 const MrRpp: React.FC<Props> = ({ signals, transactions }) => {
 
   const automationSavings = transactions
-    .filter(t => t.category === 'Asset Purchase' && !(t.dieFlags && t.dieFlags.length > 0))
-    .reduce((acc, t) => acc + (t.debit ?? 0), 0) * 0.17; // Assumes 100% additional allowance * 17% tax rate
+    .filter(t => t.category === 'Asset Purchase' && !(t.dieFlags && t.dieFlags.length > 0) && t.type === 'DEBIT')
+    .reduce((acc, t) => acc + t.amount, 0) * 0.17; // Assumes 100% additional allowance * 17% tax rate
 
   return (
     <div className="flex flex-col h-full bg-slate-900 border-l border-slate-700 p-4 w-full max-w-sm mx-auto space-y-4 rounded-lg">

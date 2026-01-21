@@ -10,7 +10,7 @@ interface Props {
 const IncentivesView: React.FC<Props> = ({ signals, setSignals }) => {
 
   const handleUpdate = (key: keyof IncentiveSignals, value: boolean) => {
-    setSignals(prev => ({ ...prev, [key]: value }));
+    setSignals((prev: IncentiveSignals) => ({ ...prev, [key]: value }));
   };
 
   return (

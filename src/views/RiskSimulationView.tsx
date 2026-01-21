@@ -8,13 +8,14 @@ import { getReadinessStats } from '../logic/auditReadiness';
 import { generateAuditReport } from '../logic/exportService';
 
 const RiskSimulationView: React.FC = () => {
-  const { entries, loading } = useLedgerEntries('ya2026');
+  const { canonicalEntries, uiEntries, loading } = useLedgerEntries('ya2026');
   const [selectedTask, setSelectedTask] = useState<RemediationTask | null>(null);
   
   if (loading) return <div className="p-8 text-slate-500 italic">Syncing with MYAUDIT Forensic Cloud...</div>;
 
-  const riskScore = estimateRiskSimulation(entries);
-  const tasks = mapEntriesToTasks(entries);
+  // Logic functions must use canonical entries
+  const riskScore = estimateRiskSimulation(canonicalEntries);
+  const tasks = mapEntriesToTasks(canonicalEntries);
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded-2xl shadow-sm border border-slate-200">
@@ -25,7 +26,7 @@ const RiskSimulationView: React.FC = () => {
 
       
       <button 
-        onClick={() => generateAuditReport(entries)}
+        onClick={() => generateAuditReport(canonicalEntries)}
         className="mt-4 px-6 py-2 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors"
       >
         Download Audit Report
@@ -61,6 +62,7 @@ const RiskSimulationView: React.FC = () => {
         </p>
       </div>
       
+      {/* RemediationList will need to be updated to accept tasks based on UILedgerEntry if it renders UI data */}
       <RemediationList tasks={tasks} onFix={(task) => setSelectedTask(task)} />
       
       {selectedTask && (

@@ -1,16 +1,24 @@
 import React from 'react';
 import { computeSmeTaxScenario } from '../utils/logic/taxcompute';
 import TaxPlanningView from '../components/audit/TaxPlanningView';
+import { useForensicContext } from '../context/ForensicContext';
 
 const TaxView: React.FC = () => {
-  // In a real application, this data would come from a state management store or an API call.
-  // For this demonstration, we are using a mock chargeable income.
-  const chargeableIncome = 750000;
+  const { rawEntries } = useForensicContext();
+
+  const chargeableIncome = rawEntries.reduce((acc, entry) => {
+    if (entry.type === 'CREDIT') {
+      return acc + entry.amount;
+    }
+    if (entry.type === 'DEBIT') {
+      return acc - entry.amount;
+    }
+    return acc;
+  }, 0);
+
   const taxScenario = computeSmeTaxScenario(chargeableIncome, true);
 
   const handleOptimize = () => {
-    // This function would typically trigger a process to find tax incentives or optimizations.
-    // For now, we'll just log a message to the console.
     console.log("Optimization heuristics initiated...");
   };
 

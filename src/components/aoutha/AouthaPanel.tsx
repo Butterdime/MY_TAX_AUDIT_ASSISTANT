@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import { LedgerEntry, DieFlag } from '../../types';
+import type { LedgerEntry, DieFlag } from '../../types';
 
 interface AouthaProps {
-  entries: LedgerEntry[];
+  rawEntries: LedgerEntry[];
 }
 
 // Rule constants
@@ -10,55 +10,49 @@ const DOCUMENT_GAP_THRESHOLD = 500;
 const LARGE_ENTERTAINMENT_THRESHOLD = 1000;
 const SIGNIFICANT_REPAIR_THRESHOLD = 5000;
 
-// DIE Hint Generation Logic
+// DIE Hint Generation Logic using canonical types
 const generateDieHints = (entries: LedgerEntry[]): DieFlag[] => {
   const hints: DieFlag[] = [];
 
   for (const entry of entries) {
-    const debit = entry.debit ?? 0;
+    const debit = entry.type === 'DEBIT' ? entry.amount : 0;
 
     // Rule 1: Large Entertainment Expense
     if (entry.category === 'Entertainment' && debit > LARGE_ENTERTAINMENT_THRESHOLD) {
       hints.push({
-        id: entry.id!,
-        entryId: entry.id!,
-        title: 'Large Entertainment Expense',
+        id: `${entry.id}-entertainment`,
+        entryId: entry.id,
+        severity: 'med',
         message: `Entertainment expense of RM ${debit} is flagged. Client entertainment is 50% deductible, but staff entertainment may be 100% deductible. Please verify and re-categorize if for staff.`,
-        suggestion: `Entertainment expense of RM ${debit} is flagged. Client entertainment is 50% deductible, but staff entertainment may be 100% deductible. Please verify and re-categorize if for staff.`,
-        estimatedImpact: `Potential RM ${debit * 0.5} increase in deduction.`,
         flagType: 'risk',
-        confidence: 'medium',
-        createdAt: new Date().toISOString(),
+        category: 'tax',
+        detectedAt: new Date().toISOString(),
       });
     }
 
     // Rule 2: Potential Capital Improvement
     if (entry.category === 'Repairs & Maintenance' && debit > SIGNIFICANT_REPAIR_THRESHOLD) {
       hints.push({
-        id: entry.id!,
-        entryId: entry.id!,
-        title: 'Potential Capital Improvement',
+        id: `${entry.id}-capital`,
+        entryId: entry.id,
+        severity: 'high',
         message: `A repair of RM ${debit} seems significant. If this was an improvement that extends the asset's life or value, it should be capitalized, not expensed. Please verify.`,
-        suggestion: `A repair of RM ${debit} seems significant. If this was an improvement that extends the asset's life or value, it should be capitalized, not expensed. Please verify.`,
-        estimatedImpact: `Correction may impact taxable profit by RM ${debit}.`,
         flagType: 'risk',
-        confidence: 'high',
-        createdAt: new Date().toISOString(),
+        category: 'tax',
+        detectedAt: new Date().toISOString(),
       });
     }
 
     // Rule 3: Donation Verification
     if (entry.category === 'Donations') {
       hints.push({
-        id: entry.id!,
-        entryId: entry.id!,
-        title: 'Donation Verification',
+        id: `${entry.id}-donation`,
+        entryId: entry.id,
+        severity: 'med',
         message: `Donation of RM ${debit} recorded. Tax deductions for donations are only allowed for contributions to LHDN-approved institutions. Please verify the recipient's approval status.`,
-        suggestion: `Donation of RM ${debit} recorded. Tax deductions for donations are only allowed for contributions to LHDN-approved institutions. Please verify the recipient's approval status.`,
-        estimatedImpact: `Confirming deductibility protects taxable profit of RM ${debit}.`,
         flagType: 'risk',
-        confidence: 'high',
-        createdAt: new Date().toISOString(),
+        category: 'compliance',
+        detectedAt: new Date().toISOString(),
       });
     }
   }
@@ -66,15 +60,14 @@ const generateDieHints = (entries: LedgerEntry[]): DieFlag[] => {
   return hints;
 };
 
-const AouthaPanel: React.FC<AouthaProps> = ({ entries }) => {
-  // Generate DIE flags internally based on entries
-  const dieFlags = useMemo(() => generateDieHints(entries), [entries]);
+const AouthaPanel: React.FC<AouthaProps> = ({ rawEntries }) => {
+  const dieFlags = useMemo(() => generateDieHints(rawEntries), [rawEntries]);
 
-  const docGaps = entries.filter(e =>
-    (e.debit ?? 0) > DOCUMENT_GAP_THRESHOLD
+  const docGaps = rawEntries.filter(e =>
+    (e.type === 'DEBIT' ? e.amount : 0) > DOCUMENT_GAP_THRESHOLD && !e.sourceDocUrl
   );
 
-  const uncategorized = entries.filter(e => e.category === 'Uncategorized');
+  const uncategorized = rawEntries.filter(e => e.category === 'Uncategorized');
 
   return (
     <div className="bg-white dark:bg-slate-900 border-l border-slate-200 p-6 h-full shadow-lg">
@@ -87,8 +80,7 @@ const AouthaPanel: React.FC<AouthaProps> = ({ entries }) => {
           <div className="space-y-3">
             {dieFlags.map((flag, index) => (
               <div key={index} className="text-sm text-slate-700 dark:text-slate-300">
-                <p className='font-semibold'>{flag.suggestion}</p>
-                <p className="text-xs text-slate-500 mt-1">{flag.estimatedImpact}</p>
+                <p className='font-semibold'>{flag.message}</p>
               </div>
             ))}
           </div>
